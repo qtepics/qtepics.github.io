@@ -3,7 +3,7 @@ NOTE: We are still preparing the github repositories including this documentatio
 An annoucement will be made on tech-talk in due course when we are ready. 
 
 
-The transfer of the EPICS Qt framework from AourceForge to github has been an ideal
+The transfer of the EPICS Qt framework from SourceForge to github has been an ideal
 opertunity for a few organisation changes. These are outline below. There have been
 no functionality changes per se.
 
