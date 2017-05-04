@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <title>EPiCS Qt at Github</title>
+   <title>EPICS Qt at Github</title>
    <!-- link to main stylesheet -->
    <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
@@ -10,9 +10,11 @@
 
 <h1>EPICS Qt at github</h1>
 
-This describes how the seven respositories at github are organised.<br><br>
+<h2>Introduction</h2>
 
-NOTE: We are still preparing the github repositories including this documentation.
+This describes how the respositories at github are organised.<br><br>
+
+<b>NOTE:</b> We are still preparing the github repositories including this documentation.
 An annoucement will be made on tech-talk in due course when we are ready.<br><br>
 
 The transfer of the EPICS Qt framework from SourceForge to github has been an ideal
@@ -20,12 +22,24 @@ opertunity for a few organisational changes. These are outlined below. There hav
 been no functionality changes per se.<br><br>
 
 The major change is that EPICS Qt has been spilt into a number of components, each 
-managed in its own github repository. The two primary repositories are qeframework 
-and qegui which provide the framework library and the display manager respectively.
+managed in its own github repository.<br><br>
+
+The two primary repositories are the 
+<a href="https://github.com/qtepics/qeframework">QE Framework</a>
+repository which provide the framework plugin library and the 
+<a href="https://github.com/qtepics/qegui">QEGui Display Manager</a>
+repository which provides display manager.
 The documentation is included within the qeframework repository.<br><br>
 
+
 The other repositories are optional, and basically provide examples of using or 
-extending the framework.<br><br>
+extending the framework.<br>
+<ul><li><a href="https://github.com/qtepics/qeMonitor">QE Monitor</a></li></ul>
+<ul><li><a href="https://github.com/qtepics/qeReadArchive">QE Read Archive</a></li></ul>
+<ul><li><a href="https://github.com/qtepics/qeWidgetDisplay">QE Widget Display</a></li></ul>
+<ul><li><a href="https://github.com/qtepics/qeExamplePlugin">QE Example Plugin</a></li></ul>
+<ul><li><a href="https://github.com/qtepics/qeByteArrayTest">QE Byte Array Test</a></li></ul>
+<br>
 
 There is nolonger an epicsqt.pro overall project file to build all sub projects.
 Each repository still has its own project file, e.g. framework.pro, QEGuiApp.pro,
@@ -42,6 +56,95 @@ In the case of qeframework, the inlude files are placed in &lt;top&gt;/include a
 library/dll file is place in &lt;top&gt;/lib/&lt;epics_host_arch&gt;. In the case of qegui, 
 this is located in &lt;top&gt;/bin/&lt;epics_host_arch&gt;.  The use of the environment variable
 QE_TARGET_DIR may still be used to override this.<br><br>
+
+
+
+<h2>Getting Started - headless build</h2>
+
+The commands shown here illustrate downloading and building epicsQt the 
+directory <b>/home/user/qtepics</b>.
+This is just for the purposes of providing an example commands.
+You are free to to down load and install anywhere on your system.<br><br>
+
+Note: This instructions are currently Linux-centric, but hopefully Window's users will
+have no trouble translating to the Window's eqivilent.
+
+<h4>Install/build EPICS</h4>
+Please visit the <a href="http://www.aps.anl.gov/epics/">EPICS</a> web page for details.
+
+<h4>Install Qt</h4>
+At least 4.6, but Qt 5.6 and Qt 5.7 have been successfully used.
+
+<h4>Install QWT</h4>
+The version must be compatible with Qt version.
+
+<h4>Clone the framework and the qegui repositories</h4>
+
+<pre>
+   mkdir /home/user/qtepics
+   cd /home/user/qtepics
+   git clone https://github.com/qtepics/qeframework.git
+   git clone https://github.com/qtepics/qegui.git
+</pre>
+
+<h4>Modify RELEASE files</h4>
+Modify /home/user/qtepics/qeframework/configure/RELEASE file such that:
+<pre>
+   EPICS_BASE=&lt;a reference your EPICS base&gt;
+</pre>
+<br>
+
+Modify qegui/configure/RELEASE file such that:
+<pre>
+   EPICS_BASE=&lt;a reference your EPICS base&gt;
+   QE_FRAMEWORK=/home/user/qtepics/qeframework
+</pre>
+
+<h4>Envirionment Variables</h4>
+
+Define EPICS_HOST_ARCH (e.g. export EPICS_HOST_ARCH=linux-x86_64)<br><br>
+
+Define QWT_INCLUDE_PATH (e.g. export QWT_INCLUDE_PATH=/usr/include/qwt)<br><br>
+
+<i>Optional:</i> Define QE_FFMPEG if mpeg streaming is required (on Windows,
+this must point to the FFMPEG directory).<br><br>
+
+<i>Optional:</i> Define QE_CAQTDM if integration of PSI's caQtDM into QEGui is required.
+If you want caQtDM integrated, download and build it and define the environment 
+variable QE_CAQTDM to point to the caQtDM_Project directory.
+
+<h4>qmake</h4>
+When used in headless mode, the qmake program is invoked to generate a Makefile. 
+Ensure that your PATH envirionment variable results in required version of qmake being available.
+For some versions of Qt, the qmake program is know as qmake-qt4. In this case it will
+be necessary to "fake" it, e.g.:
+
+<pre>
+   cd ~/bin
+   ln -s /usr/bin/qmake-qt4 qmake 
+</pre>
+or something similar.
+
+
+<h4>MinGW compiler</h4>
+If using the MinGW compiler, modify the /home/user/qtepics/qeframework/qeframeworkSup/project/framework.pro 
+project file (approximatly line 50) and un-comment the line:
+<pre>
+   #DEFINES += _MINGW=TRUE
+</pre>
+to be
+<pre>
+   DEFINES += _MINGW=TRUE
+</pre>
+
+<h4>Build</h4>
+
+<pre>
+   cd  /home/user/qtepics/qeframework
+   make
+   cd  /home/user/qtepics/qegui
+   make
+</pre>
 
 
 <footer>
