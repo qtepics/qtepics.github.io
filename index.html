@@ -1,159 +1,186 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
-   <title>EPICS Qt at Github</title>
-   <!-- link to main stylesheet -->
-   <link rel="stylesheet" type="text/css" href="/css/main.css">
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 4.3.7.2 (Linux)"/>
+	<meta name="created" content="2017-05-06T13:41:09.014415981"/>
+	<meta name="changed" content="2017-05-06T14:16:40.212746562"/>
+	<style type="text/css">
+		@page { margin: 0.79in }
+		p { margin-bottom: 0.1in; line-height: 120% }
+		h1 { margin-bottom: 0.08in }
+		h1.western { font-family: "Liberation Sans", sans-serif; font-size: 18pt }
+		h1.cjk { font-family: "AR PL UMing HK"; font-size: 18pt }
+		h1.ctl { font-family: "Lohit Devanagari"; font-size: 18pt }
+		h2.western { font-family: "Liberation Sans", sans-serif; font-size: 16pt }
+		h2.cjk { font-family: "AR PL UMing HK"; font-size: 16pt }
+		h2.ctl { font-family: "Lohit Devanagari"; font-size: 16pt }
+		h4.cjk { font-family: "AR PL UMing HK" }
+		h4.ctl { font-family: "Lohit Devanagari" }
+		pre.cjk { font-family: "Nimbus Mono L", monospace }
+		a:link { so-language: zxx }
+	</style>
 </head>
+<body lang="en-US" dir="ltr">
+<p align="center" style="margin-top: 0.17in; margin-bottom: 0.08in; line-height: 100%; page-break-after: avoid">
+<font face="Liberation Sans, sans-serif"><font size="6" style="font-size: 28pt"><b>EpicsQt
+at GitHub</b></font></font></p>
+<h1 class="western">Introduction</h1>
+<p style="margin-bottom: 0in; line-height: 100%">This describes how
+the repositories at GitHub are organised.<br><br><b>NOTE:</b> We are
+still preparing the GitHub repositories including this documentation.
+An announcement will be made on tech-talk in due course when we are
+ready.<br><br>The transfer of the EPICS Qt framework from SourceForge
+to GitHub has been an ideal opportunity for a few organisational
+changes. These are outlined below. There have been no functionality
+changes per se.<br><br>The major change is that EPICS Qt has been
+split into a number of components, each managed in its own GitHub
+repository.<br><br>The two primary repositories are the <a href="https://github.com/qtepics/qeframework">QE
+Framework</a> repository which provide the framework plugin library
+and the <a href="https://github.com/qtepics/qegui">QEGui Display
+Manager</a> repository which provides display manager. The
+documentation is included within the qeframework repository.<br><br>The
+other repositories are optional, and basically provide examples of
+using or extending the framework.</p>
+<ul>
+	<li/>
+<p><a href="https://github.com/qtepics/qeMonitor">QE Monitor</a></p>
+</ul>
+<ul>
+	<li/>
+<p><a href="https://github.com/qtepics/qeReadArchive">QE Read
+	Archive</a></p>
+</ul>
+<ul>
+	<li/>
+<p><a href="https://github.com/qtepics/qeWidgetDisplay">QE
+	Widget Display</a></p>
+</ul>
+<ul>
+	<li/>
+<p><a href="https://github.com/qtepics/qeExamplePlugin">QE
+	Example Plugin</a></p>
+</ul>
+<ul>
+	<li/>
+<p><a href="https://github.com/qtepics/qeByteArrayTest">QE
+	Byte Array Test</a></p>
+</ul>
+<p style="margin-bottom: 0in; line-height: 100%"><br>There is no
+longer an epicsqt.pro overall project file to build all sub projects.
+Each repository still has its own project file, e.g. framework.pro,
+QEGuiApp.pro, and these may be opened by qtcreator in order to build
+each component as could be done previously.<br><br>However, each
+component is now located within its own &lt;top&gt; directory that
+allows the component to be readily (and headlessly) built in a much
+more EPICS-like fashsion by just calling make from within the &lt;top&gt;
+directory. Under-the-covers, the component's application directory's
+own Makefile essentially invokes qmake and then make on the generated
+Makefile.<br><br>In the case of qeframework, the inlude files are
+placed in &lt;top&gt;/include and the shared library/dll file is
+place in &lt;top&gt;/lib/&lt;epics_host_arch&gt;. In the case of
+qegui, this is located in &lt;top&gt;/bin/&lt;epics_host_arch&gt;.
+The use of the environment variable QE_TARGET_DIR may still be used
+to override this.</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
 
-<body>
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br> 
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
 
-<h1>EPICS Qt at github</h1>
+</p>
+<h2 class="western">Prerequisites for EpicsQt</h2>
+<h4 class="western">Install/build EPICS</h4>
+<p>Please visit the <a href="http://www.aps.anl.gov/epics/">EPICS</a>
+web page for details. 
+</p>
+<h4 class="western">Install Qt</h4>
+<p>At least version 4.6, but 5.6 and 5.7 have been successfully used
+at the Australian Synchrotron</p>
+<h4 class="western">Install QWT</h4>
+<p>The version must be compatible with Qt version. 
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
 
-<h2>Introduction</h2>
-
-This describes how the respositories at github are organised.<br><br>
-
-<b>NOTE:</b> We are still preparing the github repositories including this documentation.
-An annoucement will be made on tech-talk in due course when we are ready.<br><br>
-
-The transfer of the EPICS Qt framework from SourceForge to github has been an ideal
-opertunity for a few organisational changes. These are outlined below. There have 
-been no functionality changes per se.<br><br>
-
-The major change is that EPICS Qt has been spilt into a number of components, each 
-managed in its own github repository.<br><br>
-
-The two primary repositories are the 
-<a href="https://github.com/qtepics/qeframework">QE Framework</a>
-repository which provide the framework plugin library and the 
-<a href="https://github.com/qtepics/qegui">QEGui Display Manager</a>
-repository which provides display manager.
-The documentation is included within the qeframework repository.<br><br>
-
-
-The other repositories are optional, and basically provide examples of using or 
-extending the framework.<br>
-<ul><li><a href="https://github.com/qtepics/qeMonitor">QE Monitor</a></li></ul>
-<ul><li><a href="https://github.com/qtepics/qeReadArchive">QE Read Archive</a></li></ul>
-<ul><li><a href="https://github.com/qtepics/qeWidgetDisplay">QE Widget Display</a></li></ul>
-<ul><li><a href="https://github.com/qtepics/qeExamplePlugin">QE Example Plugin</a></li></ul>
-<ul><li><a href="https://github.com/qtepics/qeByteArrayTest">QE Byte Array Test</a></li></ul>
-<br>
-
-There is nolonger an epicsqt.pro overall project file to build all sub projects.
-Each repository still has its own project file, e.g. framework.pro, QEGuiApp.pro,
-and these may be opened by qtcreator in order to build each component as could
-be done previously.<br><br>
-
-However, each component is now located within its own &lt;top&gt; directory that allows
-the component to be readily (and headlessly) built in a much more EPICS-like
-fashsion by just calling make from within the &lt;top&gt; directory. Under-the-covers, 
-the componnent's application directory's own Makefile essentially invokes qmake 
-and then make on the generated Makefile.<br><br>
-
-In the case of qeframework, the inlude files are placed in &lt;top&gt;/include and the shared 
-library/dll file is place in &lt;top&gt;/lib/&lt;epics_host_arch&gt;. In the case of qegui, 
-this is located in &lt;top&gt;/bin/&lt;epics_host_arch&gt;.  The use of the environment variable
-QE_TARGET_DIR may still be used to override this.<br><br>
-
-
-<h2>Pre Requisites for EpicsQt</h2>
-
-<h4>Install/build EPICS</h4>
-Please visit the <a href="http://www.aps.anl.gov/epics/">EPICS</a> web page for details.
-
-<h4>Install Qt</h4>
-At least 4.6, but Qt 5.6 and Qt 5.7 have been successfully used.
-
-<h4>Install QWT</h4>
-The version must be compatible with Qt version.
-
-
-<h2>Getting Started - headless build</h2>
-
-The commands shown here illustrate downloading and building epicsQt the 
-directory <b>/home/user/qtepics</b>.
-This is just for the purposes of providing an example commands.
-You are free to to down load and install anywhere on your system.<br><br>
-
-Note: This instructions are currently Linux-centric, but hopefully Window's users will
-have no trouble translating to the Window's eqivilent.
-
-<h4>Clone the framework and the qegui repositories</h4>
-
-<pre>
-   mkdir /home/user/qtepics
+</p>
+<h2 class="western">Getting Started - Headless Build</h2>
+<p style="margin-bottom: 0.2in; line-height: 100%">The commands shown
+here illustrate downloading and building epicsQt in the directory
+<b>/home/user/qtepics</b>. This is just for the purposes of providing
+an example commands. You are free to to down load and install
+anywhere on your system.<br><br>Note: This instructions are currently
+Linux-centric, but hopefully Window's users will have no trouble
+translating to the Window's equivalent. 
+</p>
+<h4 class="western">Clone the framework and the qegui repositories</h4>
+<pre class="western">   mkdir /home/user/qtepics
    cd /home/user/qtepics
    git clone https://github.com/qtepics/qeframework.git
-   git clone https://github.com/qtepics/qegui.git
-</pre>
-
-<h4>Modify RELEASE files</h4>
-Modify /home/user/qtepics/qeframework/configure/RELEASE file such that:
-<pre>
-   EPICS_BASE=&lt;a reference your EPICS base&gt;
-</pre>
-<br>
-
-Modify qegui/configure/RELEASE file such that:
-<pre>
-   EPICS_BASE=&lt;a reference your EPICS base&gt;
-   QE_FRAMEWORK=/home/user/qtepics/qeframework
-</pre>
-
-<h4>Envirionment Variables</h4>
-
-Define EPICS_HOST_ARCH (e.g. export EPICS_HOST_ARCH=linux-x86_64)<br><br>
-
-Define QWT_INCLUDE_PATH (e.g. export QWT_INCLUDE_PATH=/usr/include/qwt)<br><br>
-
-<i>Optional:</i> Define QE_FFMPEG if mpeg streaming is required (on Windows,
-this must point to the FFMPEG directory).<br><br>
-
-<i>Optional:</i> Define QE_CAQTDM if integration of PSI's caQtDM into QEGui is required.
-If you want caQtDM integrated, download and build it and define the environment 
-variable QE_CAQTDM to point to the caQtDM_Project directory.
-
-<h4>qmake</h4>
-When used in headless mode, the qmake program is invoked to generate a Makefile. 
-Ensure that your PATH envirionment variable results in required version of qmake being available.
-For some versions of Qt, the qmake program is know as qmake-qt4. In this case it will
-be necessary to "fake" it, e.g.:
-
-<pre>
+   git clone https://github.com/qtepics/qegui.git</pre><h4 class="western">
+Modify RELEASE files</h4>
+<p>Modify /home/user/qtepics/qeframework/configure/RELEASE file such
+that: 
+</p>
+<pre class="western" style="margin-bottom: 0.2in">   EPICS_BASE=&lt;a reference your EPICS base&gt;</pre><p>
+Modify qegui/configure/RELEASE file such that: 
+</p>
+<pre class="western">   EPICS_BASE=&lt;a reference your EPICS base&gt;
+   QE_FRAMEWORK=/home/user/qtepics/qeframework</pre><h4 class="western">
+Environment Variables</h4>
+<p style="margin-bottom: 0in; line-height: 100%">Define
+EPICS_HOST_ARCH (e.g. export EPICS_HOST_ARCH=linux-x86_64)<br><br>Define
+QWT_INCLUDE_PATH (e.g. export
+QWT_INCLUDE_PATH=/usr/include/qwt)<br><br><i>Optional:</i> Define
+QE_FFMPEG if mpeg streaming is required (on Windows, this must point
+to the FFMPEG directory; on Linux  just being defined is
+sufficient).<br><br><i>Optional:</i> Define QE_CAQTDM if integration
+of PSI's caQtDM into QEGui is required. If you want caQtDM
+integrated, download and build it and define the environment variable
+QE_CAQTDM to point to the caQtDM_Project directory. 
+</p>
+<h4 class="western">qmake</h4>
+<p style="margin-bottom: 0in; line-height: 100%">When used in
+headless mode, the qmake program is invoked to generate a Makefile.
+Ensure that your PATH environment variable results in required
+version of qmake being available. For some versions of Qt, the qmake
+program is know as qmake-qt4. In this case it will be necessary to
+&quot;fake&quot; it, e.g.:</p>
+<pre class="western">   
    cd ~/bin
-   ln -s /usr/bin/qmake-qt4 qmake 
-</pre>
-or something similar.
-
-
-<h4>MinGW compiler</h4>
-If using the MinGW compiler, modify the /home/user/qtepics/qeframework/qeframeworkSup/project/framework.pro 
-project file (approximatly line 50) and un-comment the line:
-<pre>
-   #DEFINES += _MINGW=TRUE
-</pre>
-to be
-<pre>
-   DEFINES += _MINGW=TRUE
-</pre>
-
-<h4>Build</h4>
-
-<pre>
-   cd  /home/user/qtepics/qeframework
+   ln -s /usr/bin/qmake-qt4 qmake </pre><p>
+or something similar. 
+</p>
+<h4 class="western">MinGW compiler</h4>
+<p style="margin-bottom: 0in; line-height: 100%">If using the MinGW
+compiler, modify the
+/home/user/qtepics/qeframework/qeframeworkSup/project/framework.pro
+project file (approximatly line 50) and un-comment the line: 
+</p>
+<pre class="western" style="margin-bottom: 0.2in">   <br>   #DEFINES += _MINGW=TRUE</pre><p>
+to be: 
+</p>
+<pre class="western" style="margin-bottom: 0.2in">   DEFINES += _MINGW=TRUE</pre><h4 class="western">
+Build</h4>
+<pre class="western">   cd  /home/user/qtepics/qeframework
    make
    cd  /home/user/qtepics/qegui
-   make
-</pre>
+   make</pre><p style="margin-bottom: 0in; line-height: 100%">
+<br/>
 
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
 
-<footer>
-   <ul>
-      <li><a href="https://github.com/qtepics">github.com/epicsQt</a></li>
-   </ul>
-</footer>
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
 
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
 </body>
 </html>
