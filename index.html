@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 4.3.7.2 (Linux)"/>
 	<meta name="created" content="2017-05-06T13:41:09.014415981"/>
-	<meta name="changed" content="2017-05-11T22:17:26.171234974"/>
+	<meta name="changed" content="2017-05-11T22:27:19.183823381"/>
 	<style type="text/css">
 		@page { margin: 0.79in }
 		p { margin-bottom: 0.1in; line-height: 120% }
@@ -99,9 +99,6 @@ has a an  r3.4.2 tag which corresponds to SourceForge 3.4.2 release.</p>
 <p style="margin-bottom: 0in; line-height: 100%"><br/>
 
 </p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
 <h2 class="western">License</h2>
 <p style="margin-bottom: 0in; line-height: 100%">The EPICS QT
 Framework is free software: you can redistribute it and/or modify it
@@ -122,9 +119,6 @@ Lesser General Public License for more details.</p>
 <p style="margin-bottom: 0in; line-height: 100%">You should have
 received a copy of the GNU Lesser General Public License along with
 the EPICS QT Framework.  If not, see <a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
 <p style="margin-bottom: 0in; line-height: 100%"><br/>
 
 </p>
@@ -206,83 +200,30 @@ Build</h4>
 <pre class="western">   cd  /home/user/qtepics/qeframework
    make
    cd  /home/user/qtepics/qegui
-   make</pre><p style="margin-bottom: 0in; line-height: 100%">
-<br/>
-
-</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
-<h2 class="western">Environment Variables</h2>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
+   make</pre><h2 class="western">
+Environment Variables</h2>
 <h3 class="western">Build Time Environment Variables</h3>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
-<p style="margin-bottom: 0in; line-height: 100%">EPICS_BASE - defines
-the location of EPICS base. For headless building this is defined in
-the configure/RELEASE file, however when using <i>qtcreator</i> it
+<p>EPICS_BASE - defines the location of EPICS base. For headless
+building this is defined in the configure/RELEASE file, however when
+using <i>qtcreator</i> it must be explicitly defined.</p>
+<p>EPICS_HOST_ARCH - defines the host architecture.</p>
+<p>QWT_INCLUDE_PATH - defines the location of the QWT header files.
+Typically /usr/include/qwt on Linux.</p>
+<p>QWT_ROOT - optional.</p>
+<p>QE_TARGET_DIR - optional.</p>
+<p>QE_FFMPEG - optional.</p>
+<p>QE_FRAMEWORK - defines the location of the qeframework <i>top</i>
+directory, and is needed the  qeframework clients such as qegui, but
+not for the framework itself.  For headless building this is defined
+in the configure/RELEASE file, however when using <i>qtcreator</i> it
 must be explicitly defined.</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
-<p style="margin-bottom: 0in; line-height: 100%">EPICS_HOST_ARCH &ndash;
-defines the host architecture.</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
-<p style="margin-bottom: 0in; line-height: 100%">QWT_INCLUDE_PATH -
-defines the location of the QWT header files. Typically
-/usr/include/qwt on Linux.</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
-<p style="margin-bottom: 0in; line-height: 100%">QWT_ROOT - optional</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
-<p style="margin-bottom: 0in; line-height: 100%">QE_TARGET_DIR -
-optional</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
-<p style="margin-bottom: 0in; line-height: 100%">QE_FFMPEG - optional</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
-<p style="margin-bottom: 0in; line-height: 100%">QE_FRAMEWORK -
-defines the location of the qeframework <i>top</i> directory, and is
-needed the  qeframework clients such as qegui, but not for the
-framework itself.  For headless building this is defined in the
-configure/RELEASE file, however when using <i>qtcreator</i> it must
-be explicitly defined.</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
-<p style="margin-bottom: 0in; line-height: 100%">QE_CAQTDM - optional</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
-<p style="margin-bottom: 0in; line-height: 100%">QE_CAQTDM_LIB -
-optional</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
-<p style="margin-bottom: 0in; line-height: 100%">QTINC - Qt5 
-</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
+<p>QE_CAQTDM - optional.</p>
+<p>QE_CAQTDM_LIB - optional.</p>
+<p>QTINC - Qt5 
 </p>
 <h3 class="western">Run Time Environment Variables</h3>
-<p>The following are all optional. 
+<p style="margin-bottom: 0in; line-height: 100%">The following are
+all optional. 
 </p>
 <p>QE_UI_PATH &ndash; defines alternative/additional  paths used when
 searching for a ui file.</p>
@@ -295,10 +236,9 @@ names that are added to the Strip Chart context menu.</p>
 the application.</p>
 <p>QE_RECORD_FIELD_LIST - specifies a file that defines/replace the
 set of field names associated with each record type.</p>
-<p>Running <i>qegui -h</i> provides further details about each of
-these environment variables.</p>
-<p><br/>
-<br/>
+<p style="margin-bottom: 0in; line-height: 100%">Running <i>qegui -h</i>
+provides further details about each of these environment variables.</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
 
 </p>
 <p style="margin-bottom: 0in; line-height: 100%">As the EPICS Qt
@@ -338,47 +278,31 @@ Qt version/ OS platform combination.
 </p>
 <h2 class="western">Feed Back and Collaboration</h2>
 <p style="margin-bottom: 0in; line-height: 100%">TBD</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
 <h2 class="western">Credits</h2>
 <h3 class="western">Developers</h3>
 <p style="margin-bottom: 0in; line-height: 100%">Andrew Ryder, Glenn
 Jackson, Anthony Owen,  Ricardo Fernandes, Andrew Starritt</p>
 <h3 class="western">3rd Party Software</h3>
-<p style="margin-bottom: 0in; line-height: 100%">Apart form EPICS
-base and Qt itself, the EPICS Qt framework used the following.</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
+<p>Apart form EPICS base and Qt itself, the EPICS Qt framework used
+the following.</p>
+<p>The EPICS Qt framework relies on QWT for plotting.
+<a href="https://sourceforge.net/projects/qwt/">https://sourceforge.net/projects/qwt/</a>.</p>
+<p>To access the Channel Access Archive data, the EPICS Qt framework
+relies on the maiaXmlRpcClient and support classes written by Frerich
+Raabe &lt;raabe@kde.org&gt;, Ian Reinhart Geiser &lt;geiseri@kde.org&gt;,
+Karl Glatz and Sebastian Wiedenroth &lt;<a href="mailto:wiedi@frubar.net">wiedi@frubar.net</a>&gt;.</p>
+<p>When built with MPEG support, the EPICS Qt framework relies on
+FFmpeg for reading MPEG image streams. <a href="https://www.ffmpeg.org/">https://www.ffmpeg.org/</a>
+</p>
+<p>The QEGui application can be built to support caQtDM widgets
+provided by The Paul Scherrer Institute.
+<a href="https://epics.web.psi.ch/software/caqtdm/">https://epics.web.psi.ch/software/caqtdm/</a>.</p>
+<p><br/>
+<br/>
 
 </p>
-<p style="margin-bottom: 0in; line-height: 100%">The EPICS Qt
-framework relies on QWT for plotting.
-<a href="https://sourceforge.net/projects/qwt/">https://sourceforge.net/projects/qwt/</a></p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
-<p style="margin-bottom: 0in; line-height: 100%">To access the
-Channel Access Archive data, the EPICS Qt framework relies on the
-maiaXmlRpcClient and support classes written by Frerich Raabe
-&lt;raabe@kde.org&gt;, Ian Reinhart Geiser &lt;geiseri@kde.org&gt;,
-Karl Glatz and Sebastian Wiedenroth &lt;wiedi@frubar.net&gt;.</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
-<p style="margin-bottom: 0in; line-height: 100%">When built with MPEG
-support, the EPICS Qt framework relies on FFmpeg for reading MPEG
-image streams. <a href="https://www.ffmpeg.org/">https://www.ffmpeg.org/</a>
-</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
-<p style="margin-bottom: 0in; line-height: 100%">The QEGui
-application can be built to support caQtDM widgets provided by The
-Paul Scherrer Institute. <a href="https://epics.web.psi.ch/software/caqtdm/">https://epics.web.psi.ch/software/caqtdm/</a>.</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
+<p><br/>
+<br/>
 
 </p>
 </body>
