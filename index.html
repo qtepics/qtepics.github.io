@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 4.3.7.2 (Linux)"/>
 	<meta name="created" content="2017-05-06T13:41:09.014415981"/>
-	<meta name="changed" content="2017-05-22T21:45:35.406645879"/>
+	<meta name="changed" content="2017-05-24T00:46:18.907427562"/>
 	<style type="text/css">
 		@page { margin: 0.79in }
 		p { margin-bottom: 0.1in; line-height: 120% }
@@ -101,14 +101,15 @@ provide examples of using or extending the framework.</p>
 <p><br>There is no longer an epicsqt.pro overall project file to
 build all sub projects. Each repository still has its own project
 file, e.g. framework.pro, QEGuiApp.pro, and these may be opened by
-qtcreator in order to build each component as could be done
+<i>qtcreator</i> in order to build each component as could be done
 previously.</p>
 <p>However, each component is now located within its ow<span style="font-style: normal">n
-&lt;top&gt; d</span>irectory that allows the component to be readily
-(and headlessly) built in a much more EPICS-like fashion by just
-calling make from within the <i>top</i> directory. Under-the-covers,
-the component's application directory's own Makefile essentially
-invokes <i>qmake</i> and then make on the generated Makefile.</p>
+</span><span style="font-style: normal">EPICS </span><i>top</i><span style="font-style: normal">
+d</span>irectory that allows the component to be readily (and
+headlessly) built in a much more EPICS-like fashion by just calling
+make from within the <i>top</i> directory. Under-the-covers, the
+component's application directory's own Makefile essentially invokes
+<i>qmake</i> and then make on the generated Makefile.</p>
 <p>In the case of qeframework, the include files are placed in
 &lt;top&gt;/include and the shared library/dll file is place in<span style="font-style: normal">
 &lt;top&gt;/</span>lib/&lt;epics_host_arch&gt;. In the case of qegui,
@@ -152,7 +153,7 @@ the Australian Synchrotron.</p>
 <p>The version must be compatible with your version of Qt. 
 </p>
 <h3 class="western">Example Configurations</h3>
-<p>The following configuration combination haveall  recently been
+<p>The following configuration combination have all recently been
 built at the Australian Synchrotron.</p>
 <table width="864" cellpadding="4" cellspacing="0">
 	<col width="129">
@@ -335,19 +336,21 @@ built at the Australian Synchrotron.</p>
 Started - Headless Build</h1>
 <p>There is some useful information in <a href="https://github.com/qtepics/qeframework/blob/master/documentation/QE_GettingStarted.pdf">QE_GettingStarted.pdf</a>,
 however this document still refers to the old structure and to
-SourceForge as the source.</p>
+SourceForge as the source, so must be read taking that into account.</p>
 <p>The commands shown here illustrate downloading and building
-epicsQt in the directory <font color="#007826"><b>/home/user/qtepics</b></font>.
-This is just for the purposes of providing example commands. You are
-free to to down load and install anywhere on your system.</p>
+epicsQt in the directory <font color="#007826"><span style="font-weight: normal">/home/user/qtepics</span></font>.
+ This is just for the purposes of providing example commands. You are
+free to to down load and install anywhere on your system. Replace the
+<font color="#007826">green</font> bit of the path in the examples
+below.</p>
 <p>Note: This instructions are currently Linux-centric, but hopefully
-Window's users will have no trouble translating to the Window's
+Windows users will have no trouble translating to the Windows
 equivalent. 
 </p>
-<p>Download source code and documentation</p>
+<h3 class="western">Download source code and documentation</h3>
 <p>Clone the framework and the qegui repositories.</p>
-<pre class="western">   mkdir /home/user/qtepics
-   cd /home/user/qtepics
+<pre class="western">   mkdir -p <font color="#007826">/home/user/qtepics</font>
+   cd <font color="#007826">/home/user/qtepics</font>
    git clone <a href="https://github.com/qtepics/qeframework.git">https://github.com/qtepics/qeframework.git</a>
    git clone <a href="https://github.com/qtepics/qegui.git">https://github.com/qtepics/qegui.git</a>
 </pre><h3 class="western">
@@ -359,7 +362,7 @@ that:
 Modify qegui/configure/RELEASE file such that: 
 </p>
 <pre class="western">   EPICS_BASE=&lt;a reference your EPICS base&gt;
-   QE_FRAMEWORK=/home/user/qtepics/qeframework  # example</pre><h3 class="western">
+   QE_FRAMEWORK=<font color="#007826">/home/user/qtepics</font>/qeframework</pre><h3 class="western">
 Environment Variables</h3>
 <p style="margin-bottom: 0in; line-height: 100%">Define
 EPICS_HOST_ARCH (e.g. export EPICS_HOST_ARCH=linux-x86_64)<br><br>Define
@@ -395,9 +398,9 @@ to be:
 </p>
 <pre class="western" style="margin-bottom: 0.2in">   DEFINES += _MINGW=TRUE</pre><h3 class="western">
 Build</h3>
-<pre class="western">   cd  /home/user/qtepics/qeframework
+<pre class="western">   cd  <font color="#007826">/home/user/qtepics</font>/qeframework
    make
-   cd  /home/user/qtepics/qegui
+   cd  <font color="#007826">/home/user/qtepics</font>/qegui
    make</pre><h1 class="western">
 <a name="__RefHeading__511_361286565"></a>Getting Started - qtcreator
 Build</h1>
@@ -417,7 +420,7 @@ option above.
 <p>Using <font color="#007826"><b>/home/user/qtepics</b></font> as
 the example git clone location, open the following project file in
 <i>qtcreator</i> :</p>
-<pre class="western">/home/user/qtepics/qeframework/qeframeworkSup/project/framework.pro<br></pre><p>
+<pre class="western"><font color="#007826">/home/user/qtepics</font>/qeframework/qeframeworkSup/project/framework.pro<br></pre><p>
 During the qmake phase the following message is output. 
 </p>
 <pre class="western">Project MESSAGE: Note: By default qtcreator does not have a 'make install' build step. When using qtcreator, modify project 
@@ -467,7 +470,7 @@ by adding some directive into the project file, do let me know.</p>
 <p>Using <font color="#007826"><b>/home/user/qtepics</b></font> as
 the example git clone location, open the following project file in
 <i>qtcreator</i> :</p>
-<pre class="western">/home/user/qtepics/qegui/qeguiApp/project/QEGuiApp.pro</pre><p>
+<pre class="western"><font color="#007826">/home/user/qtepics</font>/qegui/qeguiApp/project/QEGuiApp.pro</pre><p>
 <br/>
 <br/>
 
@@ -481,18 +484,31 @@ using <i>qtcreator</i> it must be explicitly defined.</p>
 <p>EPICS_HOST_ARCH - defines the host architecture.</p>
 <p>QWT_INCLUDE_PATH - defines the location of the QWT header files.
 Typically /usr/include/qwt on Linux.</p>
-<p>QWT_ROOT - optional.</p>
-<p>QE_TARGET_DIR - optional.</p>
-<p>QE_FFMPEG - optional.</p>
-<p>QE_FRAMEWORK - defines the location of the qeframework <i>top</i>
-directory, and is needed the  qeframework clients such as qegui, but
-not for the framework itself.  For headless building, this is defined
-in the configure/RELEASE file, however when using <i>qtcreator</i> it
-must be explicitly defined.</p>
-<p>QE_CAQTDM - optional.</p>
-<p>QE_CAQTDM_LIB - optional.</p>
-<p>QTINC - Qt5 
+<p>QWT_ROOT &ndash; optional. If not defined, the default location of
+QWT library is used. If defined then this is used to locate the QWT
+library.</p>
+<p>QE_TARGET_DIR &ndash; optional. When not defined, the libraries,
+the include files and/or the executables are installed the <i>top</i>
+directory. However, if this environment variable is defined it
+specifies the installation location.</p>
+<p>QE_FFMPEG &ndash; optional. If you want MPEG support install
+FFmpeg and define this environment variable. This can be defined as
+anything on Linux, but must point to the FFmpeg directory on windows.</p>
+<p>QE_FRAMEWORK - defines the location of the qeframework
+<i>installation </i>directory , i.e. the qeframework's <i>top</i>
+directory or the location  given  by QE_TARGET_DIR if specified. This
+is needed by qeframework clients such as qegui, but not for the
+framework itself. For headless building, this is defined in the
+configure/RELEASE file, however when using <i>qtcreator</i> it must
+be explicitly defined. 
 </p>
+<p>QE_CAQTDM &ndash; optional. If integration with PSI's caQtDM is
+required, this variable specified the location of the caQtDM_Project
+directory.</p>
+<p>QE_CAQTDM_LIB &ndash; optional. Location of caQtDM_Lib if not
+within location specified by QE_CAQTDM.</p>
+<p>QTINC &ndash; Applicable to Qt5 only, and defines include files
+needed for  QtPrintSupport.</p>
 <h3 class="western">Run Time Environment Variables</h3>
 <p style="margin-bottom: 0in; line-height: 100%">The following are
 all optional.</p>
@@ -501,15 +517,16 @@ all optional.</p>
 </p>
 <p>QE_UI_PATH &ndash; defines alternative/additional  paths used when
 searching for a ui file.</p>
-<p>QE_ARCHIVE_LIST - specifies a list of channel archive servers.</p>
-<p>QE_ARCHIVE_PATTERN -  pattern match applied when extracting PV
-list from the archivers.</p>
+<p>QE_ARCHIVE_LIST &ndash; specifies a list of channel archive
+servers.</p>
+<p>QE_ARCHIVE_PATTERN &ndash; pattern match applied when extracting
+PV list from the archivers.</p>
 <p>QE_STRIPCHART_PREDEFINED_PVS - defines up to 10 space separated PV
 names that are added to the Strip Chart context menu.</p>
-<p>QE_GLOBAL_STYLE_SHEET - defines a global style that is applied to
-the application.</p>
-<p>QE_RECORD_FIELD_LIST - specifies a file that defines/replace the
-set of field names associated with each record type.</p>
+<p>QE_GLOBAL_STYLE_SHEET &ndash; defines a global style that is
+applied to the application.</p>
+<p>QE_RECORD_FIELD_LIST &ndash; specifies a file that defines/replace
+the set of field names associated with each record type.</p>
 <p style="margin-bottom: 0in; line-height: 100%">Running <i>qegui -h</i>
 provides further details about each of these environment variables.</p>
 <p style="margin-bottom: 0in; line-height: 100%"><br/>
@@ -558,14 +575,14 @@ Back and Collaboration</h1>
 </p>
 <h1 class="western"><a name="__RefHeading__804_1042250302"></a>Release
 Notes</h1>
-<p>These are available <a href="https://qtepics.github.io/release_notes.html">here</a>.</p>
+<p>These are documented separately and are available <a href="https://qtepics.github.io/release_notes.html">here</a>.</p>
 <p><br/>
 <br/>
 
 </p>
 <h1 class="western"><a name="__RefHeading__583_1625597089"></a>Credits</h1>
 <h3 class="western">Developers</h3>
-<p>Andrew Ryder, Glenn Jackson, Anthony Owen,  Ricardo Fernandes,
+<p>Andrew Rhyder, Glenn Jackson, Anthony Owen,  Ricardo Fernandes,
 Andrew Starritt</p>
 <h3 class="western">3rd Party Software</h3>
 <p>Apart form EPICS base and Qt itself, the EPICS Qt framework used
