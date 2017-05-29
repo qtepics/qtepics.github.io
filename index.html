@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 4.3.7.2 (Linux)"/>
 	<meta name="created" content="2017-05-06T13:41:09.014415981"/>
-	<meta name="changed" content="2017-05-26T20:58:53.075718354"/>
+	<meta name="changed" content="2017-05-29T22:32:24.844676564"/>
 	<style type="text/css">
 		@page { margin: 0.79in }
 		p { margin-bottom: 0.1in; line-height: 120% }
@@ -39,10 +39,6 @@ Qt at GitHub  </b></font></font></font>
 
 </p>
 <div id="Table of Contents1" dir="ltr">
-	<div id="Table of Contents1_Head" dir="ltr">
-		<p style="margin-top: 0.17in; margin-bottom: 0.08in; line-height: 100%; page-break-after: avoid">
-		<font face="Liberation Sans, sans-serif"><font size="4" style="font-size: 16pt"><b>Index</b></font></font></p>
-	</div>
 	<p style="margin-bottom: 0in; line-height: 100%"><a href="#__RefHeading__535_1828029437">Introduction	</a></p>
 	<p style="margin-bottom: 0in; line-height: 100%"><a href="#__RefHeading__685_1625597089">Structure	</a></p>
 	<p style="margin-bottom: 0in; line-height: 100%"><a href="#__RefHeading__539_1828029437">License	</a></p>
@@ -128,9 +124,8 @@ component's application directory's own Makefile essentially invokes
 this is located in &lt;top&gt;/bin/&lt;epics_host_arch&gt;. The use
 of the environment variable QE_TARGET_DIR may still be used to
 override this.</p>
-<p>Each code repository has a an  r3.4.2 tag which corresponds to
-SourceForge 3.4.2 release.</p>
-<p><br/>
+<p>Each code repository has a <font color="#c5000b"><b>r3.4.2</b></font>
+tag which corresponds to the SourceForge 3.4.2 release.<br><br/>
 <br/>
 
 </p>
@@ -146,8 +141,10 @@ PURPOSE</b>.  See the GNU Lesser General Public License for more
 details.</p>
 <p>You should have received a copy of the GNU Lesser General Public
 License along with the EPICS QT Framework.  If not, see
-<a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.</p>
-<h3 class="western"></h3>
+<a href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>.<br><br/>
+<br/>
+
+</p>
 <h1 class="western"><a name="__RefHeading__541_1828029437"></a>Prerequisites
 for EPICS Qt</h1>
 <h3 class="western">Install/build EPICS</h3>
@@ -371,7 +368,7 @@ Started - Headless Build</h1>
 however this document still refers to the old structure and to
 SourceForge as the source, so must be read taking that into account.</p>
 <p>The commands shown here illustrate downloading and building
-epicsQt in the directory <font color="#007826"><span style="font-weight: normal">/home/user/qtepics</span></font>.
+epicsQt in the directory <font color="#007826"><b>/home/user/qtepics</b></font>.
  This is just for the purposes of providing example commands. You are
 free to to down load and install anywhere on your system. Replace the
 <font color="#007826">green</font> bit of the path in the examples
@@ -388,11 +385,11 @@ equivalent.
    git clone <a href="https://github.com/qtepics/qegui.git">https://github.com/qtepics/qegui.git</a>
 </pre><h3 class="western">
 RELEASE files</h3>
-<p>Modify <font color="#006600">/home/user/qtepics</font>/qeframework/configure/RELEASE
+<p>Modify <font color="#006600"><b>/home/user/qtepics</b></font><span style="font-weight: normal">/</span>qeframework/configure/RELEASE
 file such that: 
 </p>
 <pre class="western" style="margin-bottom: 0.2in">   EPICS_BASE=&lt;a reference your EPICS base&gt;</pre><p>
-Modify <font color="#006600">/home/user/qtepics</font>/qegui/configure/RELEASE
+Modify <font color="#006600"><b>/home/user/qtepics</b></font>/qegui/configure/RELEASE
 file such that: 
 </p>
 <pre class="western">   EPICS_BASE=&lt;a reference your EPICS base&gt;
@@ -424,7 +421,7 @@ or something similar.
 <h3 class="western">MinGW compiler</h3>
 <p style="margin-bottom: 0in; line-height: 100%">If using the MinGW
 compiler, modify the
-<font color="#006600">/home/user/qtepics</font>/qeframework/qeframeworkSup/project/framework.pro
+<font color="#006600"><b>/home/user/qtepics</b></font>/qeframework/qeframeworkSup/project/framework.pro
 project file (approximately line 50) and un-comment the line: 
 </p>
 <pre class="western" style="margin-bottom: 0.2in">   <br>   #DEFINES += _MINGW=TRUE</pre><p>
@@ -435,7 +432,7 @@ Build</h3>
 <pre class="western">   cd  <font color="#007826">/home/user/qtepics</font>/qeframework
    make
    cd  <font color="#007826">/home/user/qtepics</font>/qegui
-   make</pre><h1 class="western">
+   make<br></pre><h1 class="western">
 <a name="__RefHeading__511_361286565"></a>Getting Started - qtcreator
 Build</h1>
 <p>This getting started section assumes the reader is familiar with
@@ -450,9 +447,9 @@ building <i>qegui</i> or any other QE Framework client. This step is
 done automatically when using the headless build option above. 
 </p>
 <h3 class="western">qeframework</h3>
-<p>Using <font color="#007826"><span style="font-weight: normal">/home/user/qtepics</span></font>
-as the example git clone location, open the following project file in
-<i>qtcreator</i> :</p>
+<p>Again using <font color="#007826"><b>/home/user/qtepics</b></font>
+as the git clone location, open the following project file in
+<i>qtcreator</i>:</p>
 <pre class="western"><font color="#007826">/home/user/qtepics</font>/qeframework/qeframeworkSup/project/framework.pro<br></pre><p>
 During the qmake phase the following message is output. 
 </p>
@@ -464,8 +461,7 @@ and click on Add Build Step button/combo box and select Make. In the
 Make arguments line edit specify <font color="#0000ff">install</font>.
 In the existing regular make step, consider adding  a <font face="Liberation Mono, monospace"><font size="2" style="font-size: 10pt">&ldquo;-j
 N&rdquo;</font></font>  argument to allow parallel compilation (where
-N is the number of available CPU cores).</p>
-<p><br/>
+N is the number of available CPU cores).<br><br/>
 <br/>
 
 </p>
@@ -499,17 +495,22 @@ N is the number of available CPU cores).</p>
 </p>
 <p>Note: if you know of a way of automatically adding this build step
 by adding some directive into the project file, do let me know.</p>
+<p>A third issue is the Qt plugin path variable: QT_PLUGIN_PATH.  A
+peculiarity of Qt is that this path is <i><b>not</b></i> a path of
+plugin libraries as one might expect, but a path to find directories
+called <i>designer</i> that contain plugin libraries. This is at odds
+with the EPICS build paradigm that expect to find libraries in
+<i>top</i>/lib/<i>epics_host_arch</i>.  The headless build overcomes
+this issue by effectively doing both by use of an extra designer
+directory and a symbolic (Linux) or hard (Windows) link. When using
+<i>qtcreator</i> there is no additional build step defined to achieve
+this, and one must resort to the a headless build.</p>
 <h3 class="western">qegui</h3>
 <p>Using <font color="#007826"><b>/home/user/qtepics</b></font> as
 the example git clone location, open the following project file in
 <i>qtcreator</i> :</p>
-<pre class="western"><font color="#007826">/home/user/qtepics</font>/qegui/qeguiApp/project/QEGuiApp.pro</pre><p>
-<br/>
-<br/>
-
-</p>
-<h1 class="western"><a name="__RefHeading__802_1042250302"></a>Environment
-Variables</h1>
+<pre class="western"><font color="#007826">/home/user/qtepics</font>/qegui/qeguiApp/project/QEGuiApp.pro<br></pre><h1 class="western">
+<a name="__RefHeading__802_1042250302"></a>Environment Variables</h1>
 <p>Build Time Environment Variables</p>
 <p>EPICS_BASE - defines the location of EPICS base. For headless
 building, this is defined in the configure/RELEASE file, however when
@@ -543,6 +544,9 @@ within location specified by QE_CAQTDM.</p>
 <p>QTINC &ndash; Applicable to Qt5 only, and defines include files
 needed for  QtPrintSupport.</p>
 <h3 class="western">Run Time Environment Variables</h3>
+<p>QT_PLUGIN_PATH &ndash; this must include 
+<font color="#007826"><b>/home/user/qtepics</b></font>/qeframework/lib/<i>epics_host_arch</i>.
+</p>
 <p style="margin-bottom: 0in; line-height: 100%">The following are
 all optional.</p>
 <p style="margin-bottom: 0in; line-height: 100%"><br/>
@@ -599,6 +603,18 @@ tested on a number of Qt version / OS platform combination.
 <h3 class="western">Pre-Built Libraries and QEGui program</h3>
 <p>Provide a simple download and run capability for a number of
 common platforms.</p>
+<h3 class="western">Libraries</h3>
+<p>Split the current libQEPlugin library into two:</p>
+<ul>
+	<li/>
+<p>a library to link against for building qegui and other
+	programs/libraries that use the EPICS Qt framework; and</p>
+	<li/>
+<p>a pure plugin library as used by designer and the uiLoader
+	functionality.</p>
+</ul>
+<p>This would alleviate creating a lib/<i>epics_host_arch</i>/designer
+ directory with a link to the library.</p>
 <h3 class="western">EPICS 4 Integration</h3>
 <p style="margin-bottom: 0in; line-height: 100%">One day &hellip;.</p>
 <p style="margin-bottom: 0in; line-height: 100%"><br/>
