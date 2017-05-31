@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 4.3.7.2 (Linux)"/>
 	<meta name="created" content="2017-05-06T13:41:09.014415981"/>
-	<meta name="changed" content="2017-05-29T22:32:24.844676564"/>
+	<meta name="changed" content="2017-05-31T20:58:51.864799710"/>
 	<style type="text/css">
 		@page { margin: 0.79in }
 		p { margin-bottom: 0.1in; line-height: 120% }
@@ -65,7 +65,10 @@ Qt at GitHub  </b></font></font></font>
 <h1 class="western"><a name="__RefHeading__535_1828029437"></a>Introduction</h1>
 <p><b>NOTE:</b> We are still preparing the GitHub repositories
 including this documentation. An announcement will be made on
-tech-talk in due course when we are ready. 
+tech-talk in due course when we are ready.</p>
+<p><br/>
+<br/>
+
 </p>
 <h1 class="western"><a name="__RefHeading__685_1625597089"></a>Structure</h1>
 <p>This describes how the repositories at GitHub are organised.<br><br>The
@@ -547,6 +550,11 @@ needed for  QtPrintSupport.</p>
 <p>QT_PLUGIN_PATH &ndash; this must include 
 <font color="#007826"><b>/home/user/qtepics</b></font>/qeframework/lib/<i>epics_host_arch</i>.
 </p>
+<p>PATH / LD_LIBRARY_PATH &ndash; OS dependent. The qegui executable
+and EPICS/qeframework libraries must be must be on the appropriate
+path. For Linux, the <font face="Courier 10 Pitch"><font size="2" style="font-size: 11pt">-Wl,-rpath</font></font>
+ link flags used, so LD_LIBRARY_PATH need only be specified if the
+library is relocated.</p>
 <p style="margin-bottom: 0in; line-height: 100%">The following are
 all optional.</p>
 <p style="margin-bottom: 0in; line-height: 100%"><br/>
