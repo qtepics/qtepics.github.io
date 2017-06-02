@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 4.3.7.2 (Linux)"/>
 	<meta name="created" content="2017-05-06T13:41:09.014415981"/>
-	<meta name="changed" content="2017-05-31T20:58:51.864799710"/>
+	<meta name="changed" content="2017-06-02T19:38:05.411292354"/>
 	<style type="text/css">
 		@page { margin: 0.79in }
 		p { margin-bottom: 0.1in; line-height: 120% }
@@ -17,6 +17,9 @@
 		h3.western { font-family: "Liberation Sans", sans-serif }
 		h3.cjk { font-family: "AR PL UMing HK" }
 		h3.ctl { font-family: "Lohit Devanagari" }
+		h4 { color: #666666 }
+		h4.cjk { font-family: "AR PL UMing HK" }
+		h4.ctl { font-family: "Lohit Devanagari" }
 		pre.cjk { font-family: "Nimbus Mono L", monospace }
 		td p { margin-bottom: 0in }
 		th p { margin-bottom: 0in }
@@ -66,19 +69,15 @@ Qt at GitHub  </b></font></font></font>
 <p><b>NOTE:</b> We are still preparing the GitHub repositories
 including this documentation. An announcement will be made on
 tech-talk in due course when we are ready.</p>
-<p><br/>
-<br/>
-
-</p>
 <h1 class="western"><a name="__RefHeading__685_1625597089"></a>Structure</h1>
 <p>This describes how the repositories at GitHub are organised.<br><br>The
 transfer of the EPICS Qt framework from SourceForge to GitHub has
 been an ideal opportunity for a few organisational changes. These are
-outlined below. There have been no functionality changes per se.<br><br>The
-major change is that EPICS Qt has been split into a number of
-components, each managed in its own GitHub repository.<br><br>The two
-primary repositories are the <a href="https://github.com/qtepics/qeframework">QE
-Framework</a> repository which provide the framework plugin library
+outlined below. There have been no major functionality changes per
+se.<br><br>The major change is that EPICS Qt has been split into a
+number of components, each managed in its own GitHub repository.<br><br>The
+two primary repositories are the <a href="https://github.com/qtepics/qeframework">QE
+Framework</a> repository which provides the framework plugin library
 and the <a href="https://github.com/qtepics/qegui">QEGui Display
 Manager</a> repository which provides the <i>qegui</i> display
 manager. The documentation is included within the qeframework
@@ -116,23 +115,20 @@ file, e.g. framework.pro, QEGuiApp.pro, and these may be opened by
 previously.</p>
 <p>However, each component is now located within its ow<span style="font-style: normal">n
 </span><span style="font-style: normal">EPICS </span><i>top</i><span style="font-style: normal">
-d</span>irectory that allows the component to be readily (and
-headlessly) built in a much more EPICS-like fashion by just calling
-make from within the <i>top</i> directory. Under-the-covers, the
+d</span>irectory that allows the component to be readily and
+headlessly built in a much more EPICS-like fashion by just calling
+make from within the <i>top</i> directory. Under-the-covers, each
 component's application directory's own Makefile essentially invokes
 <i>qmake</i> and then make on the generated Makefile.</p>
 <p>In the case of qeframework, the include files are placed in
-&lt;top&gt;/include and the shared library/dll file is place in<span style="font-style: normal">
-&lt;top&gt;/</span>lib/&lt;epics_host_arch&gt;. In the case of qegui,
-this is located in &lt;top&gt;/bin/&lt;epics_host_arch&gt;. The use
-of the environment variable QE_TARGET_DIR may still be used to
-override this.</p>
+<i>top</i>/include and the shared library/dll file is placed in<span style="font-style: normal">
+</span><i>top</i><span style="font-style: normal">/</span>lib/<i>epics_host_arch</i>.
+In the case of qegui, this is located in <i>top</i>/bin/<i>epics_host_arch</i>.
+The use of the environment variable QE_TARGET_DIR may still be used
+to override this.</p>
 <p>Each code repository has a <font color="#c5000b"><b>r3.4.2</b></font>
-tag which corresponds to the SourceForge 3.4.2 release.<br><br/>
-<br/>
-
-</p>
-<h1 class="western"><a name="__RefHeading__539_1828029437"></a>License</h1>
+tag which corresponds to the last SourceForge 3.4.2 release.</p>
+<h1 class="western">License</h1>
 <p>The EPICS QT Framework is free software: you can redistribute it
 and/or modify it under the terms of the GNU Lesser General Public
 License as published by the Free Software Foundation, either version
@@ -153,7 +149,7 @@ for EPICS Qt</h1>
 <h3 class="western">Install/build EPICS</h3>
 <p style="margin-bottom: 0in; line-height: 100%">Please visit the
 <a href="http://www.aps.anl.gov/epics/">EPICS</a> web page for
-details. 
+details, oer speak to your local EPICS expert. 
 </p>
 <h3 class="western">Install Qt</h3>
 <p style="margin-bottom: 0in; line-height: 100%">At least version
@@ -317,6 +313,29 @@ built at the Australian Synchrotron.</p>
 			<p align="center">Windows 7</p>
 		</td>
 		<td width="232" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in">
+			<p align="center">g++ 4.6.2</p>
+		</td>
+		<td width="130" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in">
+			<p align="center">win32-x86-mingw</p>
+		</td>
+		<td width="94" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in">
+			<p align="center">3.14.12.3</p>
+		</td>
+		<td width="70" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in">
+			<p align="center">6.0.1</p>
+		</td>
+		<td width="76" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in">
+			<p align="center">4.8.5</p>
+		</td>
+		<td width="75" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in">
+			<p align="center">3.4.2</p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<td width="129" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in">
+			<p align="center">Windows 7</p>
+		</td>
+		<td width="232" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in">
 			<p align="center">g++ (i686-posix-dwarf-rev1, Built by MinGW-W64
 			project) 4.9.2</p>
 		</td>
@@ -367,15 +386,15 @@ built at the Australian Synchrotron.</p>
 </p>
 <h1 class="western"><a name="__RefHeading__581_1625597089"></a>Getting
 Started - Headless Build</h1>
-<p>There is some useful information in <a href="https://github.com/qtepics/qeframework/blob/master/documentation/QE_GettingStarted.pdf">QE_GettingStarted.pdf</a>,
+<p>There is a lot useful information in <a href="https://github.com/qtepics/qeframework/blob/master/documentation/QE_GettingStarted.pdf">QE_GettingStarted.pdf</a>,
 however this document still refers to the old structure and to
 SourceForge as the source, so must be read taking that into account.</p>
 <p>The commands shown here illustrate downloading and building
 epicsQt in the directory <font color="#007826"><b>/home/user/qtepics</b></font>.
  This is just for the purposes of providing example commands. You are
 free to to down load and install anywhere on your system. Replace the
-<font color="#007826">green</font> bit of the path in the examples
-below to suit your environment.</p>
+<font color="#007826"><b>green</b></font> part of the path in the
+examples below to suit your environment.</p>
 <p>Note: This instructions are currently Linux-centric, however
 Windows users should have no trouble translating these to the Windows
 equivalent. 
@@ -395,8 +414,7 @@ file such that:
 Modify <font color="#006600"><b>/home/user/qtepics</b></font>/qegui/configure/RELEASE
 file such that: 
 </p>
-<pre class="western">   EPICS_BASE=&lt;a reference your EPICS base&gt;
-   QE_FRAMEWORK=<font color="#007826">/home/user/qtepics</font>/qeframework</pre><h3 class="western">
+<pre class="western" style="margin-bottom: 0.2in">   QE_FRAMEWORK=<font color="#007826">/home/user/qtepics</font>/qeframework<br>   EPICS_BASE=&lt;a reference your EPICS base&gt;</pre><h3 class="western">
 Environment Variables</h3>
 <p style="margin-bottom: 0in; line-height: 100%">Define
 EPICS_HOST_ARCH (e.g. export EPICS_HOST_ARCH=linux-x86_64)<br><br>Define
@@ -410,18 +428,25 @@ integrated, download and build it and define the environment variable
 QE_CAQTDM to point to the caQtDM_Project directory. 
 </p>
 <h3 class="western">qmake</h3>
-<p style="margin-bottom: 0in; line-height: 100%">When used in
+<p style="margin-bottom: 0in; line-height: 100%">When building in
 headless mode, the <i>qmake</i> program is invoked to generate a
 Makefile. Ensure that your PATH environment variable results in
-required version of qmake being available. For some versions of Qt,
+required version of qmake being available. For some versions of Qt&nbsp;4,
 the <i>qmake</i> program is know as <i>qmake-qt4</i>. In this case it
 will be necessary to &quot;fake&quot; it, e.g.:</p>
 <pre class="western">   
    cd ${HOME}/bin
    ln -s /usr/bin/qmake-qt4 qmake </pre><p>
-or something similar. 
+or something similar.  Also, <i>qmake</i> is called without the -spec
+option defined and relies on the default spec file (e.g. linux-g++)
+being suitable. If this is mot the case then you must &ldquo;fake&rdquo;
+the <i>qmake</i> command to suit your environment. Alternatively, one
+could also modify the make files: 
 </p>
-<h3 class="western">MinGW compiler</h3>
+<pre class="western">   <font color="#007826">/home/user/qtepics</font>/qeframework/qeframeworkSup/Makefile
+<font color="#007826">   /home/user/qtepics</font>/qegui/qeguiApp/Makefile
+</pre><h3 class="western">
+MinGW compiler</h3>
 <p style="margin-bottom: 0in; line-height: 100%">If using the MinGW
 compiler, modify the
 <font color="#006600"><b>/home/user/qtepics</b></font>/qeframework/qeframeworkSup/project/framework.pro
@@ -507,11 +532,10 @@ with the EPICS build paradigm that expect to find libraries in
 this issue by effectively doing both by use of an extra designer
 directory and a symbolic (Linux) or hard (Windows) link. When using
 <i>qtcreator</i> there is no additional build step defined to achieve
-this, and one must resort to the a headless build.</p>
+this, therefore it must be dome manually.</p>
 <h3 class="western">qegui</h3>
-<p>Using <font color="#007826"><b>/home/user/qtepics</b></font> as
-the example git clone location, open the following project file in
-<i>qtcreator</i> :</p>
+<p>Again using <font color="#007826"><b>/home/user/qtepics</b></font>
+as the example, open the following project file in <i>qtcreator</i> :</p>
 <pre class="western"><font color="#007826">/home/user/qtepics</font>/qegui/qeguiApp/project/QEGuiApp.pro<br></pre><h1 class="western">
 <a name="__RefHeading__802_1042250302"></a>Environment Variables</h1>
 <p>Build Time Environment Variables</p>
@@ -547,6 +571,7 @@ within location specified by QE_CAQTDM.</p>
 <p>QTINC &ndash; Applicable to Qt5 only, and defines include files
 needed for  QtPrintSupport.</p>
 <h3 class="western">Run Time Environment Variables</h3>
+<h4 class="western">Required</h4>
 <p>QT_PLUGIN_PATH &ndash; this must include 
 <font color="#007826"><b>/home/user/qtepics</b></font>/qeframework/lib/<i>epics_host_arch</i>.
 </p>
@@ -555,11 +580,7 @@ and EPICS/qeframework libraries must be must be on the appropriate
 path. For Linux, the <font face="Courier 10 Pitch"><font size="2" style="font-size: 11pt">-Wl,-rpath</font></font>
  link flags used, so LD_LIBRARY_PATH need only be specified if the
 library is relocated.</p>
-<p style="margin-bottom: 0in; line-height: 100%">The following are
-all optional.</p>
-<p style="margin-bottom: 0in; line-height: 100%"><br/>
-
-</p>
+<h4 class="western">Optional</h4>
 <p>QE_UI_PATH &ndash; defines alternative/additional  paths used when
 searching for a ui file.</p>
 <p>QE_ARCHIVE_LIST &ndash; specifies a list of channel archive
@@ -645,15 +666,15 @@ Notes</h1>
 <h1 class="western"><a name="__RefHeading__583_1625597089"></a>Credits</h1>
 <h3 class="western">Developers</h3>
 <p>Andrew Rhyder, Glenn Jackson, Anthony Owen,  Ricardo Fernandes,
-Andrew Starritt.</p>
+Anton Maksimenko, Andraz Pozar, Andrew Starritt.</p>
 <h3 class="western">3rd Party Software</h3>
-<p>Apart form EPICS base and Qt itself, the EPICS Qt framework used
+<p>Apart form EPICS base and Qt itself, the EPICS Qt framework uses
 the following.</p>
-<p>The EPICS Qt framework relies on QWT for plotting.
+<p>The framework relies on QWT for plotting.
 <a href="https://sourceforge.net/projects/qwt/">https://sourceforge.net/projects/qwt/</a>.</p>
-<p>To access the Channel Access Archive data, the EPICS Qt framework
-relies on the maiaXmlRpcClient and support classes written by Frerich
-Raabe &lt;<a href="mailto:raabe@kde.org">raabe@kde.org</a>&gt;, Ian
+<p>To access the Channel Access Archive data, the framework relies on
+the maiaXmlRpcClient and support classes written by Frerich Raabe
+&lt;<a href="mailto:raabe@kde.org">raabe@kde.org</a>&gt;, Ian
 Reinhart Geiser &lt;<a href="mailto:geiseri@kde.org">geiseri@kde.org</a>&gt;,
 Karl Glatz and Sebastian Wiedenroth &lt;<a href="mailto:wiedi@frubar.net">wiedi@frubar.net</a>&gt;.</p>
 <p>When built with MPEG support, the EPICS Qt framework relies on
@@ -663,10 +684,6 @@ FFmpeg for reading MPEG image streams. <a href="https://www.ffmpeg.org/">https:/
 <p>The QEGui application can be built to support caQtDM widgets
 provided by The Paul Scherrer Institute.
 <a href="https://epics.web.psi.ch/software/caqtdm/">https://epics.web.psi.ch/software/caqtdm/</a>.</p>
-<p><br/>
-<br/>
-
-</p>
 <p><br/>
 <br/>
 
