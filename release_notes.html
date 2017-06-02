@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 4.3.7.2 (Linux)"/>
 	<meta name="created" content="2017-05-06T13:41:09.014415981"/>
-	<meta name="changed" content="2017-05-26T21:22:06.244918784"/>
+	<meta name="changed" content="2017-06-02T20:23:22.230001325"/>
 	<style type="text/css">
 		@page { margin: 0.79in }
 		p { margin-bottom: 0.1in; line-height: 120% }
@@ -42,13 +42,48 @@ Notes        </b></font></font></font>
 </div>
 <p><br>This document provides a summary of the changes between
 releases. The section headings in this document correspond to the
-tags used within the repositories.</p>
+tags used within the repositories. While not guaranteed, we will
+endeavor to keep the latest master set of files compile-able and
+functionally correct.</p>
 <h1 class="western"><a name="__RefHeading__685_1625597089"></a>r3.4.3</h1>
-<p>This is the <font color="#990000"><i><b>next</b></i></font>
-release - expected June 2017. This will basically consolidate the
-transition from SourceForge to GitHub.</p>
+<p>Release date: 5<sup>th</sup> June 2017. This release basically
+consolidates the transition from SourceForge to GitHub, and also
+accommodates  the support of headless builds (on Windows). However,
+it also include a major bug fix and a number of minor functional
+changes</p>
+<ul>
+	<li/>
+<p>qegui - modified the about dialog to include both the EPICS
+	and QWT versions</p>
+	<li/>
+<p>QEScratchPad avoid segmentation fault in drag drop handling
+	- check before de-referencing.</p>
+	<li/>
+<p>QEScratchPad - use comma separator for the value QELabel
+	widgets.</p>
+	<li/>
+<p>QEGraphic - set minimum size - keep Qt5 happy.</p>
+	<li/>
+<p>Modify contextMenu to allow Edit PV action selection
+	criteria to be specified as opposed to hard coded to Engineer User
+	Level and enable by default for QEPVProperties and QEScratchPad.</p>
+	<li/>
+<p>Truncates strings to 40 chars before attempting to write
+	DBF_STRING mode to a channel.</p>
+	<li/>
+<p>Added .gitignore files to each repostory</p>
+	<li/>
+<p>Component App/Sup make files are now more OS independent</p>
+	<li/>
+<p>Updated sample .ui files to use current widget names (long
+	over due).</p>
+</ul>
+<p><br/>
+<br/>
+
+</p>
 <h1 class="western"><a name="__RefHeading__539_1828029437"></a>r3.4.2</h1>
-<p>Release date: 29 April 2017.</p>
+<p>Release date: 29<sup>th</sup> April 2017.</p>
 <p>This is initial release at GitHub. This is functionally equivalent
 to the last SourceForge release despite the overall restructure.</p>
 <p>Refer to  SourceForge for all history prior to this release as the
