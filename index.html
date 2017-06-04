@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 4.3.7.2 (Linux)"/>
 	<meta name="created" content="2017-05-06T13:41:09.014415981"/>
-	<meta name="changed" content="2017-06-02T19:38:05.411292354"/>
+	<meta name="changed" content="2017-06-04T10:51:12.029486163"/>
 	<style type="text/css">
 		@page { margin: 0.79in }
 		p { margin-bottom: 0.1in; line-height: 120% }
@@ -66,9 +66,11 @@ Qt at GitHub  </b></font></font></font>
 
 </p>
 <h1 class="western"><a name="__RefHeading__535_1828029437"></a>Introduction</h1>
-<p><b>NOTE:</b> We are still preparing the GitHub repositories
-including this documentation. An announcement will be made on
-tech-talk in due course when we are ready.</p>
+<p style="font-weight: normal">Welcome to  EPICS Qt at Git Hub.</p>
+<p><br/>
+<br/>
+
+</p>
 <h1 class="western"><a name="__RefHeading__685_1625597089"></a>Structure</h1>
 <p>This describes how the repositories at GitHub are organised.<br><br>The
 transfer of the EPICS Qt framework from SourceForge to GitHub has
@@ -439,7 +441,7 @@ will be necessary to &quot;fake&quot; it, e.g.:</p>
    ln -s /usr/bin/qmake-qt4 qmake </pre><p>
 or something similar.  Also, <i>qmake</i> is called without the -spec
 option defined and relies on the default spec file (e.g. linux-g++)
-being suitable. If this is mot the case then you must &ldquo;fake&rdquo;
+being suitable. If this is not the case then you must &ldquo;fake&rdquo;
 the <i>qmake</i> command to suit your environment. Alternatively, one
 could also modify the make files: 
 </p>
@@ -456,6 +458,10 @@ project file (approximately line 50) and un-comment the line:
 to be: 
 </p>
 <pre class="western" style="margin-bottom: 0.2in">   DEFINES += _MINGW=TRUE</pre><h3 class="western">
+QWT Version</h3>
+<p>For windows, you may have to modify the line (approximately line
+244) to suit your version of QWT</p>
+<pre class="western" style="margin-bottom: 0.2in">   win32:LIBS += -LC:/qwt-6.1.3/lib</pre><h3 class="western">
 Build</h3>
 <pre class="western">   cd  <font color="#007826">/home/user/qtepics</font>/qeframework
    make
@@ -548,13 +554,13 @@ Typically /usr/include/qwt on Linux.</p>
 <p>QWT_ROOT &ndash; optional. If not defined, the default location of
 QWT library is used. If defined then this is used to locate the QWT
 library.</p>
+<p>QE_FFMPEG &ndash; optional. If you want MPEG support install
+FFmpeg and define this environment variable. This can be defined as
+anything on Linux, but must point to the FFmpeg directory on windows.</p>
 <p>QE_TARGET_DIR &ndash; optional. When not defined, the libraries,
 the include files and/or the executables are installed the <i>top</i>
 directory. However, if this environment variable is defined it
 specifies the installation location.</p>
-<p>QE_FFMPEG &ndash; optional. If you want MPEG support install
-FFmpeg and define this environment variable. This can be defined as
-anything on Linux, but must point to the FFmpeg directory on windows.</p>
 <p>QE_FRAMEWORK - defines the location of the qeframework
 <i>installation </i>directory , i.e. the qeframework's <i>top</i>
 directory or the location  given  by QE_TARGET_DIR if specified. This
