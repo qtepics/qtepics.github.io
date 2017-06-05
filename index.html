@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 4.3.7.2 (Linux)"/>
 	<meta name="created" content="2017-05-06T13:41:09.014415981"/>
-	<meta name="changed" content="2017-06-05T16:28:38.032655893"/>
+	<meta name="changed" content="2017-06-05T19:48:35.203094132"/>
 	<style type="text/css">
 		@page { margin: 0.79in }
 		p { margin-bottom: 0.1in; line-height: 120% }
@@ -119,24 +119,24 @@ then using those widgets within a code free GUI development.
 Road-map for Code Free GUI Development</h1>
 <ul>
 	<li/>
-<p>Ensure you have EPICS, Qt and QWT installed &ndash; see <i>Prerequisites for EPICS Qt
+<p><b>Ensure you have</b>:  EPICS, Qt and QWT installed &ndash;
+	see <i>Prerequisites for EPICS Qt </i><span style="font-style: normal">below.</span></p>
+	<li/>
+<p><b>Download source</b> &ndash; see <i>Download source code and documentation
 	</i><span style="font-style: normal">below.</span></p>
 	<li/>
-<p>Download source &ndash; see <i>Download source code and documentation
-	</i><span style="font-style: normal">below.</span></p>
-	<li/>
-<p>Set up build environment, i.e. the RELEASE files &ndash;
+<p><b>Set up build environment</b>, i.e. the RELEASE files &ndash;
 	see  <i>Modify RELEASE files</i>; and 2 environment variables &ndash;
 	see <i>Build Time Environment Variables.</i></p>
 	<li/>
-<p>Build framework &ndash; see <i>Build Plugin Library and Display Manager.</i></p>
+<p><b>Build framework</b> &ndash; see <i>Build Plugin Library and Display Manager.</i></p>
 	<li/>
-<p>Build qegui (display manager) &ndash; see <i>Build Plugin Library and Display Manager.</i></p>
+<p><b>Build qegui</b> (display manager) &ndash; see <i>Build Plugin Library and Display Manager.</i></p>
 	<li/>
-<p>Set up run time environment  (n environment variables) &ndash;
-	see <i>Run Time Environment Variables.</i></p>
+<p><b>Set up run time environment</b>  (environment variables)
+	&ndash; see <i>Run Time Environment Variables.</i></p>
 	<li/>
-<p>Run <i>qegui</i>.</p>
+<p><b>Run</b> <i>qegui</i>.</p>
 </ul>
 <p><br/>
 <br/>
@@ -200,7 +200,7 @@ In the case of qegui, this is located in <i>top</i>/bin/<i>epics_host_arch</i>.
 The use of the environment variable QE_TARGET_DIR may still be used
 to override this.</p>
 <p>Each code repository has a <font color="#c5000b"><b>r3.4.2</b></font>
-tag which corresponds to the last SourceForge 3.4.2 release. The
+tag which corresponds to the last SourceForge 3.4.2 release.  The
 latest release is 3.4.3, and each repository has a corresponding
 <font color="#c5000b"><b>r3.4.3</b></font> tag.</p>
 <h1 class="western"><a name="__RefHeading__1064_1391862070"></a>License</h1>
@@ -501,7 +501,8 @@ to the FFMPEG directory; on Linux  just being defined is
 sufficient).<br><br><i>Optional:</i> Define QE_CAQTDM if integration
 of PSI's caQtDM into QEGui is required. If you want caQtDM
 integrated, download and build it and define the environment variable
-QE_CAQTDM to point to the caQtDM_Project directory. 
+QE_CAQTDM to point to the caQtDM_Project directory.<br><br/>
+
 </p>
 <h3 class="western">qmake</h3>
 <p style="margin-bottom: 0in; line-height: 100%">When building in
@@ -605,6 +606,10 @@ N is the number of available CPU cores).<br><br/>
 <br/>
 
 </p>
+<p><br/>
+<br/>
+
+</p>
 <p>Note: if you know of a way of automatically adding this build step
 by adding some directive into the project file, do let me know.</p>
 <p>A third issue is the Qt plugin path variable: QT_PLUGIN_PATH.  A
@@ -670,10 +675,10 @@ library is relocated.</p>
 <h4 class="western">Optional</h4>
 <p>QE_UI_PATH &ndash; defines alternative/additional  paths used when
 searching for a ui file.</p>
-<p>QE_ARCHIVE_LIST &ndash; specifies a list of channel archive
+<p>QE_ARCHIVE_LIST &ndash; specifies a list of Channel Access archive
 servers.</p>
 <p>QE_ARCHIVE_PATTERN &ndash; pattern match applied when extracting
-PV list from the archivers.</p>
+PV list from the archives.</p>
 <p>QE_STRIPCHART_PREDEFINED_PVS &ndash; defines up to ten space
 separated PV names that are added to the Strip Chart context menu. If
 you don't know which  PVs to define here, speak to your operators.</p>
@@ -738,7 +743,7 @@ common platforms.</p>
 </p>
 <h1 class="western"><a name="__RefHeading__549_1828029437"></a>Feed
 Back and Collaboration</h1>
-<p>Please email andrew.starritt@synchrotron.org.au</p>
+<p>Please email:  andrew.starritt@synchrotron.org.au</p>
 <p><br/>
 <br/>
 
