@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 4.3.7.2 (Linux)"/>
 	<meta name="created" content="2017-05-06T13:41:09.014415981"/>
-	<meta name="changed" content="2017-06-04T10:51:12.029486163"/>
+	<meta name="changed" content="2017-06-05T16:18:50.957244024"/>
 	<style type="text/css">
 		@page { margin: 0.79in }
 		p { margin-bottom: 0.1in; line-height: 120% }
@@ -43,8 +43,10 @@ Qt at GitHub  </b></font></font></font>
 </p>
 <div id="Table of Contents1" dir="ltr">
 	<p style="margin-bottom: 0in; line-height: 100%"><a href="#__RefHeading__535_1828029437">Introduction	</a></p>
+	<p style="margin-bottom: 0in; line-height: 100%"><a href="#__RefHeading__1062_1391862070">Quick
+	Road-map for Code Free GUI Development	</a></p>
 	<p style="margin-bottom: 0in; line-height: 100%"><a href="#__RefHeading__685_1625597089">Structure	</a></p>
-	<p style="margin-bottom: 0in; line-height: 100%"><a href="#__RefHeading__539_1828029437">License	</a></p>
+	<p style="margin-bottom: 0in; line-height: 100%"><a href="#__RefHeading__1064_1391862070">License	</a></p>
 	<p style="margin-bottom: 0in; line-height: 100%"><a href="#__RefHeading__541_1828029437">Prerequisites
 	for EPICS Qt	</a></p>
 	<p style="margin-bottom: 0in; line-height: 100%"><a href="#__RefHeading__581_1625597089">Getting
@@ -66,7 +68,75 @@ Qt at GitHub  </b></font></font></font>
 
 </p>
 <h1 class="western"><a name="__RefHeading__535_1828029437"></a>Introduction</h1>
-<p style="font-weight: normal">Welcome to  EPICS Qt at Git Hub.</p>
+<p style="font-weight: normal">Welcome to  EPICS Qt at GitHub.</p>
+<p><span style="font-weight: normal">EPICS Qt is a</span> layered
+framework based on Qt for accessing Experimental Physics and
+Industrial Control System (EPICS) data using Channel Access (CA).
+Designed for rapid development of control system graphical
+interfaces, initially developed at the Australian Synchrotron.</p>
+<p>The QE Framework can be used in three ways:</p>
+<ul>
+	<li/>
+<p><b>Code Free GUI systems </b>using Qt's Designer
+	application with the QE Framework plugin to design GUIs, and the
+	QEGui application to present GUIs to users.</p>
+	<li/>
+<p><b>Code Rich GUI development</b> using Qt's Integrated
+	Development Environment with the QE Framework widgets and data
+	objects to design GUI applications.</p>
+	<li/>
+<p><span style="font-style: normal"><b>Console application
+	development</b></span> using Qt's Integrated Development Environment
+	with the QE Framework data objects to design console applications
+	that can access EPICS data.</p>
+</ul>
+<p>Note, there are many variations to the above, such as using
+another Integrated Development Environment like Eclipse, or
+developing new plugin widgets to implement desired functionality,
+then using those widgets within a code free GUI development. 
+</p>
+<p>Other documents you may be interested in are:</p>
+<ul>
+	<li/>
+<p style="margin-bottom: 0in; line-height: 100%"><a href="https://github.com/qtepics/qeframework/blob/master/documentation/QE_QEGuiAndUserInterfaceDesign.pdf">QE_QEGuiAndUserInterfaceDesign.pdf</a>
+	 - All documentation for developing code free GUI applications.</p>
+	<p style="margin-bottom: 0in; line-height: 100%"></p>
+	<li/>
+<p style="margin-bottom: 0in; line-height: 100%"><a href="https://github.com/qtepics/qeframework/blob/master/documentation/QE_FrameworkOverview.pdf">QE_FrameworkOverview.pdf</a>
+	- Technical overview of the QE framework.</p>
+	<p style="margin-bottom: 0in; line-height: 100%"></p>
+	<li/>
+<p style="margin-bottom: 0in; line-height: 100%"><a href="https://github.com/qtepics/qeframework/blob/master/documentation/QE_ReferenceManual.pdf">QE_ReferenceManual.pdf</a>
+	- Reference manual for programmers using QE widgets and classes.</p>
+</ul>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<h1 class="western"><a name="__RefHeading__1062_1391862070"></a>Quick
+Road-map for Code Free GUI Development</h1>
+<ul>
+	<li/>
+<p>Ensure you have EPICS, Qt and QWT installed &ndash; see <i>Prerequisites for EPICS Qt
+	</i><span style="font-style: normal">below.</span></p>
+	<li/>
+<p>Download source &ndash; see <i>Download source code and documentation.</i></p>
+	<li/>
+<p>Set up build environment, i.e. the RELEASE files &ndash;
+	see  <i>RELEASE files</i>; and 2 environment variables &ndash; see
+	<i>Build Time Environment Variables.</i></p>
+	<li/>
+<p>Build framework &ndash; see <i>Build.</i></p>
+	<li/>
+<p>Build qegui (display manager) &ndash; see <i>Build.</i></p>
+	<li/>
+<p>Set up run time environment  (n environment variables) &ndash;
+	see <i>Run Time Environment Variables.</i></p>
+	<li/>
+<p>Run <i>qegui</i>.</p>
+</ul>
 <p><br/>
 <br/>
 
@@ -130,7 +200,7 @@ The use of the environment variable QE_TARGET_DIR may still be used
 to override this.</p>
 <p>Each code repository has a <font color="#c5000b"><b>r3.4.2</b></font>
 tag which corresponds to the last SourceForge 3.4.2 release.</p>
-<h1 class="western">License</h1>
+<h1 class="western"><a name="__RefHeading__1064_1391862070"></a>License</h1>
 <p>The EPICS QT Framework is free software: you can redistribute it
 and/or modify it under the terms of the GNU Lesser General Public
 License as published by the Free Software Foundation, either version
@@ -151,15 +221,15 @@ for EPICS Qt</h1>
 <h3 class="western">Install/build EPICS</h3>
 <p style="margin-bottom: 0in; line-height: 100%">Please visit the
 <a href="http://www.aps.anl.gov/epics/">EPICS</a> web page for
-details, oer speak to your local EPICS expert. 
+details, or speak to your local EPICS expert. 
 </p>
 <h3 class="western">Install Qt</h3>
 <p style="margin-bottom: 0in; line-height: 100%">At least version
 4.6. Versions 4.6, 4.8, 5.6 and 5.7 have been successfully used at
-the Australian Synchrotron.</p>
+the Australian Synchrotron. Qt is available from <a href="https://www.qt.io/" name="https://www.qt.io/">https://www.qt.io/</a>.</p>
 <h3 class="western">Install QWT</h3>
-<p>The version must be compatible with your version of Qt. 
-</p>
+<p>The version must be compatible with your version of Qt. Please
+visit <a href="http://qwt.sourceforge.net/" name="http://qwt.sourceforge.net/">http://qwt.sourceforge.net/</a>.</p>
 <h3 class="western">Example Configurations</h3>
 <p>The following configuration combination have all recently been
 built at the Australian Synchrotron.</p>
@@ -401,14 +471,15 @@ examples below to suit your environment.</p>
 Windows users should have no trouble translating these to the Windows
 equivalent. 
 </p>
-<h3 class="western">Download source code and documentation</h3>
+<h3 class="western"><a name="__RefHeading__1157_580641280"></a>Download
+source code and documentation</h3>
 <p>Clone the framework and the qegui repositories.</p>
 <pre class="western">   mkdir -p <font color="#007826">/home/user/qtepics</font>
    cd <font color="#007826">/home/user/qtepics</font>
    git clone <a href="https://github.com/qtepics/qeframework.git">https://github.com/qtepics/qeframework.git</a>
    git clone <a href="https://github.com/qtepics/qegui.git">https://github.com/qtepics/qegui.git</a>
 </pre><h3 class="western">
-RELEASE files</h3>
+<a name="__RefHeading__1163_580641280"></a>RELEASE files</h3>
 <p>Modify <font color="#006600"><b>/home/user/qtepics</b></font><span style="font-weight: normal">/</span>qeframework/configure/RELEASE
 file such that: 
 </p>
@@ -462,13 +533,16 @@ QWT Version</h3>
 <p>For windows, you may have to modify the line (approximately line
 244) to suit your version of QWT</p>
 <pre class="western" style="margin-bottom: 0.2in">   win32:LIBS += -LC:/qwt-6.1.3/lib</pre><h3 class="western">
-Build</h3>
+<a name="__RefHeading__1175_580641280"></a>Build</h3>
 <pre class="western">   cd  <font color="#007826">/home/user/qtepics</font>/qeframework
    make
    cd  <font color="#007826">/home/user/qtepics</font>/qegui
    make<br></pre><h1 class="western">
 <a name="__RefHeading__511_361286565"></a>Getting Started - qtcreator
 Build</h1>
+<p>There is a lot useful information in <a href="https://github.com/qtepics/qeframework/blob/master/documentation/QE_GettingStarted.pdf">QE_GettingStarted.pdf</a>,
+however this document still refers to the old structure and to
+SourceForge as the source, so must be read taking that into account.</p>
 <p>This getting started section assumes the reader is familiar with
 <i>qtcreator</i>.</p>
 <p>As stated above, each Qt project, is now a separate stand-alone
@@ -544,7 +618,8 @@ this, therefore it must be dome manually.</p>
 as the example, open the following project file in <i>qtcreator</i> :</p>
 <pre class="western"><font color="#007826">/home/user/qtepics</font>/qegui/qeguiApp/project/QEGuiApp.pro<br></pre><h1 class="western">
 <a name="__RefHeading__802_1042250302"></a>Environment Variables</h1>
-<p>Build Time Environment Variables</p>
+<h3 class="western"><a name="__RefHeading__1165_580641280"></a>Build
+Time Environment Variables</h3>
 <p>EPICS_BASE - defines the location of EPICS base. For headless
 building, this is defined in the configure/RELEASE file, however when
 using <i>qtcreator</i> it must be explicitly defined.</p>
@@ -576,11 +651,13 @@ directory.</p>
 within location specified by QE_CAQTDM.</p>
 <p>QTINC &ndash; Applicable to Qt5 only, and defines include files
 needed for  QtPrintSupport.</p>
-<h3 class="western">Run Time Environment Variables</h3>
+<h3 class="western"><a name="__RefHeading__1177_580641280"></a>Run
+Time Environment Variables</h3>
 <h4 class="western">Required</h4>
 <p>QT_PLUGIN_PATH &ndash; this must include 
 <font color="#007826"><b>/home/user/qtepics</b></font>/qeframework/lib/<i>epics_host_arch</i>.
-</p>
+ This is the easiest way to do this, there are other ways &ndash;
+please refer to the Qt documentation</p>
 <p>PATH / LD_LIBRARY_PATH &ndash; OS dependent. The qegui executable
 and EPICS/qeframework libraries must be must be on the appropriate
 path. For Linux, the <font face="Courier 10 Pitch"><font size="2" style="font-size: 11pt">-Wl,-rpath</font></font>
@@ -657,7 +734,7 @@ common platforms.</p>
 </p>
 <h1 class="western"><a name="__RefHeading__549_1828029437"></a>Feed
 Back and Collaboration</h1>
-<p>TBD</p>
+<p>Please email andrew.starritt@synchrotron.org.au</p>
 <p><br/>
 <br/>
 
