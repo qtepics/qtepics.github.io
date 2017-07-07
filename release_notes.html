@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 4.3.7.2 (Linux)"/>
 	<meta name="created" content="2017-05-06T13:41:09.014415981"/>
-	<meta name="changed" content="2017-06-05T14:16:33.096605721"/>
+	<meta name="changed" content="2017-07-07T16:57:54.192834981"/>
 	<style type="text/css">
 		@page { margin: 0.79in }
 		p { margin-bottom: 0.1in; line-height: 120% }
@@ -13,6 +13,11 @@
 		h1.western { font-family: "Liberation Sans", sans-serif; font-size: 18pt }
 		h1.cjk { font-family: "AR PL UMing HK"; font-size: 18pt }
 		h1.ctl { font-family: "Lohit Devanagari"; font-size: 18pt }
+		h3 { color: #666666 }
+		h3.western { font-family: "Liberation Sans", sans-serif }
+		h3.cjk { font-family: "AR PL UMing HK" }
+		h3.ctl { font-family: "Lohit Devanagari" }
+		pre.cjk { font-family: "Nimbus Mono L", monospace }
 		a:link { so-language: zxx }
 	</style>
 </head>
@@ -37,6 +42,7 @@ Notes        </b></font></font></font>
 		<font face="Liberation Sans, sans-serif"><font size="4" style="font-size: 16pt"><b>Release
 		Index</b></font></font></p>
 	</div>
+	<p style="margin-bottom: 0in; line-height: 100%"><a href="#__RefHeading__91_508564370">r3.5.1	</a></p>
 	<p style="margin-bottom: 0in; line-height: 100%"><a href="#__RefHeading__685_1625597089">r3.4.3	</a></p>
 	<p style="margin-bottom: 0in; line-height: 100%"><a href="#__RefHeading__539_1828029437">r3.4.2	</a></p>
 	<p style="margin-bottom: 0in; line-height: 100%"><a href="#__RefHeading__78_131193577">Earlier
@@ -47,6 +53,101 @@ releases. The section headings in this document correspond to the
 tags used within the repositories. While not guaranteed, we will
 endeavor to keep the latest master set of files compile-able and
 functionally correct.</p>
+<h1 class="western"><a name="__RefHeading__91_508564370"></a>r3.5.1</h1>
+<p>Release date: 9<sup>th</sup> July 2017.  The main change for this
+release is that the QEPlugin library has been split the into two
+distinct libraries which are:</p>
+<ul>
+	<li/>
+<p>QEFramework  - the functional library which contains the
+	widgets themselves together with support functionality. qegui and
+	any other bespoke display managers programs will need to link
+	against this library.</p>
+	<li/>
+<p>QEPlugin  - strictly the widget plugin library usable by
+	any application using the ui loader, such as qegui and designer. The
+	QEPlugin library is dependent on the QEFramework library.</p>
+</ul>
+<p>Both libraries are part of the the qeframework repository, with
+QEFramework built from the qeframeworkSup application and the
+QEPlugin library built from the new 
+</p>
+<p>qepluginApp application. Using linux-x86_64 as an example EPICS
+host architecture the libraries are built and installed into: 
+</p>
+<pre class="western">    <i>&lt;top&gt;</i>/lib/linux-x86_64/libQEFramework.so
+    <i>&lt;top&gt;</i>/lib/linux-x86_64/designer/libQEPlugin.so
+</pre><p>
+This means that  QT_PLUGIN_PATH  needed not change as the plugin
+library is installed into a directory called designer (as was
+previously &quot;faked&quot; by use of</p>
+<p>a symbolic link). Application building using the framework library
+need to reference QEFramework as opposed to QEPlugin.</p>
+<p>Because the qepluginApp build uses the qeframeworkSup, the
+following has been added to the qeframework configure/RELEASE file:</p>
+<pre class="western">    QE_FRAMEWORK=...
+</pre><p>
+This need to be configured to point to the qeframeworkSup top
+directory. Unfortunately one cannot say QE_FRAMEWORK=$(TOP). Please
+see comments in configure/RELEASE.</p>
+<p>There have also been a number of other changes to qegui and
+qegramework since release r3.4.3 as outlined below.  Apart from
+referencing the QEFramework library there have been no other changes
+to  qeByteArrayTest, qeMonitor, qeReadArchive etc.</p>
+<h3 class="western">qegui</h3>
+<ul>
+	<li/>
+<p>For windows - if the main window is off screen, then
+	re-position windows to position (0,0) 
+	</p>
+	<li/>
+<p>Introduced independent font scaling capability. Use the -f
+	options. Run qegui -h for details.</p>
+</ul>
+<h3 class="western">qeframework</h3>
+<ul>
+	<li/>
+<p>Modified QEConfiguredLayout, QEFileBrowser, QELog,
+	QERecipe, QEScript to scope local enumeration definitions so that
+	they don't clash if two or more headers using in same compilation
+	unit.</p>
+	<li/>
+<p>mpeg - more version related conditional compilation.</p>
+	<li/>
+<p>Added $$(EPICS_BASE)/include/compiler/msvc to the include
+	path and for windows defined EPICS_CALL_DLL when compiling the QE
+	framework.</p>
+	<li/>
+<p>Updated some of the EPICS aware widget designer icons to be
+	distinct from non EPICS aware counter parts.</p>
+	<li/>
+<p>QEPvProperties - ensured correct field referenced when
+	fields are sorted. Also added RMOD, ADEL, MDEL, ALST, MLST and SYNC
+	fields to the build in motor record field list.</p>
+	<li/>
+<p>QEPlotter and QEStripChart - save, set and restore all line
+	styles when drawing graphic markups.</p>
+	<li/>
+<p>Add forceSign boolean property to widgets using string
+	formatting, the default value is false.</p>
+	<li/>
+<p>Introduced independent font scaling functionality.</p>
+	<li/>
+<p>QEPVLoadSave - ensure all array elements are of the same
+	and a suitable type before writing to the channel.</p>
+	<li/>
+<p>windowCustomisation - include a QAction object as opposed
+	to inheriting from QAction. This is to support running on MAC OS.</p>
+	<li/>
+<p>QEPlot - remove outward dependency on QWT, so that plugin
+	library build does not need to include QWT header files, and do a
+	general tidy up. Also inherit from QEFrame in order to provides the
+	standard properties.</p>
+</ul>
+<p><br/>
+<br/>
+
+</p>
 <h1 class="western"><a name="__RefHeading__685_1625597089"></a>r3.4.3</h1>
 <p>Release date: 5<sup>th</sup> June 2017. This release basically
 consolidates the transition from SourceForge to GitHub, and also

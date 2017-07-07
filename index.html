@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 4.3.7.2 (Linux)"/>
 	<meta name="created" content="2017-05-06T13:41:09.014415981"/>
-	<meta name="changed" content="2017-06-26T19:48:00.573933553"/>
+	<meta name="changed" content="2017-07-07T17:03:51.231553757"/>
 	<style type="text/css">
 		@page { margin: 0.79in }
 		p { margin-bottom: 0.1in; line-height: 120% }
@@ -604,7 +604,7 @@ source code and documentation</h3>
 <p>Modify <font color="#006600"><b>/home/user/qtepics</b></font><span style="font-weight: normal">/</span>qeframework/configure/RELEASE
 file such that: 
 </p>
-<pre class="western" style="margin-bottom: 0.2in">   EPICS_BASE=&lt;a reference your EPICS base&gt;</pre><p>
+<pre class="western" style="margin-bottom: 0.2in">   QE_FRAMEWORK=<font color="#007826">/home/user/qtepics</font>/qeframework<br>   EPICS_BASE=&lt;a reference your EPICS base&gt;</pre><p>
 Modify <font color="#006600"><b>/home/user/qtepics</b></font>/qegui/configure/RELEASE
 file such that: 
 </p>
@@ -762,7 +762,8 @@ anything on Linux, but must point to the FFmpeg directory on windows.</p>
 <p>QE_TARGET_DIR &ndash; optional. When not defined, the libraries,
 the include files and/or the executables are installed the <i>top</i>
 directory. However, if this environment variable is defined it
-specifies the installation location.</p>
+specifies the installation location. This is a legacy option and we
+suggest it is not used.</p>
 <p>QE_FRAMEWORK - defines the location of the qeframework
 <i>installation </i>directory , i.e. the qeframework's <i>top</i>
 directory or the location  given  by QE_TARGET_DIR if specified. This
@@ -842,18 +843,6 @@ tested on a number of Qt version / OS platform combination.
 <h3 class="western">Pre-Built Libraries and QEGui program</h3>
 <p>Provide a simple download and run capability for a number of
 common platforms.</p>
-<h3 class="western">Libraries</h3>
-<p>Split the current libQEPlugin library into two:</p>
-<ul>
-	<li/>
-<p>a library to link against for building qegui and other
-	programs/libraries that use the EPICS Qt framework; and</p>
-	<li/>
-<p>a pure plugin library as used by designer and the uiLoader
-	functionality.</p>
-</ul>
-<p>This would alleviate creating a lib/<i>epics_host_arch</i>/designer
- directory with a link to the library.</p>
 <h3 class="western">EPICS 4 Integration</h3>
 <p style="margin-bottom: 0in; line-height: 100%">One day &hellip;.</p>
 <p style="margin-bottom: 0in; line-height: 100%"><br/>
@@ -875,7 +864,7 @@ Notes</h1>
 </p>
 <h1 class="western"><a name="__RefHeading__583_1625597089"></a>Credits</h1>
 <h3 class="western">Developers</h3>
-<p>Andrew Rhyder, Glenn Jackson, Anthony Owen,  Ricardo Fernandes,
+<p>Andrew Ryder, Glenn Jackson, Anthony Owen,  Ricardo Fernandes,
 Anton Maksimenko, Andraz Pozar, Andrew Starritt.</p>
 <h3 class="western">3rd Party Software</h3>
 <p>Apart form EPICS base and Qt itself, the EPICS Qt framework uses
@@ -898,8 +887,8 @@ provided by The Paul Scherrer Institute.
 <br/>
 
 </p>
-<p><font size="2" style="font-size: 9pt"><i>Last updated: Mon Jun 26
-19:40:58 AEST 2017</i></font></p>
+<p><font size="2" style="font-size: 9pt"><i>Last updated: Mon Jul 7
+17:02:51 AEST 2017</i></font></p>
 <p><br/>
 <br/>
 
