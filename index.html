@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 4.3.7.2 (Linux)"/>
 	<meta name="created" content="2017-05-06T13:41:09.014415981"/>
-	<meta name="changed" content="2017-07-07T17:03:51.231553757"/>
+	<meta name="changed" content="2017-07-08T15:15:23.912409238"/>
 	<style type="text/css">
 		@page { margin: 0.79in }
 		p { margin-bottom: 0.1in; line-height: 120% }
@@ -642,16 +642,16 @@ could also modify the make files:
 <font color="#007826">   /home/user/qtepics</font>/qegui/qeguiApp/Makefile
 </pre><h3 class="western">
 MinGW compiler</h3>
-<p style="margin-bottom: 0in; line-height: 100%">If using the MinGW
-compiler, modify the
+<p style="margin-bottom: 0in; line-height: 100%">Since commit 69d1623
+(qeframework repository), the _MINGW macro is automatically defined
+TRUE if the EPICS_HOST_ARCH is either &ldquo;win32-x86-mingw&rdquo;
+or &ldquo;windows-x64-mingw&rdquo;. See the
 <font color="#006600"><b>/home/user/qtepics</b></font>/qeframework/qeframeworkSup/project/framework.pro
-project file (approximately line 50) and un-comment the line: 
+project file (approximately line 86) for details.</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
 </p>
-<pre class="western" style="margin-bottom: 0.2in">   <br>   #DEFINES += _MINGW=TRUE</pre><p>
-to be: 
-</p>
-<pre class="western" style="margin-bottom: 0.2in">   DEFINES += _MINGW=TRUE</pre><h3 class="western">
-QWT Version</h3>
+<h3 class="western">QWT Version</h3>
 <p>For windows, you may have to modify the line (approximately line
 244) to suit your version of QWT</p>
 <pre class="western" style="margin-bottom: 0.2in">   win32:LIBS += -LC:/qwt-6.1.3/lib</pre><h3 class="western">
@@ -887,8 +887,8 @@ provided by The Paul Scherrer Institute.
 <br/>
 
 </p>
-<p><font size="2" style="font-size: 9pt"><i>Last updated: Mon Jul 7
-17:02:51 AEST 2017</i></font></p>
+<p><font size="2" style="font-size: 9pt"><i>Last updated: Sat Jul  8
+15:06:56 AEST  2017</i></font></p>
 <p><br/>
 <br/>
 
