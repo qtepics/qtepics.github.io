@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 4.3.7.2 (Linux)"/>
 	<meta name="created" content="2017-05-06T13:41:09.014415981"/>
-	<meta name="changed" content="2017-07-08T15:15:23.912409238"/>
+	<meta name="changed" content="2017-11-11T15:19:17.458620971"/>
 	<style type="text/css">
 		@page { margin: 0.79in }
 		p { margin-bottom: 0.1in; line-height: 120% }
@@ -146,14 +146,15 @@ Road-map for Code Free GUI Development</h1>
 <p>This describes how the repositories at GitHub are organised.<br><br>The
 transfer of the EPICS Qt framework from SourceForge to GitHub has
 been an ideal opportunity for a few organisational changes. These are
-outlined below. There have been no major functionality changes per
-se.<br><br>The major change is that EPICS Qt has been split into a
-number of components, each managed in its own GitHub repository.<br><br>The
-two primary repositories are the <a href="https://github.com/qtepics/qeframework">QE
-Framework</a> repository which provides the framework plugin library
-and the <a href="https://github.com/qtepics/qegui">QEGui Display
-Manager</a> repository which provides the <i>qegui</i> display
-manager. The documentation is included within the qeframework
+outlined below. There were no major functionality changes per se as
+part of the initial transfer.<br><br>The major transfer change was
+that EPICS Qt was been split into a number of components, each
+managed in its own GitHub repository.<br><br>The two primary
+repositories are the <a href="https://github.com/qtepics/qeframework">QE
+Framework</a> repository which provides the framework functional and
+plugin libraries and the <a href="https://github.com/qtepics/qegui">QEGui
+Display Manager</a> repository which provides the <i>qegui</i>
+display manager. The documentation is included within the qeframework
 repository.<br><br>The other repositories are optional, and basically
 provide examples of using or extending the framework.</p>
 <ul>
@@ -183,7 +184,7 @@ provide examples of using or extending the framework.</p>
 </ul>
 <p><br>There is no longer an epicsqt.pro overall project file to
 build all sub projects. Each repository still has its own project
-file, e.g. framework.pro, QEGuiApp.pro, and these may be opened by
+file(s), e.g. framework.pro, QEGuiApp.pro, and these may be opened by
 <i>qtcreator</i> in order to build each component as could be done
 previously.</p>
 <p>However, each component is now located within its ow<span style="font-style: normal">n
@@ -201,8 +202,9 @@ The use of the environment variable QE_TARGET_DIR may still be used
 to override this.</p>
 <p>Each code repository has a <font color="#c5000b"><b>r3.4.2</b></font>
 tag which corresponds to the last SourceForge 3.4.2 release.  The
-latest release is 3.4.3, and each repository has a corresponding
-<font color="#c5000b"><b>r3.4.3</b></font> tag.</p>
+latest release is 3.5.2, and each repository has a corresponding
+<font color="#c5000b"><b>r3.</b></font><font color="#c5000b"><b>5.2</b></font>
+tag.</p>
 <h1 class="western"><a name="__RefHeading__1064_1391862070"></a>License</h1>
 <p>The EPICS QT Framework is free software: you can redistribute it
 and/or modify it under the terms of the GNU Lesser General Public
@@ -228,8 +230,9 @@ details, or speak to your local EPICS expert.
 </p>
 <h3 class="western">Install Qt</h3>
 <p style="margin-bottom: 0in; line-height: 100%">At least version
-4.6. Versions 4.6, 4.8, 5.6 and 5.7 have been successfully used at
-the Australian Synchrotron. Qt is available from <a href="https://www.qt.io/" name="https://www.qt.io/">https://www.qt.io/</a>.</p>
+4.6. Versions 4.6, 4.8, 5.6, 5.7 and 5.9 have been successfully used
+at the Australian Synchrotron. Qt is available from
+<a href="https://www.qt.io/" name="https://www.qt.io/">https://www.qt.io/</a>.</p>
 <h3 class="western">Install QWT</h3>
 <p>The version must be compatible with your version of Qt. Please
 visit <a href="http://qwt.sourceforge.net/" name="http://qwt.sourceforge.net/">http://qwt.sourceforge.net/</a>.</p>
@@ -587,7 +590,7 @@ epicsQt in the directory <font color="#007826"><b>/home/user/qtepics</b></font>.
  This is just for the purposes of providing example commands. You are
 free to to down load and install anywhere on your system. Replace the
 <font color="#007826"><b>green</b></font> part of the path in the
-examples below to suit your environment.</p>
+examples below to suit your own environment.</p>
 <p>Note: This instructions are currently Linux-centric, however
 Windows users should have no trouble translating these to the Windows
 equivalent. 
@@ -619,16 +622,28 @@ to the FFMPEG directory; on Linux  just being defined is
 sufficient).<br><br><i>Optional:</i> Define QE_CAQTDM if integration
 of PSI's caQtDM into QEGui is required. If you want caQtDM
 integrated, download and build it and define the environment variable
-QE_CAQTDM to point to the caQtDM_Project directory.<br><br/>
+QE_CAQTDM to point to the caQtDM_Project directory.</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0in; line-height: 100%"><i>Optional -
+</i><i>deprecated</i><i>:</i> Defining QE_TARGER_DIR forces
+libraries, header files and binaries to be built/installed into the
+nominated directory. This is not recommended and included for legacy
+purposes only. <i><b>Note</b></i>: If this environment variable is
+defined, you <i><b>must</b></i> modify the  QE_FRAMEWORK definitions
+in the configure/RELEASE files to be consistent with this variable.</p>
+<p style="margin-bottom: 0in; line-height: 100%"><br/>
 
 </p>
 <h3 class="western">qmake</h3>
 <p style="margin-bottom: 0in; line-height: 100%">When building in
 headless mode, the <i>qmake</i> program is invoked to generate a
-Makefile. Ensure that your PATH environment variable results in
-required version of qmake being available. For some versions of Qt&nbsp;4,
-the <i>qmake</i> program is know as <i>qmake-qt4</i>. In this case it
-will be necessary to &quot;fake&quot; it, e.g.:</p>
+Makefile based on the project .pro file. Ensure that your PATH
+environment variable results in required version of qmake being
+available. For some versions of Qt&nbsp;4, the <i>qmake</i> program
+is known as <i>qmake-qt4</i>. In this case it will be necessary to
+&quot;fake&quot; it, e.g.:</p>
 <pre class="western">   
    cd ${HOME}/bin
    ln -s /usr/bin/qmake-qt4 qmake </pre><p>
@@ -638,10 +653,13 @@ being suitable. If this is not the case then you must &ldquo;fake&rdquo;
 the <i>qmake</i> command to suit your environment. Alternatively, one
 could also modify the make files: 
 </p>
-<pre class="western">   <font color="#007826">/home/user/qtepics</font>/qeframework/qeframeworkSup/Makefile
-<font color="#007826">   /home/user/qtepics</font>/qegui/qeguiApp/Makefile
-</pre><h3 class="western">
-MinGW compiler</h3>
+<pre class="western">   <font face="Liberation Mono, monospace"><font size="2" style="font-size: 10pt"><font color="#007826">/home/user/qtepics</font>/qeframework/qeframeworkSup/Makefile</font></font></pre><p style="margin-bottom: 0in; line-height: 100%">
+<font color="#007826">  
+<font face="Liberation Mono, monospace"><font size="2" style="font-size: 10pt">/home/user/qtepics</font>/qeframework/qepluginApp/Makefile</font></font></p>
+<pre class="western"><font color="#007826">   <font face="Liberation Mono, monospace"><font size="2" style="font-size: 10pt">/home/user/qtepics</font>/qegui/qeguiApp/Makefile</font></font>
+</pre><p>
+to suit your environment.</p>
+<h3 class="western">MinGW compiler</h3>
 <p style="margin-bottom: 0in; line-height: 100%">Since commit 69d1623
 (qeframework repository), the _MINGW macro is automatically defined
 TRUE if the EPICS_HOST_ARCH is either &ldquo;win32-x86-mingw&rdquo;
@@ -669,13 +687,14 @@ SourceForge as the source, so must be read taking that into account.</p>
 <p>This getting started section assumes the reader is familiar with
 <i>qtcreator</i>.</p>
 <p>As stated above, each Qt project, is now a separate stand-alone
-project &ndash; there is now overall project to build them all. One
-consequence of this is that qeframework and qegui are managed as two
-separate Qt projects. A second consequence is when building the QE
-Framework, <i>qtcreator</i> must be configured with an extra build
-step in install the header files so that they are available when
-building <i>qegui</i> or any other QE Framework client. This step is
-done automatically when using the headless build option above. 
+project &ndash; there is no overall project to build them all. One
+consequence of this is that qeframework, qeplugin and qegui are
+managed as separate Qt projects. A second consequence is when
+building the QE Framework, <i>qtcreator</i> must be configured with
+an extra build step in install the header files so that they are
+available when building <i>qegui</i> or any other QE Framework
+client. This step is done automatically when using the headless build
+option above. 
 </p>
 <h3 class="western">qeframework</h3>
 <p>Again using <font color="#007826"><b>/home/user/qtepics</b></font>
@@ -835,7 +854,7 @@ Manual for details.</p>
 <h1 class="western"><a name="__RefHeading__547_1828029437"></a>Future
 Plans</h1>
 <h3 class="western">Complete Transition to GitHub</h3>
-<p>Tidy up documentation.</p>
+<p>Tidy up documentation, especially the getting started.</p>
 <h3 class="western">Archive Appliance</h3>
 <p>In house work nearly complete, however this needs to be thoroughly
 tested on a number of Qt version / OS platform combination. 
@@ -887,8 +906,8 @@ provided by The Paul Scherrer Institute.
 <br/>
 
 </p>
-<p><font size="2" style="font-size: 9pt"><i>Last updated: Sat Jul  8
-15:06:56 AEST  2017</i></font></p>
+<p><font size="2" style="font-size: 9pt"><i>Last updated: Sat Nov 11
+15:19:45 AEST  2017</i></font></p>
 <p><br/>
 <br/>
 

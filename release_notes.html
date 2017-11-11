@@ -5,7 +5,7 @@
 	<title></title>
 	<meta name="generator" content="LibreOffice 4.3.7.2 (Linux)"/>
 	<meta name="created" content="2017-05-06T13:41:09.014415981"/>
-	<meta name="changed" content="2017-08-24T21:37:06.179545358"/>
+	<meta name="changed" content="2017-11-11T14:53:09.340817101"/>
 	<style type="text/css">
 		@page { margin: 0.79in }
 		p { margin-bottom: 0.1in; line-height: 120% }
@@ -42,6 +42,7 @@ Notes        </b></font></font></font>
 		<font face="Liberation Sans, sans-serif"><font size="4" style="font-size: 16pt"><b>Release
 		Index</b></font></font></p>
 	</div>
+	<p style="margin-bottom: 0in; line-height: 100%"><a href="#__RefHeading__317_306782895">r3.5.2	</a></p>
 	<p style="margin-bottom: 0in; line-height: 100%"><a href="#__RefHeading__91_508564370">r3.5.1	</a></p>
 	<p style="margin-bottom: 0in; line-height: 100%"><a href="#__RefHeading__685_1625597089">r3.4.3	</a></p>
 	<p style="margin-bottom: 0in; line-height: 100%"><a href="#__RefHeading__539_1828029437">r3.4.2	</a></p>
@@ -49,14 +50,14 @@ Notes        </b></font></font></font>
 	Releases	</a></p>
 </div>
 <p><br>This document provides a summary of the changes between
-releases. The section headings in this document correspond to the
-tags used within the repositories. While not guaranteed, we will
-endeavor to keep the latest master set of files compile-able and
-functionally correct.</p>
-<h1 class="western">r3.5.2</h1>
-<p><font color="#007826"><i><b>Planned</b></i></font> release date:
-8<sup>th</sup> September 2017.  The main changes for this release
-are:</p>
+releases. Use the  <font color="#000099"><font face="Courier 10 Pitch"><b>git&nbsp;log</b></font></font>
+ command to obtain details of any changes, The section headings in
+this document correspond to the tags used within the repositories.
+While not guaranteed, we will endeavor to keep the latest master set
+of files compile-able and functionally correct.</p>
+<h1 class="western"><a name="__RefHeading__317_306782895"></a>r3.5.2</h1>
+<p>Release date: 11<sup>th</sup> November 2017.  The main changes for
+this release are:</p>
 <h3 class="western">qegui</h3>
 <p>Above and beyond any application scaling (see option -a in
 documentation and/or qegui -h), qegui will now scale an individual
@@ -66,9 +67,9 @@ actions are:</p>
 <ul>
 	<li/>
 <p>control+plus-key or (control+equal-key): increase scaling
-	by 4%;</p>
+	by 2%;</p>
 	<li/>
-<p>control+minus-key: decrease scaling by 4%; and</p>
+<p>control+minus-key: decrease scaling by 2%; and</p>
 	<li/>
 <p>control+zero-key: reset scaling.</p>
 </ul>
@@ -77,19 +78,27 @@ actions are:</p>
 macro if the EPICS host architecture is &quot;win32-x86-mingw&quot;
 or &quot;windows-x64-mingw&quot;.</p>
 <p>The QEPvProperties' context menu now provides a process record
-option (this writes 1 to the record's PROC field) and provide this
-context menu consistently even when clicking on the value field.</p>
-<p>The QEPlotter now does not attempt to plot data if the associated
-array PV has an invalid severity.</p>
+option (this writes 1 to the record's PROC field) and now provides
+consistent context menu even when clicking on the value field within
+this widget.</p>
+<p>The QEPlotter has been updated so that it does not attempt to plot
+data if the associated array PV has an invalid severity. In now also
+clears any old plot data when establishing a new channel connection.</p>
 <p>Incorporated Bob Gunion's change to the QEMenuButton which has
 modified to introduce a labelText property to allow the button's text
 to be set and also to honor the widget's font setting.</p>
 <p>All single PV widgets now emit a parameter-less dbValueChanged
 signal in addition to various other signals.</p>
 <p>The units (typically specified in the EGU field) for a DBF_CHAR
-type has now available to a widget. String formatting has modified to
-ignore the units when a DBF_CHAR array PV is interpreted as a long
-string.</p>
+type has now available to the QELabel and other widget type. String
+formatting has modified to ignore the units when a DBF_CHAR array PV
+is interpreted as a long string.</p>
+<p>The way in which QEPvLoadSave widget handles array PVs and 
+enumeration PVs has been improved.</p>
+<p><br/>
+<br/>
+
+</p>
 <h1 class="western"><a name="__RefHeading__91_508564370"></a>r3.5.1</h1>
 <p>Release date: 9<sup>th</sup> July 2017.  The main change for this
 release is that the QEPlugin library has been split the into two
@@ -211,7 +220,7 @@ changes</p>
 <p>Truncates strings to 40 chars before attempting to write
 	DBF_STRING mode to a channel.</p>
 	<li/>
-<p>Added .gitignore files to each repostory</p>
+<p>Added .gitignore files to each repository.</p>
 	<li/>
 <p>Component App/Sup make files are now more OS independent</p>
 	<li/>
