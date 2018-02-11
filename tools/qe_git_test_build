@@ -1,0 +1,195 @@
+#!/bin/bash
+#
+# Description
+# Performs a test build of the head files extracted from GitHub
+#
+
+iam=$( basename $0 )
+
+function terminate() {
+   local arg
+   for arg in "$@" ; do
+      echo 1>&2 "${arg}"
+   done
+   exit 1
+}
+
+function usage () {
+   terminate "${1}" \
+             "usage: ${iam} [--ffmpeg]"     \
+             "       ${iam} [--help | -h]"
+}
+
+
+function help () {
+   cat << HELPINFO
+${iam} - performcs a test build of the head files extracted from GitHub.
+
+usage: ${iam} [--all | -a] [--ffmpeg]
+       ${iam} [--help | -h]
+
+Options
+--all|-a     when specified, builds all items; when not just builds qefreamework
+             and qegui.
+
+--ffmpeg     defines the environment variable QE_FFMPEG to be YES in order to
+             include FFMPEG fuctionality into the test build.
+
+--help|-h    show this help information and exit.
+
+
+Environment Variables
+EPICS_BASE       - must be defined.
+EPICS_HOST_ARCH  - must be defined.
+QWT_INCLUDE_PATH - must be defined.
+
+HELPINFO
+}
+
+# Checks if an (environment) variable is defined.
+#
+function checkev () {
+   local variable
+   local value
+
+   variable="${1}"
+   value="$( eval echo \${${variable}} )"
+
+   if [ -z "${value}" ] ; then
+      terminate "${iam}: ${variable} environment variable is not defined - exiting" ""
+   fi
+}
+
+if [ "${1}" == "--help" ] || [ "${1}" == "-h" ] ; then
+   help
+   exit 0
+fi
+
+checkev EPICS_BASE
+checkev EPICS_HOST_ARCH
+checkev QWT_INCLUDE_PATH
+
+# set defaults
+#
+do_all=0
+ffmpeg=0
+
+# Parse arguments.
+#
+while [ $# -gt 0 ] ; do
+
+   case ${1} in
+
+      --all|-a)
+         do_all=1
+         shift 1
+         ;;
+
+      --ffmpeg)
+         ffmpeg=1
+         shift 1
+         ;;
+
+      *) # only args left.
+         break
+         ;;
+
+   esac
+
+done
+
+
+if [ ${ffmpeg} -eq 1 ] ; then
+   export QE_FFMPEG="YES"
+else
+   unset QE_FFMPEG
+fi
+
+# Guestmate download times.
+#
+qeframework_etc=20
+qegui_etc=5
+qeMonitor_etc=5
+qeReadArchive_etc=5
+qeByteArrayTest_etc=5
+qeWidgetDisplay_etc=5
+qeExamplePlugin_etc=5
+
+if [ ${do_all} -eq 1 ] ; then
+   qelist="qeframework qegui qeMonitor qeReadArchive qeByteArrayTest qeWidgetDisplay qeExamplePlugin"
+   number=7
+else
+   qelist="qeframework qegui"
+   number=2
+fi
+
+# Let's start in earnest
+#
+workdir=/tmp/${iam}_${USER}_$$
+
+mkdir -p ${workdir:?} || terminate "cannot create ${workdir} directory"
+
+cd  ${workdir:?}
+for item in ${qelist} ; do
+
+   etc="$( eval echo \${${item}_etc} )"
+   echo "Cloning the ${item} repository takes about ${etc} seconds ..."
+   git clone https://github.com/qtepics/${item}.git || terminate "failed clone github.com/qtepics/${item}.git"
+   echo ""
+
+done
+
+qeframework=${workdir:?}/qeframework
+for item in ${qelist} ; do
+
+    relfile=${workdir:?}/${item:?}/configure/RELEASE
+
+    echo "Updateting  ${relfile:?}"
+    cp  ${relfile:?}  ${workdir:?}/rel_temp
+
+    cat  ${workdir:?}/rel_temp                                         \
+       | sed -e "s'EPICS_BASE *=.*'EPICS_BASE=${EPICS_BASE:?}'g"       \
+       | sed -e "s'QE_FRAMEWORK *=.*'QE_FRAMEWORK=${qeframework:?}'g"  > ${relfile:?}
+
+    rm -f  ${workdir:?}/rel_temp
+
+done
+echo ""
+sleep 2
+
+echo "The build steps take about 110 seconds ..."
+
+qeframework_etc=90
+qegui_etc=15
+qeMonitor_etc=10
+qeReadArchive_etc=10
+qeByteArrayTest_etc=10
+qeWidgetDisplay_etc=10
+qeExamplePlugin_etc=10
+
+count=0
+okay=0
+for item in ${qelist:?} ; do
+    count=$( expr ${count:?} + 1 )
+
+    etc="$( eval echo \${${item}_etc} )"
+    echo "Building ${item} - etc ${etc} seconds"
+
+    item_dir=${workdir:?}/${item:?}
+    cd ${item_dir:?}
+    make  2>&1 | tee  ./build.log
+    status=$?
+    if [ ${status} -eq 0 ] ; then
+        echo "${item:?} build okay"
+        okay=$( expr ${okay:?} + 1 )
+    else
+        echo "${item:?} build failed"
+    fi
+
+    echo ""
+done
+
+echo "${workdir}"
+echo "${okay} out of ${count} components sucessfully built"
+
+# end

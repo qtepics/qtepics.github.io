@@ -1,0 +1,142 @@
+#!/bin/bash
+#
+# Description
+# This script generates a prebuilt tar ball/archive containind the qegui program,
+# the qeframework shared/plugin libraries, include files together with the EPICS
+# ca and Com shared libaries and the qwt shared library.
+#
+
+iam=$( basename $0 )
+
+warn="\033[33;1m"
+reset="\033[00m"
+
+function terminate() {
+   local arg
+   for arg in "$@" ; do
+      echo 1>&2 "${arg}"
+   done
+   exit 1
+}
+
+function usage () {
+   terminate "${1}" \
+             "usage: ${iam} [directory]"             \
+             "       ${iam} [--help | -h]"
+}
+
+function help () {
+   cat << HELPINFO
+${iam} - create pre-built tar archive.
+Run in directory created by qe_git_test_build.
+
+usage: ${iam}
+       ${iam} [--help | -h]
+
+Environment Variables
+EPICS_BASE       - must be defined.
+EPICS_HOST_ARCH  - must be defined.
+
+HELPINFO
+}
+
+# Checks if an (environment) variable is defined.
+#
+function checkev () {
+   local variable
+   local value
+
+   variable="${1}"
+   value="$( eval echo \${${variable}} )"
+
+   if [ -z "${value}" ] ; then
+      terminate "${iam}: ${variable} environment variable is not defined - exiting" ""
+   fi
+}
+
+if [ "${1}" == "--help" ] || [ "${1}" == "-h" ] ; then
+   help
+   exit 0
+fi
+
+checkev EPICS_BASE
+checkev EPICS_HOST_ARCH
+
+
+if [ $# -ge 1 ] && [ -n "${1}" ]; then
+    directory="${1:?}"
+    if [ ! -d ${directory} ] ; then
+       terminate "${directory} does not exist or is not a directory"
+    fi
+    cd ${directory}
+fi
+
+# Go for a clean environment -rely on rpath, apart from qwt
+#
+export LD_LIBRARY_PATH=$( echo ${LD_LIBRARY_PATH} | tr ':' '\n' | grep  qwt | tr '\n' ':' )
+
+trunk=""
+
+qegui="qegui/bin/${EPICS_HOST_ARCH:?}/qegui"
+if [ ! -x ${qegui:?} ] ; then
+    terminate "${qegui:?} do not exist or is not exectable."
+fi
+
+echo "Extracting version information"
+
+sysvern=centos$(  rpm -q centos-release | cut -d"-" -f3                                     | sed -e 's/ //g' )
+
+temp=/tmp/${USER}_${iam}_$$_version_info
+${qegui:?} -v > ${temp:?}
+qtvern=$(    cat ${temp:?} | head -n 1  | sed -e 's/^.*using QT//g'     | sed -e 's/)//g'   | sed -e 's/ //g' )
+qevern=$(    cat ${temp:?} | head -n 1  | sed -s 's/QEGui version://g'  | awk '{ print $1}' | sed -e 's/ //g' )
+epicsvrn=$(  cat ${temp:?} | grep EPICS | awk '{ print $4 }'                                | sed -e 's/ //g' )
+rm -f ${temp:?}
+
+echo "system  : ${sysvern:?}"
+echo "qe      : ${qevern:?}"
+echo "qt      : ${qtvern:?}"
+echo "epics   : ${epicsvrn:?}"
+echo "arch    : ${EPICS_HOST_ARCH:?}"
+echo ""
+
+# Copy required EPICS base libraries and qwt.
+#
+lib_dir=lib/${EPICS_HOST_ARCH:?}
+mkdir -p ${lib_dir:?}
+
+for lib in Com ca qwt ; do
+   lib_path=$( ldd ${qegui:?} | grep "lib${lib:?}.so" | awk '{print $3}' )
+   echo "copying ${lib_path}"
+   cp -f ${lib_path:?}  ${lib_dir:?}/
+done
+echo ""
+
+# What is the best order ???
+#
+tarball="${sysvern:?}-qe${qevern:?}-qt${qtvern:?}-r${epicsvrn:?}-${EPICS_HOST_ARCH:?}.tar.gz"
+
+echo "tarball : ${tarball}"
+
+if [ -e ${tarball:?} ] ; then
+    echo -e "${warn}*** warning${reset}: removing exiting tarball"
+    rm -f ${tarball:?}
+fi
+
+tar -czf ${tarball:?}            \
+      ${lib_dir:?}               \
+      qeframework/lib            \
+      qeframework/include        \
+      qegui/bin
+
+chmod 444 ${tarball:?}
+echo ""
+ls --color -lh
+echo ""
+
+# Show content of the tarball less all the include files.
+#
+tar -ztf  ${tarball:?} | grep -v '[.h]$'
+echo ""
+
+# end
