@@ -28,7 +28,8 @@ function usage () {
 function help () {
    cat << HELPINFO
 ${iam} - create pre-built tar archive.
-Run in directory created by qe_git_test_build.
+Run in directory created by qe_git_test_build or similar.
+May be run on Linux or GitBash or cygwin
 
 usage: ${iam}
        ${iam} [--help | -h]
@@ -59,8 +60,41 @@ if [ "${1}" == "--help" ] || [ "${1}" == "-h" ] ; then
    exit 0
 fi
 
+# Which OS are we?
+# Setup where do we deploy to?
+#
+long_os_name=$( uname | tr 'A-Z' 'a-z' )
+os_name=$( echo ${long_os_name:0:6} )
+
+case ${os_name:?} in
+
+   linux)
+      echo "Running on Linux system"
+      linux=1
+      windows=0
+   ;;
+
+   cygwin | mingw6)
+      echo "Running on Windows box"
+      linux=0
+      windows=1
+   ;;
+
+   *)
+      terminate "Unknown operating system ${os_name}."
+      exit 1
+   ;;
+
+esac
+
+# Check environment variables
+#
 checkev EPICS_BASE
 checkev EPICS_HOST_ARCH
+
+if [ ${windows:?} -eq 1 ] ; then
+   checkev QWT_ROOT
+fi
 
 
 if [ $# -ge 1 ] && [ -n "${1}" ]; then
@@ -71,11 +105,14 @@ if [ $# -ge 1 ] && [ -n "${1}" ]; then
     cd ${directory}
 fi
 
+echo -n "creating tar archive in: "
+pwd
+echo ""
+
 # Go for a clean environment -rely on rpath, apart from qwt
+# Note - rpath about to be applied to qet library as well.
 #
 export LD_LIBRARY_PATH=$( echo ${LD_LIBRARY_PATH} | tr ':' '\n' | grep  qwt | tr '\n' ':' )
-
-trunk=""
 
 qegui="qegui/bin/${EPICS_HOST_ARCH:?}/qegui"
 if [ ! -x ${qegui:?} ] ; then
@@ -84,7 +121,15 @@ fi
 
 echo "Extracting version information"
 
-sysvern=centos$(  rpm -q centos-release | cut -d"-" -f3                                     | sed -e 's/ //g' )
+if [ ${linux:?} -eq 1 ] ; then
+   # Hard code centos for now
+   #
+   sysvern=centos$(  rpm -q centos-release | cut -d"-" -f3  | sed -e 's/ //g' )
+else
+   # Hard code 7 for now
+   #
+   sysvern="windows7"
+fi
 
 temp=/tmp/${USER}_${iam}_$$_version_info
 ${qegui:?} -v > ${temp:?}
@@ -100,17 +145,65 @@ echo "epics   : ${epicsvrn:?}"
 echo "arch    : ${EPICS_HOST_ARCH:?}"
 echo ""
 
-# Copy required EPICS base libraries and qwt.
+# Copy required EPICS base and qwt libraries.
 #
 lib_dir=lib/${EPICS_HOST_ARCH:?}
 mkdir -p ${lib_dir:?}
 
-for lib in Com ca qwt ; do
-   lib_path=$( ldd ${qegui:?} | grep "lib${lib:?}.so" | awk '{print $3}' )
-   echo "copying ${lib_path}"
-   cp -f ${lib_path:?}  ${lib_dir:?}/
-done
+if [ ${linux:?} -eq 1 ] ; then
+   # We can use ldd to find libraries on Linux
+   #
+   for lib in Com ca qwt ; do
+      lib_path=$( ldd ${qegui:?} | grep "lib${lib:?}.so" | awk '{print $3}' )
+      echo "copying ${lib_path}"
+      cp -f ${lib_path:?}  ${lib_dir:?}/
+   done
+
+else
+   cp ${EPICS_BASE}/bin/${EPICS_HOST_ARCH:?}/ca.dll    ${lib_dir:?}/
+   cp ${EPICS_BASE}/bin/${EPICS_HOST_ARCH:?}/Com.dll   ${lib_dir:?}/
+
+   # TODO: Use Use QWT_ROOT
+   #
+   cp /c/qwt-6.1.3/lib/qwt.dll                         ${lib_dir:?}/
+fi
 echo ""
+
+# Create executeQEGui/executeQEGui.bat
+#
+if [ ${linux:?} -eq 1 ] ; then
+   execute_qegui=executeQEGui
+
+   cat <<HERE >${execute_qegui:?}
+#!/bin/bash
+#
+# Set up environment and run qegui
+#
+
+here=\$( dirname \${0} )
+
+export LD_LIBRARY_PATH="\${here:?}/lib/${EPICS_HOST_ARCH:?}:\${here:?}/qeframework/lib/${EPICS_HOST_ARCH:?}:\${LD_LIBRARY_PATH}"
+export QT_PLUGIN_PATH="\${here:?}/qeframework/lib/${EPICS_HOST_ARCH:?}:\${QT_PLUGIN_PATH}"
+
+\${here:?}/qegui/bin/${EPICS_HOST_ARCH:?}/qegui "\$@" &
+
+# end
+HERE
+   chmod a+rx ${execute_qegui:?}
+
+else
+   # Windows
+   #
+   execute_qegui=executeQEGui.bat
+
+   cat <<HERE >${execute_qegui:?}
+REM Set up environment and run qegui
+REM Still to figure this out.
+HERE
+   unix2dos   ${execute_qegui:?}
+   chmod a+rx ${execute_qegui:?}
+
+fi
 
 # What is the best order ???
 #
@@ -123,19 +216,38 @@ if [ -e ${tarball:?} ] ; then
     rm -f ${tarball:?}
 fi
 
+# Create the README file
+#
+cat <<HERE >README
+${tarball:?}
+
+This tarball contains the EPICS Qt framework library plus associated include
+files, the plugin library and the qegui exectuable. It also includes the
+EPICS ca and Com shared libraries together with the QWT shared library.
+
+Note: It does not include the Qt libraries. You will have to install this on
+your system.
+
+Also provides is a start script: ${execute_qegui:?} to run qegui.
+
+HERE
+
 tar -czf ${tarball:?}            \
       ${lib_dir:?}               \
       qeframework/lib            \
       qeframework/include        \
-      qegui/bin
+      qegui/bin                  \
+      ${execute_qegui:?}         \
+      README
 
 chmod 444 ${tarball:?}
 echo ""
-ls --color -lh
+ls --color -lh ${tarball:?}
 echo ""
 
 # Show content of the tarball less all the include files.
 #
+echo "archive content:"
 tar -ztf  ${tarball:?} | grep -v '[.h]$'
 echo ""
 
