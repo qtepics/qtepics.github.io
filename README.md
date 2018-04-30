@@ -1,8 +1,17 @@
 # qtepics.github.io
-EPICS Qt at github.
 
-EPICS Qt is being transfered from SourceForge to GitHub
+EPICS Qt has transfered from SourceForge to GitHub
 
-The transfer of the EPICS Qt framework from SourceForge to GitHub has been an ideal
-opertunity for a few organisational changes. Please refer to  index.html
+Please visit https://qtepics.github.io/index.html for more information.
+
+## Quick docuumentation links
+
+### Release Notes
+https://qtepics.github.io/release_notes.html
+
+### Evironment Variables
+https://qtepics.github.io/environment_variables.html
+
+### Archiver Appliance
+https://qtepics.github.io/archiver_appliance.html
 
