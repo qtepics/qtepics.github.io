@@ -23,9 +23,9 @@ function usage () {
 
 function help () {
    cat << HELPINFO
-${iam} - performcs a test build of the head files extracted from GitHub.
+${iam} - performs a test build of the head files extracted from GitHub.
 
-usage: ${iam} [--all | -a] [--ffmpeg]
+usage: ${iam} [--all | -a] [--ffmpeg] [--aa]  [--pva]
        ${iam} [--help | -h]
 
 Options
@@ -34,6 +34,14 @@ Options
 
 --ffmpeg     defines the environment variable QE_FFMPEG to be YES in order to
              include FFMPEG fuctionality into the test build.
+
+--aa         defines the environment variable QE_ARCHAPPL_SUPPORT to be YES in 
+             order to include archiver appliance fuctionality into the test build.
+             Requires Qt5.
+
+--pva        defines the environment variable QE_PVACCESS_SUPPORT to be YES in 
+             order to include PV Access fuctionality into the test build.
+             Required EPICS base 7.
 
 --help|-h    show this help information and exit.
 
@@ -73,6 +81,8 @@ checkev QWT_INCLUDE_PATH
 #
 do_all=0
 ffmpeg=0
+aa_support=0
+pva_support=0
 
 # Parse arguments.
 #
@@ -90,6 +100,16 @@ while [ $# -gt 0 ] ; do
          shift 1
          ;;
 
+      --aa)
+         aa_support=1
+         shift 1
+         ;;
+
+      --pva)
+         pva_support=1
+         shift 1
+         ;;
+
       *) # only args left.
          break
          ;;
@@ -101,9 +121,35 @@ done
 
 if [ ${ffmpeg} -eq 1 ] ; then
    export QE_FFMPEG="YES"
+   echo "QE_FFMPEG defined"
 else
    unset QE_FFMPEG
+   echo "QE_FFMPEG cleared"
 fi
+
+if [ ${aa_support} -eq 1 ] ; then
+   export QE_ARCHAPPL_SUPPORT="YES"
+   echo "QE_ARCHAPPL_SUPPORT defined"
+else
+   export QE_ARCHAPPL_SUPPORT="NO"
+   echo "QE_ARCHAPPL_SUPPORT cleared"
+fi
+
+if [ ${pva_support} -eq 1 ] ; then
+   export QE_PVACCESS_SUPPORT="YES"
+   echo "QE_PVACCESS_SUPPORT defined"
+else
+   export QE_PVACCESS_SUPPORT="NO"
+   echo "QE_PVACCESS_SUPPORT cleared"
+fi
+
+
+echo ""
+echo "QE environment variables:"
+env | grep '^QE'
+echo ""
+
+sleep 5
 
 # Guestmate download times.
 #
