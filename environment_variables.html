@@ -2,16 +2,12 @@
 
 <head>
 <meta http-equiv=Content-Type content="text/html; charset=windows-1252">
-<meta name=Generator content="Microsoft Word 12 (filtered)">
+<meta name=Generator content="Microsoft Word 14 (filtered)">
 <style>
 <!--
  /* Font Definitions */
  @font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:"Liberation Serif";
-	panose-1:2 2 6 3 5 4 5 2 3 4;}
+	{font-family:"Liberation Serif";}
 @font-face
 	{font-family:"AR PL UMing HK";
 	panose-1:0 0 0 0 0 0 0 0 0 0;}
@@ -19,19 +15,14 @@
 	{font-family:"Lohit Devanagari";
 	panose-1:0 0 0 0 0 0 0 0 0 0;}
 @font-face
-	{font-family:"Liberation Sans";
-	panose-1:2 11 6 4 2 2 2 2 2 4;}
+	{font-family:"Liberation Sans";}
 @font-face
-	{font-family:OpenSymbol;
-	panose-1:5 1 0 0 0 0 0 0 0 0;}
+	{font-family:OpenSymbol;}
 @font-face
-	{font-family:"Liberation Mono";
-	panose-1:2 7 4 9 2 2 5 2 4 4;}
+	{font-family:"Liberation Mono";}
 @font-face
 	{font-family:"Nimbus Mono L";
 	panose-1:0 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Courier 10 Pitch";}
  /* Style Definitions */
  p.MsoNormal, li.MsoNormal, div.MsoNormal
 	{margin:0cm;
@@ -250,7 +241,8 @@ p.TableHeading, li.TableHeading, div.TableHeading
 	font-family:"Liberation Serif","serif";
 	font-weight:bold;}
 .MsoChpDefault
-	{font-size:12.0pt;}
+	{font-size:12.0pt;
+	font-family:"Liberation Serif","serif";}
 @page WordSection1
 	{size:595.3pt 841.9pt;
 	margin:2.0cm 2.0cm 2.0cm 2.0cm;}
@@ -266,12 +258,12 @@ ul
 
 </head>
 
-<body lang=EN-AU>
+<body lang=EN-GB>
 
 <div class=WordSection1>
 
-<p class=MsoTitle><a name="_GoBack"></a><span lang=EN-US style='color:#006666'>EPICS
-Qt Environment Variables</span></p>
+<p class=MsoTitle><span lang=EN-US style='color:#006666'>EPICS Qt Environment
+Variables     </span></p>
 
 <h1><span lang=EN-US style='font-size:8.0pt'>&nbsp;</span></h1>
 
@@ -298,18 +290,19 @@ linux-x86_64, windows-x64, win32-x86-mingw.</span></p>
 <h3><span lang=EN-US>QE_FRAMEWORK (Required)</span></h3>
 
 <p class=TextBody><span lang=EN-US>This defines the location of the qeframework
-<i>installation </i>directory , i.e. the qeframework's <i>top</i> directory.
-For headless building, this is defined in the configure/RELEASE file, however
-when using <i>qtcreator</i> it must be explicitly defined. When using <i>qtcreator</i>,
+<i>installation </i>directory, i.e. the qeframework's <i>top</i> directory. For
+headless building, this is defined in the configure/RELEASE file, however when
+using <i>qtcreator</i> it must be explicitly defined. When using  <i>qtcreator</i>,
 this must be defined for qeframework clients such as the qeplugin.pro and
-QEGuiApp.pro projects, but not for the framework itself. See note on QE_TARGET_DIR below.</span></p>
+QEGuiApp.pro projects, but need not be defined for the framework itself. See
+note  on QE_TARGET_DIR below.</span></p>
 
 <h3><span lang=EN-US>QWT_INCLUDE_PATH (Required)</span></h3>
 
 <p class=TextBody><span lang=EN-US>This defines the location of the QWT header
-files. Typically this is </span><span lang=EN-US style='font-size:10.5pt;
-line-height:120%;font-family:"Courier 10 Pitch";color:#330099'>/usr/include/qwt</span><span
-lang=EN-US> on Linux.</span></p>
+files. Typically this is: </span><span lang=EN-US style='font-size:10.0pt;
+line-height:120%;font-family:"Courier New"'> <span style='color:#330099'>/usr/include/qwt</span>
+</span><span lang=EN-US>on Linux.</span></p>
 
 <h3><span lang=EN-US>QWT_ROOT (Optional)</span></h3>
 
@@ -318,9 +311,9 @@ library is used. If defined then this is used to locate the QWT library.</span><
 
 <h3><span lang=EN-US>QE_FFMPEG (Optional)</span></h3>
 
-<p class=TextBody><span lang=EN-US>If you want MPEG support install FFmpeg and
-define this environment variable. This can be defined as anything on Linux, but
-must point to the FFmpeg directory on windows.</span></p>
+<p class=TextBody><span lang=EN-US>If you want MPEG support, install FFmpeg and
+define this environment variable. This can be defined as anything (we suggest
+“YES”) on Linux, but must point to the FFmpeg directory on Windows.</span></p>
 
 <h3><span lang=EN-US>QE_CAQTDM (Optional)</span></h3>
 
@@ -329,19 +322,20 @@ required, this variable specified the location of the caQtDM_Project directory.<
 
 <h3><span lang=EN-US>QE_CAQTDM_LIB (Optional)</span></h3>
 
-<p class=TextBody><span lang=EN-US>Location of caQtDM_Lib if not within
-location specified by QE_CAQTDM.</span></p>
+<p class=TextBody><span lang=EN-US>This provides the location of caQtDM_Lib if
+not within location specified by QE_CAQTDM.</span></p>
 
 <h3><span lang=EN-US>QTINC (Optional)</span></h3>
 
-<p class=TextBody><span lang=EN-US>Applicable to Qt5 only, and defines include
-files needed for QtPrintSupport.</span></p>
+<p class=TextBody><span lang=EN-US>Applicable to Qt5 only, and defines include files
+needed for QtPrintSupport.</span></p>
 
 <h3><span lang=EN-US>QE_ARCHAPPL_SUPPORT (Optional)</span></h3>
 
 <p class=TextBody><span lang=EN-US>When not defined, QE Framework will only be
-built to support EPICS Channel Archiver. If set to YES, the framework will be
-built for both EPICS Channel Access Archive and EPICS Archiver Appliance.</span></p>
+built to support the EPICS Channel Archiver. If set to YES, the framework will
+be built for both EPICS Channel Access Archive and EPICS Archiver Appliance.
+See the Archive Appliance page for more details.</span></p>
 
 <h3><span lang=EN-US>PROTOBUF_LIBS_DIR (Optional)</span></h3>
 
@@ -354,9 +348,9 @@ path, it can be defined using this variable.</span></p>
 
 <p class=TextBody><span lang=EN-US>When not defined, the executables, the
 libraries and the include files are installed the &lt;<i>top&gt;/bin</i>, &lt;<i>top&gt;/lib</i>
-and &lt;<i>top&gt;/include </i>directories as one would expect for an EPICS
+and &lt;<i>top&gt;/include </i>directories as one would expect for a regular EPICS
 module. However, if this environment variable is defined it specifies the
-installation location out side of the top directory. If used such that the
+installation location out-side of the top directory. If used such that the
 QEFramework files are installed elsewhere, then QE_FRAMEWORK must be defined
 accordingly. This is a legacy option and we suggest it is not used.</span></p>
 
@@ -366,10 +360,10 @@ Environment Variables</span></h2>
 <h3><span lang=EN-US>QT_PLUGIN_PATH (Required)</span></h3>
 
 <p class=TextBody><span lang=EN-US>This must include <b><span style='color:
-#007826'>&lt;where-epicsqt-is-located&gt;</span></b>/qeframework/lib/<i>epics_host_arch</i>,
-so that qegui (and designer) may load and create QEFramework widgets. Using an
-environment variable is the easiest way to do this, there are other ways 
-please refer to the Qt documentation.</span></p>
+#007826'>&lt;where-your-epicsqt-is-located&gt;</span></b>/qeframework/lib/<i>epics_host_arch</i>,
+so that qegui (and designer) may load the QEPlugin library and create
+QEFramework widgets. Using an environment variable is the easiest way to do
+this, there are other ways – please refer to the Qt documentation.</span></p>
 
 <h3><span lang=EN-US>PATH / LD_LIBRARY_PATH (Required)</span></h3>
 
@@ -380,14 +374,13 @@ paths.</span></p>
 <p class=TextBody><span lang=EN-US>For Linux, the</span><span lang=EN-US
 style='font-family:"Courier New"'> </span><b><span lang=EN-US style='font-size:
 11.0pt;line-height:120%;font-family:"Courier New";color:#4F6228'>-Wl,-rpath</span></b><span
-lang=EN-US style='font-family:"Courier New"'> </span><span lang=EN-US>link
+lang=EN-US style='font-family:"Courier New"'>  </span><span lang=EN-US>link
 flags are used, so LD_LIBRARY_PATH need only be specified if the libraries are
 relocated.</span></p>
 
-<p class=TextBody><span lang=EN-US>On Windows builds, PATH must include
-%EPIC_BASE%\bin\%EPICS_HOST_ARCH% which is where the ca.dll and Com.dll files
-are built; and<br>
-<b><span style='color:#007826'>&lt;where-epicsqt-is-located&gt;\</span></b>qeframework\lib\%EPICS_HOST_ARCH%
+<p class=TextBody><span lang=EN-US>On Windows builds, PATH must include %EPIC_BASE%\bin\%EPICS_HOST_ARCH%
+which is where the ca.dll and Com.dll files are built;  and<br>
+<b><span style='color:#007826'>&lt;where-your-epicsqt-is-located&gt;\</span></b>qeframework\lib\%EPICS_HOST_ARCH%
 which is where the QEFramework.dll is located.</span></p>
 
 <h3><span lang=EN-US>QE_UI_PATH (Optional)</span></h3>
@@ -398,11 +391,11 @@ option.</span></p>
 
 <h3><span lang=EN-US>QE_ARCHIVE_TYPE (Optional)</span></h3>
 
-<p class=TextBody><span lang=EN-US>This specified the type of archiver the
-framework will try to connect to. Currently supported options are CA for EPICS
-Channel Access Archive and ARCHAPPL for EPICS Archiver Appliance. If not
-defined, the default is CA. In order to connect to EPICS Archiver Appliance,
-the framework needs to be built with AA support.</span></p>
+<p class=TextBody><span lang=EN-US>This specifies the type of archiver the
+framework will try to connect to. Currently supported options are <b>CA</b> for
+EPICS Channel Access Archive and <b>ARCHAPPL</b> for EPICS Archiver Appliance.
+If not defined, the default is CA. In order to connect to EPICS Archiver
+Appliance, the framework needs to be built with Archiver Appliance support.</span></p>
 
 <h3><span lang=EN-US>QE_ARCHIVE_LIST (Optional)</span></h3>
 
@@ -410,8 +403,8 @@ the framework needs to be built with AA support.</span></p>
 Channel Access archive servers. In turn each server is specified by a slash
 ('/') separated host name, port number and cgi program.</span></p>
 
-<p class=TextBody><span lang=EN-US>Example: 
-&quot;cr01arc01v:80/cgi-bin/ArchiveDataServer.cgi 
+<p class=TextBody><span lang=EN-US>Example: 
+&quot;cr01arc01v:80/cgi-bin/ArchiveDataServer.cgi 
 cr01arc02:80/cgi-bin/ArchiveDataServer.cgi&quot;</span></p>
 
 <h3><span lang=EN-US>QE_ARCHIVE_PATTERN (Optional)</span></h3>
@@ -425,33 +418,33 @@ list from the archives.</span></p>
 names that are added to the Strip Chart context menu. If you don't know which
 PVs to define here, speak to your operators.</span></p>
 
-<p class=TextBody><span lang=EN-US>Example: &quot;SR11BCM01:CURRENT_MONITOR
-SR11BCM01:LIFETIME_MONITOR&quot;</span></p>
+<p class=TextBody><span lang=EN-US>Example: &quot;SR11BCM01:CURRENT_MONITOR  SR11BCM01:LIFETIME_MONITOR&quot;</span></p>
 
 <h3><span lang=EN-US>QE_STRIPCHART_MAX_REAL_TIME_POINTS (Optional) </span></h3>
 
 <p class=TextBody><span lang=EN-US>This defines the number of real time or live
 data points the Strip Chart will store per channel. Once this number is
 exceeded, older real time points are drooped. When not specified the value for
-the number of points defaults to 400,000. The smallest value than can be
-defines is 10,000. The upper limits is the maximum integer value (2,147,483,647).</span></p>
+the number of points defaults to 400,000.  The smallest value than can be defines
+is 10,000. The upper limit is the maximum integer value (2,147,483,647).</span></p>
 
-<h3><span lang=EN-US>QE_GLOBAL_STYLE_SHEET (Optional) </span></h3>
+<h3><span lang=EN-US>QE_GLOBAL_STYLE_SHEET (Optional)  </span></h3>
 
 <p class=TextBody><span lang=EN-US>This defines a global style that is applied
 to the application. This also works within designer provided at least one QE
 widget is included on the form being designed. Running <i>qegui -h</i> provides
-a nice example of this, suitable for a Qt 5 to “fix” the way QGroupBox widgets
-are presented.</span></p>
+a nice example of defining a style suitable for Qt 5 to “fix” the way QGroupBox
+widgets are presented.</span></p>
 
-<h3><span lang=EN-US>QE_RECORD_FIELD_LIST (Optional) </span></h3>
+<h3><span lang=EN-US>QE_RECORD_FIELD_LIST (Optional)  </span></h3>
 
-<p class=TextBody><span lang=EN-US>specifies a file that defines or replaces
-the set of field names associated with each record type. The framework already
-knows about all the records from EPICS base, most of the record types from the
-synApps distribution, together with the AS developed concat record type.<br>
-Refer to the QEPvProperties widget in the QE_QEGuiAndUserInterfaceDesign
-documentation for details.</span></p>
+<p class=TextBody><span lang=EN-US>This specifies a file that defines or
+replaces the set of field names associated with each record type. The framework
+already knows about all the records from EPICS base, most of the record types
+from the synApps distribution, together with the AS developed concat record
+type and the iTeck libera and liberaSignal record types.<br>
+Refer to the QEPvProperties widget in the QE_QEGuiAndUserInterfaceDesign documentation
+for details.</span></p>
 
 <h3><span lang=EN-US>General</span></h3>
 
@@ -465,13 +458,13 @@ Access client, the values assigned to:</span></p>
 
 <p class=MsoNormal><span lang=EN-US>&nbsp;</span></p>
 
-<p class=PreformattedText><span lang=EN-US> EPICS_CA_AUTO_ADDR_LIST,</span></p>
+<p class=PreformattedText><span lang=EN-US>  EPICS_CA_AUTO_ADDR_LIST,</span></p>
 
-<p class=PreformattedText><span lang=EN-US> EPICS_CA_ADDR_LIST,</span></p>
+<p class=PreformattedText><span lang=EN-US>  EPICS_CA_ADDR_LIST,</span></p>
 
-<p class=PreformattedText><span lang=EN-US> EPICS_CA_MAX_ARRAY_BYTES,</span></p>
+<p class=PreformattedText><span lang=EN-US>  EPICS_CA_MAX_ARRAY_BYTES,</span></p>
 
-<p class=PreformattedText><span lang=EN-US> EPICS_CA_SERVER_PORT etc.</span></p>
+<p class=PreformattedText><span lang=EN-US>  EPICS_CA_SERVER_PORT etc.</span></p>
 
 <p class=PreformattedText><span lang=EN-US>&nbsp;</span></p>
 
@@ -479,8 +472,8 @@ Access client, the values assigned to:</span></p>
 Please refer to EPICS R3.14 Channel Access Reference Manual for details.</span></p>
 
 <p class=MsoNormal><span lang=EN-US><br>
-</span><i><span lang=EN-US style='font-size:9.0pt'>Last updated: Mon May 21
-12:34:16 AEST 2018</span></i></p>
+</span><i><span lang=EN-US style='font-size:9.0pt'>Last updated:  Sat Oct 6
+18:17:03 AEST 2018</span></i></p>
 
 <p class=TextBody><i><span lang=EN-US style='font-size:9.0pt;line-height:120%'>&nbsp;</span></i></p>
 
