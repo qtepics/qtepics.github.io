@@ -1,4 +1,5 @@
-<br/>
+[](/index_files/image002.png?raw=true)
+
 # <span style='color:#006666'>EPICS Qt Environment Variables</span>
 
 Environment variables influence the behavior both at build time and at run time.
@@ -130,7 +131,7 @@ If not defined, the default is __CA__.
 
 In order to connect to EPICS Archiver Appliance, the framework needs to be built
 with Archiver Appliance support.
-See [QE_ARCHAPPL_SUPPORT](#QE_ARCHAPPL_SUPPORT)
+See [QE_ARCHAPPL_SUPPORT](./environment_variables.md#QE_ARCHAPPL_SUPPORT)
 
 ### QE_ARCHIVE_LIST (Optional)
 
@@ -204,5 +205,5 @@ can affect the operation of this program.
 Please refer to EPICS R3.14 Channel Access Reference Manual for details.
 
 
-<font size="-2">Last updated: Sat Dec 8 15:35:17 AEDT 2018</font>
+<font size="-1">Last updated: Sat Dec 8 15:35:17 AEDT 2018</font>
 <br>
