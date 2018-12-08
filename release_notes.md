@@ -17,7 +17,7 @@ Release date: 8th October 2018.
 
 The main changes in this release are:
 
-## qegui
+## <span style='color:#666666'>qegui</span>
 
 When outputting version info qegui now outputs the QE framework build option attributes , e.g.
 
@@ -36,7 +36,7 @@ While Qt's habit of opening new windows a spread out as possible was sensible
 for a single "small" monitor, it is not sensible when running on system with
 two or even four or more "large" monitors.
 
-## qeframework
+##  <span style='color:#666666'>qeframework</span>
 
 The significant changes for this release are:
 
@@ -91,7 +91,7 @@ and banding size - this allows histogram entries to be "grouped".
 
 This only suitable for numeric PVs as it uses the QLCDNumber widget under the covers.
 
-## binaries
+## <span style='color:#666666'>binaries</span>
 
 We have added an msi installation file for Windows - the installation includes:
 
@@ -134,7 +134,7 @@ Release date: 16th April 2018.
 
 The main changes in this release are:
 
-## qegui
+## <span style='color:#666666'>qegui</span>
 
 In the standard File menu, there are two new menu items. These are:
 
@@ -148,7 +148,7 @@ This will offer the user a Save File dialog and if a file nominated, then it
 will perform a screen scrape of the the window and write the image to the nominated
 file (png format).
 
-## qeframework
+## <span style='color:#666666'>qeframework</span>
 
 #### QEPlotter
 The QEPlotter now checks for and does not attempt to plot NaN and +/- Inf numbers.
@@ -236,7 +236,7 @@ Release date: 11th November 2017.
 
 The main changes for this release are:
 
-## qegui
+## <span style='color:#666666'>qegui</span>
 
 Above and beyond any application scaling (see option -a in documentation and/or qegui -h),
 qegui will now scale an individual window in response to a number of control+key
@@ -247,7 +247,7 @@ The control+key actions are:
 * control+minus-key: decrease scaling by 2%; and
 * control+zero-key: reset scaling.
 
-## qeframework
+## <span style='color:#666666'>qeframework</span>
 
 #### mingw architecture
 The framework project file now automatically defines the \_MINGW macro if the
@@ -326,7 +326,7 @@ release r3.4.3 as outlined below.
 Apart from referencing the QEFramework library there have been no other changes
 to qeByteArrayTest, qeMonitor, qeReadArchive etc.
 
-## qegui
+## <span style='color:#666666'>qegui</span>
 
 For windows - if the main window is off screen, then re-position windows to position (0,0).
 
@@ -334,7 +334,7 @@ Introduced an independent font scaling capability.
 Use the -f options.
 Run qegui -h for details.
 
-## qeframework
+## <span style='color:#666666'>qeframework</span>
 
 #### QEConfiguredLayout, QEFileBrowser, QELog, QERecipe, QEScript
 
@@ -435,5 +435,5 @@ Refer to SourceForge for all history prior to release r.3.4.2 as the
 SourceForge history was not been transferred to GitHub.
 
 
-<font size="-1">Last updated: Sat Dec  8 19:21:04 AEDT 2018</font>
+<font size="-1">Last updated: Sat Dec  8 20:27:23 AEDT 2018</font>
 <br>
