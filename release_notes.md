@@ -1,6 +1,6 @@
 # ![](epicsqt_logo.png?raw=true) <span style='color:#006666'>EPICS Qt Release Notes</span>
 
-# Release Index
+# <span style='color:#006666'>Release Index</span>
 
 [r3.6.2](#r3.6.2)<br>
 [r3.6.1](#r3.6.1)<br>
@@ -87,9 +87,9 @@ The value written to the PV now exactly reflects the displayed value.
 These now allow the specification and selection of a secondary background colour
 and banding size - this allows histogram entries to be "grouped".
 
-#### QELCDNumber
-This is a new widget.
-This only suitable for numeric PVs – it uses the QLCDNumber widget under the covers.
+#### QELCDNumber (new)
+
+This only suitable for numeric PVs as it uses the QLCDNumber widget under the covers.
 
 ## binaries
 
@@ -120,7 +120,9 @@ if they do not already exist.
 
 
 # <a name="r3.6.1"></a><span style='color:#006666'>r3.6.1</span>
+
 Release date: 20th April 2018.
+
 The main change for this release is the inclusion of Archiver Appliance support.
 See the [Archiver Appliance page](archiver_appliance.html) for more details.
 
@@ -395,7 +397,6 @@ However, it also includes a major bug fix and a number of minor functional chang
 
 These are:
 
-
 * qegui - modified the about dialog to include both the EPICS and QWT versions
 
 * QEScratchPad - avoid segmentation fault in drag drop handling - check before de-referencing.
@@ -430,8 +431,9 @@ overall restructure.
 
 # <a name="Earlier_Releases"></a><span style='color:#006666'>Earlier Releases</span>
 
-Refer to SourceForge for all history prior to release r.3.4.2 as the SourceForge history was not been transferred to GitHub.
+Refer to SourceForge for all history prior to release r.3.4.2 as the
+SourceForge history was not been transferred to GitHub.
 
 
-<font size="-1">Last updated: Sat Dec  8 18:35:12 AEDT 2018</font>
+<font size="-1">Last updated: Sat Dec  8 19:21:04 AEDT 2018</font>
 <br>
