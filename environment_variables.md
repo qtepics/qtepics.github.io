@@ -1,6 +1,4 @@
-[](/index_files/image002.png?raw=true)
-
-# <span style='color:#006666'>EPICS Qt Environment Variables</span>
+# ![](epicsqt_logo.png?raw=true) <span style='color:#006666'>EPICS Qt Environment Variables</span>
 
 Environment variables influence the behavior both at build time and at run time.
 
@@ -60,7 +58,7 @@ This provides the location of caQtDM_Lib if not within location specified by QE_
 
 Applicable to Qt5 only, and defines include files needed for QtPrintSupport.
 
-### QE_ARCHAPPL_SUPPORT (Optional)
+### <a name="QE_ARCHAPPL_SUPPORT"></a>QE_ARCHAPPL_SUPPORT (Optional)
 
 When not defined or not set to YES, the QE Framework will only be built to support the EPICS Channel Archiver.
 If set to YES, the framework will be built for both EPICS Channel Access Archive and
@@ -131,7 +129,7 @@ If not defined, the default is __CA__.
 
 In order to connect to EPICS Archiver Appliance, the framework needs to be built
 with Archiver Appliance support.
-See [QE_ARCHAPPL_SUPPORT](./environment_variables.md#QE_ARCHAPPL_SUPPORT)
+See [QE_ARCHAPPL_SUPPORT](#QE_ARCHAPPL_SUPPORT)
 
 ### QE_ARCHIVE_LIST (Optional)
 
@@ -205,5 +203,5 @@ can affect the operation of this program.
 Please refer to EPICS R3.14 Channel Access Reference Manual for details.
 
 
-<font size="-1">Last updated: Sat Dec 8 15:35:17 AEDT 2018</font>
+<font size="-1">Last updated: Sat Dec  8 17:34:57 AEDT 2018</font>
 <br>
