@@ -2,6 +2,7 @@
 
 # <span style='color:#006666'>Release Index</span>
 
+[r3.6.3](#r3.6.3)<br>
 [r3.6.2](#r3.6.2)<br>
 [r3.6.1](#r3.6.1)<br>
 [r3.5.3](#r3.5.3)<br>
@@ -10,6 +11,85 @@
 [r3.4.3](#r3.4.3)<br>
 [r3.4.2](#r3.4.2)<br>
 [Earlier Releases](#Earlier_Releases)
+
+
+# <a name="r3.6.3"></a><span style='color:#006666'>r3.6.3</span>
+
+Release date: 18th December 2018.
+
+The main changes in this release are:
+
+## <span style='color:#666666'>qeframework</span>
+
+#### Macro Expansion
+
+The macro expansion functionality has been enhanced.
+It now does multiple passes (up to ten);
+this allows macro to be defined in terms of other macros.
+
+#### QEComboBox and QESpinBox
+
+The default focus policy has been changed from WheelFocus to ClickFocus.
+These widgets now ignore wheel events  when the widget does not have focus.
+This stops unexpected PV writes when the wheel is (inadvertently) rotated.
+
+#### QECorrelation (new)
+
+The QECorrelation widget allows two scaler to be correleated and the result
+presented to the user graphically together with the calculated correlation factor.
+The user may select, at design time and/or run time, the sample interval and
+the maximum number of points to be retained for the correlation.
+
+#### QEStripChart
+
+The delta time precision is now greater (up-to to 3) for shorter view durations.
+
+We now ensure the graphic context menu "box" does not override the "line"
+markup selection.
+
+#### QEPvProperties
+
+The acalcout record and associated fields have been added to the inbuilt
+record/field resource file.
+
+#### Archiver
+
+When connecting to the Archiver Appliance, we now check if the URL
+(specified by QE_ARCHIVE_LIST) ends with '/', and if it doesn't we add it.
+
+## <span style='color:#666666'>qegui</span>
+
+#### PV Correlation
+
+Make new QECorrelation widget has been made available in qegui via menu:
+
+    Tools | PV Correlation...
+
+
+#### Version information
+
+Update qegui -v to output library info:
+
+    $ qegui -v
+    QEGui version:     3.6.3 (Production)  Dec 13 2018 18:02:24 (using QT 5.10.0)
+    Framework version: 3.6.3 (Production)  Dec 13 2018 17:58:44 (using QT 5.10.0)
+    Framework attributes: FFMPEG video streaming, Archiver Appliance
+    Support packages:  EPICS 3.15.5 and QWT 6.1.3
+    Library path: /opt/Qt5.10/5.10.0/gcc_64/lib
+    Plugin path:  /opt/Qt5.10/5.10.0/gcc_64/plugins
+
+#### rpm constructor script
+
+Created an epicsQt linux rpm constructor script.
+The rpm will include the required Qt, EPICS, QWT and epicsQt libraries and plugins
+together with epicsQt and designer.
+
+Note: Intended for use by the developers, but feel free to experiment with it.
+
+## <span style='color:#666666'>binaries</span>
+
+A new version of the msi installation file for Windows has been uploaded.
+
 
 # <a name="r3.6.2"></a><span style='color:#006666'>r3.6.2</span>
 
