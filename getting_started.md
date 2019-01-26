@@ -129,14 +129,16 @@ The EPICS Qt site provides a number of repositories.
 In order to build the EPICS Qt libraries and the QEGui display manager, you
 will need to download the following:
 
-* [framework and support libraries](https://github.com/qtepics/qeframework)
+* [framework and support libraries](https://github.com/qtepics/qeframework)<br>
+git clone https://github.com/qtepics/qeframework.git
 
-* [QEGui display manager](https://github.com/qtepics/qegui)
+* [QEGui display manager](https://github.com/qtepics/qegui)<br>
+git clone https://github.com/qtepics/qegui.git
 
 
 This getting started guide and other information is available from:
-https://qtepics.github.io/
+[https://qtepics.github.io/](https://qtepics.github.io/)
 
 
-<font size="-1">Last updated: Sat Jan 26 19:11:42 AEDT 2019</font>
+<font size="-1">Last updated: Sat Jan 26 20:35:59 AEDT 2019</font>
 <br>
