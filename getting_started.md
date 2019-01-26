@@ -42,7 +42,7 @@ EPICS Qt has successfully be built using versions 3.14.12.5, 3.15.5 and 7.0.1.1.
 
 ### <span style='color:#006666'>Qt</span>
 
-Qt is available from the https://www.qt.io/ web page.
+Qt is available from the [https://www.qt.io/](https://www.qt.io/) web page.
 Versions 4.6, 4.8.4, 5.6, 5.7, 5.9 and 5.10 have been successfully used at the
 Australian Synchrotron.
 Version 4.8.4 is the earliest version we now actively support.
@@ -77,14 +77,16 @@ and to this on Windows:
 The selected version of QWT must be compatible with your version of Qt.
 For Qt 5.6 or later we use QWT version 6.1.3. For Linux users, a suitable version
 of QWT may be available via your distribution's package manager (e.g.yum, apt).
-If not, it is available from https://www.qt.io/.
+If not, it is available from [http://qwt.sourceforge.net/](http://qwt.sourceforge.net/).
 
 
 ### <span style='color:#006666'>ACAI</span>
 
 From EPICS Qt 3.7 on-wards, the low level Channel Access handing has been striped
 out of the EPICS Qt framework and is now handled by the ACAI package.
-This is available from https://github.com/andrewstarritt/acai
+This is available from [https://github.com/andrewstarritt/acai](https://github.com/andrewstarritt/acai)
+
+    git clone https://github.com/andrewstarritt/acai.git
 
 Building ACAI is straight forward. After downloading, cd to the &lt;top&gt;
 directory, modify the line the EPICS_BASE= definition in the configure/RELEASE
@@ -127,9 +129,9 @@ The EPICS Qt site provides a number of repositories.
 In order to build the EPICS Qt libraries and the QEGui display manager, you
 will need to download the following:
 
-* framework and support libraries: https://github.com/qtepics/qeframework
+* [framework and support libraries](https://github.com/qtepics/qeframework)
 
-* QEGuid display manager: https://github.com/qtepics/qegui
+* [QEGui display manager](https://github.com/qtepics/qegui)
 
 
 This getting started guide and other information is available from:
