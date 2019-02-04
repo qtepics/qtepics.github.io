@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Description
-# Performs a test build of the head files extracted from GitHub
+# Performs a test build of the HEAD files extracted from GitHub
 #
 
 iam=$( basename $0 )
@@ -24,6 +24,9 @@ function usage () {
 function help () {
    cat << HELPINFO
 ${iam} - performs a test build of the head files extracted from GitHub.
+While this script was primarly developed to allow what has been pushed to GitHub
+to be downloaded and test built, it could also be the basis of a site specific
+download and build script.
 
 usage: ${iam} [--all | -a] [--ffmpeg] [--aa]  [--pva]
        ${iam} [--help | -h]
@@ -41,7 +44,7 @@ Options
 
 --pva        defines the environment variable QE_PVACCESS_SUPPORT to be YES in 
              order to include PV Access fuctionality into the test build.
-             Required EPICS base 7.
+             Requires EPICS base 7or later and  EPICS Qt 3.7 or later.
 
 --help|-h    show this help information and exit.
 
@@ -153,6 +156,7 @@ sleep 5
 
 # Guestmate download times.
 #
+acai_etc=5
 qeframework_etc=20
 qegui_etc=5
 qeMonitor_etc=5
@@ -176,6 +180,13 @@ workdir=/tmp/${iam}_${USER}_$$
 mkdir -p ${workdir:?} || terminate "cannot create ${workdir} directory"
 
 cd  ${workdir:?}
+
+# Only required for 3.7 or later
+#
+echo "Cloning the acai repository takes about 5 seconds ..."
+git clone https://github.com/andrewstarritt/acai.git || terminate "failed clone github.com/qtepics/${item}.git"
+echo ""
+
 for item in ${qelist} ; do
 
    etc="$( eval echo \${${item}_etc} )"
@@ -185,8 +196,9 @@ for item in ${qelist} ; do
 
 done
 
+acai=${workdir:?}/acai
 qeframework=${workdir:?}/qeframework
-for item in ${qelist} ; do
+for item in acai ${qelist} ; do
 
     relfile=${workdir:?}/${item:?}/configure/RELEASE
 
@@ -205,6 +217,7 @@ sleep 2
 
 echo "The build steps take about 110 seconds ..."
 
+acai_etc=15
 qeframework_etc=90
 qegui_etc=15
 qeMonitor_etc=10
@@ -215,7 +228,7 @@ qeExamplePlugin_etc=10
 
 count=0
 okay=0
-for item in ${qelist:?} ; do
+for item in acai ${qelist:?} ; do
     count=$( expr ${count:?} + 1 )
 
     etc="$( eval echo \${${item}_etc} )"
