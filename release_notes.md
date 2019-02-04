@@ -2,6 +2,7 @@
 
 # <span style='color:#006666'>Release Index</span>
 
+[r3.6.4](#r3.6.4)<br>
 [r3.6.3](#r3.6.3)<br>
 [r3.6.2](#r3.6.2)<br>
 [r3.6.1](#r3.6.1)<br>
@@ -12,6 +13,70 @@
 [r3.4.2](#r3.4.2)<br>
 [Earlier Releases](#Earlier_Releases)
 
+
+# <a name="r3.6.4"></a><span style='color:#006666'>r3.6.4</span>
+
+Release date: 4th February 2019.
+
+Very few changes since release 3.6.3.
+This release is essentially a "stake-in-the-ground" before release 3.7.1.
+The main changes in this release are detailed below.
+Please see the GitHub log for details.
+
+## <span style='color:#666666'>qeframework</span>
+
+#### QELog
+
+The QELog module now stores upto 1000 log messages prior to the creation of a QELog widget.
+A QELog widget may now be optionally flag as master, and as such it will retrieve
+the stored log messages and display them to the user.
+In this way, log messages created before the creation of a QELog widget are not lost.
+
+Note: there can effectively only be one master QELog. The QELog built into qegui
+has been set as master.
+
+#### QEStripchart
+
+When writing a PV trace to file, removed the extra "." inserted into the date
+format (is this a Qt5.10 thing?).
+Also use chart default directory for save file dialog.
+Change the format on the time duration dialog to be HH:MM:SS where the HH is 24 hour.
+
+#### QEEnvironmentVariables
+
+Fixed the interpretation of false boolean environment variable values, and also added YES and NO options.
+
+## <span style='color:#666666'>qegui</span>
+
+#### Parameters
+
+Introduce long parameter options and allow use of adaptation_parameters_file.ini file and/or environment variables.
+This means that
+
+    export QEGUI_ADJUST_SCALE=200 ; qegui
+
+and
+
+    qegui --adjust_scale=200
+
+are eqivilent.
+Run qegui -h for long name details.
+
+Also just ignore unknown options - these may now be accessed by bespoke plugins.
+
+#### Inbuilt QELog widget
+
+Inbuilt qegui message log has the master attribute set.
+
+#### caQtDM
+
+Refactor caQtDM code into to separate interface module.
+This work is a prelude to verion 4 integration.
+
+## <span style='color:#666666'>qtepics.github.io</span>
+
+All documentation upgraded to markdown.
+Cleaner, can be maintained by simple text editor, and no more buggy translation from .docx to .html
 
 # <a name="r3.6.3"></a><span style='color:#006666'>r3.6.3</span>
 
@@ -515,5 +580,5 @@ Refer to SourceForge for all history prior to release r.3.4.2 as the
 SourceForge history was not been transferred to GitHub.
 
 
-<font size="-1">Last updated: Sat Dec  8 20:27:23 AEDT 2018</font>
+<font size="-1">Last updated: Mon Feb  4 14:00:27 AEDT 2019</font>
 <br>
