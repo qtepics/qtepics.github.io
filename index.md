@@ -370,11 +370,11 @@ Tidy up documentation, especially the getting started.
 ### PV Access Integration
 
 This will be part of release 3.7.1 - much work has been done, and this is nearly
-ready for release - hopefully by the end of February 2019.
+ready for release - I am currently aiming for early March 2019.
 
 # <a name="Collaboration"></a><span style='color:#006666'>Feed Back and Collaboration</span>
 
-Please email: andrews@ansto.gov.au
+Please email: mailto:andrews@ansto.gov.au
 
 Note: this is new e-mail address - the old synchrotron.org.au address will still
 work for a while.
@@ -415,5 +415,5 @@ by The Paul Scherrer Institute.
 
 
 
-<font size="-1">Last updated: Tue Jan 29 17:31:51 AEDT 2019</font>
+<font size="-1">Last updated: Wed Feb  6 21:10:39 AEDT 2019</font>
 <br>

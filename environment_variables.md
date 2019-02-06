@@ -22,9 +22,17 @@ i.e. the qeframework's <i>top</i> directory.
 For headless builds, this is defined in the configure/RELEASE file, however when
 using _qtcreator_ it must be explicitly defined.
 
-When using _qtcreator_ , this must be defined for qeframework clients such as the qeplugin.pro and
-QEGuiApp.pro projects, but need not be defined for the framework itself.
+When using _qtcreator_ , this must be defined for qeframework clients such as the
+qeplugin.pro and QEGuiApp.pro projects, but need not be defined for the framework
+itself.
 See note on QE_TARGET_DIR below.
+
+### ACAI (Required for EPICS Qt 3.7 or later)
+
+This defines the location of the acai _top_ directory.
+
+For headless builds, this is defined in the qeframework's configure/RELEASE file,
+however when using _qtcreator_ it must be defined explicitly.
 
 ### QWT_INCLUDE_PATH (Required)
 
@@ -58,9 +66,20 @@ This provides the location of caQtDM_Lib if not within location specified by QE_
 
 Applicable to Qt5 only, and defines include files needed for QtPrintSupport.
 
+### <a name="QE_PVACCESS_SUPPORT"></a>QE_PVACCESS_SUPPORT (Optional, EPICS Qt 3.7 or later)
+
+When not defined or not set to YES, the QE Framework will be built to support
+the Channel Access protocol only.
+If set to YES, the framework will be built for both the Channel Access and the PV
+Access protocols provided that the EPICS Qt framework is being built against
+EPICS base 7 or later.
+
+See the [Getting Started page](getting_started.html) for more details.
+
 ### <a name="QE_ARCHAPPL_SUPPORT"></a>QE_ARCHAPPL_SUPPORT (Optional)
 
-When not defined or not set to YES, the QE Framework will only be built to support the EPICS Channel Archiver.
+When not defined or not set to YES, the QE Framework will only be built to support
+the EPICS Channel Archiver.
 If set to YES, the framework will be built for both EPICS Channel Access Archive and
 the EPICS Archiver Appliance.
 
@@ -203,5 +222,5 @@ can affect the operation of this program.
 Please refer to EPICS R3.14 Channel Access Reference Manual for details.
 
 
-<font size="-1">Last updated: Sat Dec  8 17:34:57 AEDT 2018</font>
+<font size="-1">Last updated: Wed Feb  6 20:25:44 AEDT 2019</font>
 <br>

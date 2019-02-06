@@ -2,6 +2,7 @@
 
 # <span style='color:#006666'>Release Index</span>
 
+[r3.7.1](#r3.7.1)<br>
 [r3.6.4](#r3.6.4)<br>
 [r3.6.3](#r3.6.3)<br>
 [r3.6.2](#r3.6.2)<br>
@@ -13,6 +14,35 @@
 [r3.4.2](#r3.4.2)<br>
 [Earlier Releases](#Earlier_Releases)
 
+# <a name="r3.7.1"></a><span style='color:#006666'>r3.7.1</span>
+
+Estimated release date: 9th March 2019.
+
+## <span style='color:#666666'>qeframework</span>
+
+A significant change to the qeframework, in that it is now capable of supporting
+all the normative types available in PV Access.
+
+A new widget QENTTable has been created to specifically support the NTTableData
+normative type.
+
+The QEImage widgets has been updated to support the NTNDArrayData normative type.
+Currently this only supports mono 8-bit pixel images.
+
+All widgets' variable (PV) properties may be prefixed by __ca://__ or __pva://__
+to select the Channel Access or PV Access protocol respectively.
+The default protocol when no protocol has been specified is Channel Access.
+In future releases, the default may be controllable by an environment variable.
+
+The inclusion of the PV Access functionality depends on both using EPICS base 7
+or later and defining the QE_PVACCESS_SUPPORT environment variable as "YES".
+If not using EPICS base 7, the qmake phase outputs a warning message, but
+build process continues without the PV Access functionality.
+
+The low level api code to the Channel Access library has been striped out of the
+framework and replaced by the ACAI library.
+ACAI provides a thin-ish C++ wrapper around the  low level Channel Access API.
+Please refer to the [getting started](getting_started.html) page for details.
 
 # <a name="r3.6.4"></a><span style='color:#006666'>r3.6.4</span>
 
@@ -580,5 +610,5 @@ Refer to SourceForge for all history prior to release r.3.4.2 as the
 SourceForge history was not been transferred to GitHub.
 
 
-<font size="-1">Last updated: Mon Feb  4 14:00:27 AEDT 2019</font>
+<font size="-1">Last updated: Wed Feb  6 21:08:04 AEDT 2019</font>
 <br>
