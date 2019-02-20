@@ -35,7 +35,7 @@ The default protocol when no protocol has been specified is Channel Access.
 In future releases, the default may be controllable by an environment variable.
 
 The inclusion of the PV Access functionality depends on both using EPICS base 7
-or later and defining the QE_PVACCESS_SUPPORT environment variable as "YES".
+or later.
 If not using EPICS base 7, the qmake phase outputs a warning message, but
 build process continues without the PV Access functionality.
 
