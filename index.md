@@ -35,7 +35,9 @@ QE Framework widgets and data objects to design GUI applications.
 with the QE Framework data objects to design console applications that can access
 EPICS data.
 
-Note, there are many variations to the above, such as using another Integrated Development Environment like Eclipse, or developing new plugin widgets to implement desired functionality, then using those widgets within a code free GUI development.
+Note, there are many variations to the above, such as using another Integrated
+Development Environment like Eclipse, or developing new plugin widgets to implement
+desired functionality, then using those widgets within a code free GUI development.
 
 Other documents you may be interested in are:
 
@@ -370,11 +372,11 @@ Tidy up documentation, especially the getting started.
 ### PV Access Integration
 
 This will be part of release 3.7.1 - much work has been done, and this is nearly
-ready for release - I am currently aiming for early March 2019.
+ready for release - I am currently aiming for April 2019.
 
 # <a name="Collaboration"></a><span style='color:#006666'>Feed Back and Collaboration</span>
 
-Please email: mailto:andrews@ansto.gov.au
+Please email: [andrews@ansto.gov.au](andrews@ansto.gov.au)
 
 Note: this is new e-mail address - the old synchrotron.org.au address will still
 work for a while.
@@ -415,5 +417,5 @@ by The Paul Scherrer Institute.
 
 
 
-<font size="-1">Last updated: Wed Feb  6 21:10:39 AEDT 2019</font>
+<font size="-1">Last updated: Fri Apr  5 19:49:02 AEDT 2019</font>
 <br>

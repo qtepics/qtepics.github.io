@@ -16,33 +16,54 @@
 
 # <a name="r3.7.1"></a><span style='color:#006666'>r3.7.1</span>
 
-Estimated release date: 9th March 2019.
+Estimated release date: 19th April 2019.
 
 ## <span style='color:#666666'>qeframework</span>
 
-A significant change to the qeframework, in that it is now capable of supporting
-all the normative types available in PV Access.
+The most significant change to the qeframework since release 3.6.4 is that the
+EPICS Qt framework is now capable of supporting the PV Acccess protocol and all
+the normative types available via PV Access.
+Refer to the [pv access](pv_access.html) page for details.
+This include important build information.
 
-A new widget QENTTable has been created to specifically support the NTTableData
-normative type.
+The more "mundane" changes since the previous release are detailed below.
 
-The QEImage widgets has been updated to support the NTNDArrayData normative type.
-Currently this only supports mono 8-bit pixel images.
+## <span style='color:#666666'>qeframework</span>
 
-All widgets' variable (PV) properties may be prefixed by __ca://__ or __pva://__
-to select the Channel Access or PV Access protocol respectively.
-The default protocol when no protocol has been specified is Channel Access.
-In future releases, the default may be controllable by an environment variable.
+#### Alarm handling
 
-The inclusion of the PV Access functionality depends on both using EPICS base 7
-or later.
-If not using EPICS base 7, the qmake phase outputs a warning message, but
-build process continues without the PV Access functionality.
+When processing archive appliance data, the alarm severity was set as status and
+the status set as severity. This has now been now fixed.
+Also, QCaAlarmInfo's severityName now includes the Channel Access archive severity
+names.
 
-The low level api code to the Channel Access library has been striped out of the
-framework and replaced by the ACAI library.
-ACAI provides a thin-ish C++ wrapper around the  low level Channel Access API.
-Please refer to the [getting started](getting_started.html) page for details.
+#### QEPvLoadSave
+
+This now provide summary of the number equal, not equal and n/a values for each group.
+This is shown as a three number tuple in the delta column.
+
+Ensure action complete status set correctly when extracting data.
+This ensures the abort results are properly presented to the user.
+
+#### QEPlotter
+
+Added a normal/reverse video property to the QEPlotter, this replicates the
+QEStripChart look and feel.
+
+#### applicationLauncher
+
+The parameters are now const where applicable.
+Also de-inlined the inline functions in order to de-clutter the header file.
+
+#### QEScaling
+
+QEScaling::getWidgetScaling function to take a const widget reference.
+Also, removed debug/info statements from scaling module, they served no useful
+purpose.
+
+## <span style='color:#666666'>qegui</span>
+
+None.
 
 # <a name="r3.6.4"></a><span style='color:#006666'>r3.6.4</span>
 
@@ -610,5 +631,5 @@ Refer to SourceForge for all history prior to release r.3.4.2 as the
 SourceForge history was not been transferred to GitHub.
 
 
-<font size="-1">Last updated: Wed Feb  6 21:08:04 AEDT 2019</font>
+<font size="-1">Last updated: Fri Apr  5 19:49:02 AEDT 2019</font>
 <br>
