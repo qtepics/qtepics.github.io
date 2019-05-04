@@ -16,26 +16,113 @@
 
 # <a name="r3.7.1"></a><span style='color:#006666'>r3.7.1</span>
 
-Estimated release date: 19th April 2019.
+Estimated release date: 19th May 2019.
 
-## <span style='color:#666666'>qeframework</span>
+## <span style='color:#666666'>general</span>
 
-The most significant change to the qeframework since release 3.6.4 is that the
-EPICS Qt framework is now capable of supporting the PV Acccess protocol and all
-the normative types available via PV Access.
-Refer to the [pv access](pv_access.html) page for details.
-This include important build information.
+The most significant change to the EPICS Qt framework going from the 3.6 releases
+to the 3.7 release series is that the framework is now capable of supporting the
+PV Access protocol and all the normative types available via PV Access.
+The only qualifier is that only 8bit mono images are currently supported for the
+NTNDArray data type and will be fixed for release 3.7.2
+
+Refer to the [pv access](pv_access.html) page for details of this update.
+__NOTE:__ this includes important build information.
 
 The more "mundane" changes since the previous release are detailed below.
 
+The unwieldy large QE_QEGuiAndUserInterfaceDesign document has been made more
+manageable by extracting widget specific information into another document,
+namely: QEWidgetSpecifications.
+This in turn may be further split in future releases, and the documentation for
+any new widgets such as QEDistibution and QEFormStateChange will have their own
+standalone document.
+
+Within the qtepics.github.io repository in the tools directory is the
+__qe_git_test_build__ script that is used to check build-ability after each
+commit or set of commits.
+For Linux users, this could be used as the basis to create your own script to
+meet your own particular needs.
+
+In the qeBinaries repository there is (or will by) the following files:
+
+###### EPICS_Qt_Installer_3_7_1.msi
+
+This installs qegui, designer and the required libraries.
+You also get a copy of caget and caput.
+This does not include the PV Access functionality as it built against base-3.15,
+nor does it include the ffMpeg capability.
+
+###### epicsQt-3.7.1-el7.x86_64.rpm
+
+This rpm installs qegui, designer and the required libraries.
+It was assembled and tested on a CentOS 7 box.
+It may work on other distros that use the YUM package manager.
+
 ## <span style='color:#666666'>qeframework</span>
+
+#### QEDistrubtion
+
+This is a new widget that can monitor a single PV and provides statistical information
+about the value i.e: min, max, mean and standard deviation.
+It also provides a graphical representation of this of this data.
+Please refer to the QEDistrubtion documentation (out of the qeframework repository).
+
+#### QEFormStateChange
+
+This is a new widget that provides the means for automatic actions to take place
+when a form is opened or closed.
+This is akin to having QEPushButton on the form which is automatically clicked
+when the form is opened and another when it is closed.
+The available actions are write a value to a PV and/or invoke a local script.
+It differs from a QEPushButton in that it cannot open another ui file.
+Please refer to the QEFormStateChange documentation.
+
+#### macro Expansion
+
+This has been modified to avoid an annoying feature where defining a priority
+substitution in terms of an exiting substitution of the same name failed.
+So now, you can do something like:
+
+    P=$(P)ABC
+
+and it will expand as expected.
+
+Also added a quick 'nothing-to-do' check for the substitute function.
+
+#### writeNow functions
+
+Many control widgets have a writeNow function which causes the current value
+to be written to the PV.
+These functions are now public slots such that the functionality can be triggered
+by a signal from another widget.
 
 #### Alarm handling
 
-When processing archive appliance data, the alarm severity was set as status and
-the status set as severity. This has now been now fixed.
-Also, QCaAlarmInfo's severityName now includes the Channel Access archive severity
-names.
+When processing Archive Appliance data, the alarm severity was erroneously set as
+status and the status set as severity.
+This has now been now fixed.
+
+QCaAlarmInfo's severityName function now includes the Channel Access archive severity names.
+
+Modified the QCaAlarmInfo::isInAlarm function to test severity as opposed to status.
+
+#### QEAnalogProgressBar
+
+Updated QEAnalogProgressBar to handle alarm colours more consistantly.
+Maid some functions in QEAnalogIndicator virtual and protected to help do this.
+
+#### QEGroupBox, QRadioGroup and QERadioGroup
+
+These widgets will now interpret a property title of "-" as a blank title.
+Previously setting a title blank would result in the original default title,
+e.g. "QRadioButton".
+
+#### QEPushButton, QECheckBox and QERadioButton
+
+Added a NoUpdate choice to the updateOption property for completeness for when
+the subscribe property is set true.
+This combination to allows alarm sensitivity without changing the button text.
 
 #### QEPvLoadSave
 
@@ -50,20 +137,72 @@ This ensures the abort results are properly presented to the user.
 Added a normal/reverse video property to the QEPlotter, this replicates the
 QEStripChart look and feel.
 
-#### applicationLauncher
-
-The parameters are now const where applicable.
-Also de-inlined the inline functions in order to de-clutter the header file.
-
 #### QEScaling
 
-QEScaling::getWidgetScaling function to take a const widget reference.
+QEScaling::getWidgetScaling function modified to take a const widget reference.
 Also, removed debug/info statements from scaling module, they served no useful
 purpose.
 
+#### QESimpleShape/QSimpleShape
+
+The QESimpleShape widget now copies both variable names when using the context
+menu copyVariable option and when dragging on to anything that accepts textual
+drops.
+
+QESimpleShape modified to honor the "when in alarm state" option for both main
+and edge colours.
+User specified colours, when not in alarm, should be readily distinguishable from
+alarm colours if/when this option is used.
+
+QSimpleShape - added some new shapes: star, cross, plus and pentagon.
+The cross and plus shapes are modify-able by the percentSize property.
+
+Also created a shape selection slot function, which takes an int parameter.
+This means that shape itself may be controlled by a PV, possibly via a QELink
+or QECalcout widget.
+We will endeavor to keep the int value to shape mapping contestant if/when new
+shapes are added.
+
+#### QEStripChart
+
+The calculation capability and been extended to allow the calculation to be applied
+to data retrieved from the archive and to previously acquired live data.
+
+The QEStripChart's generate statistics functionality now includes a graphical
+presentation similar to QEDistribution.
+
+#### QEPvProperties
+
+The Ch1, Ch2, Ch3 and Ch4 fields have been added to the iTech liberaSignal record
+type's field list specification.
+Note: the actual existence of some of the liberaSignal fields are device type
+dependent.
+
+#### QEMenuButton
+
+Added an icon and iconSize properties - these are passed to and handled by the
+internal QPushButton widget.
+Also changed the hint size height to match that of QPushButton.
+
+Explicitly call connectChannel, needed for new qcaobject::QCaObject objects.
+
+#### persistanceManager
+
+The persistanceManager has been extended to support addValue/getValue for QColor
+type values.
+This is only relevant if you have created your own widgets.
+
+#### applicationLauncher
+
+The function parameters are now const where applicable.
+Also de-inlined the inline functions in order to de-clutter the header file.
+
+
 ## <span style='color:#666666'>qegui</span>
 
-None.
+Integrated the QEDistibution widget into qegui, there is a built in form that
+contains a single instance of the widget.
+It is accessable from the menu:   __Tools | PV Distribution...__
 
 # <a name="r3.6.4"></a><span style='color:#006666'>r3.6.4</span>
 

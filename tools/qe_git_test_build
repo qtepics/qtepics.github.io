@@ -16,7 +16,7 @@ function terminate() {
 
 function usage () {
    terminate "${1}" \
-             "usage: ${iam} [--ffmpeg]"     \
+             "usage: ${iam} [--ffmpeg] [--aa]"     \
              "       ${iam} [--help | -h]"
 }
 
@@ -28,7 +28,7 @@ While this script was primarly developed to allow what has been pushed to GitHub
 to be downloaded and test built, it could also be the basis of a site specific
 download and build script.
 
-usage: ${iam} [--all | -a] [--ffmpeg] [--aa]  [--pva]
+usage: ${iam} [--all | -a] [--ffmpeg] [--aa]
        ${iam} [--help | -h]
 
 Options
@@ -41,10 +41,6 @@ Options
 --aa         defines the environment variable QE_ARCHAPPL_SUPPORT to be YES in 
              order to include archiver appliance fuctionality into the test build.
              Requires Qt5.
-
---pva        defines the environment variable QE_PVACCESS_SUPPORT to be YES in 
-             order to include PV Access fuctionality into the test build.
-             Requires EPICS base 7or later and  EPICS Qt 3.7 or later.
 
 --help|-h    show this help information and exit.
 
@@ -85,7 +81,6 @@ checkev QWT_INCLUDE_PATH
 do_all=0
 ffmpeg=0
 aa_support=0
-pva_support=0
 
 # Parse arguments.
 #
@@ -105,11 +100,6 @@ while [ $# -gt 0 ] ; do
 
       --aa)
          aa_support=1
-         shift 1
-         ;;
-
-      --pva)
-         pva_support=1
          shift 1
          ;;
 
@@ -138,14 +128,9 @@ else
    echo "QE_ARCHAPPL_SUPPORT cleared"
 fi
 
-if [ ${pva_support} -eq 1 ] ; then
-   export QE_PVACCESS_SUPPORT="YES"
-   echo "QE_PVACCESS_SUPPORT defined"
-else
-   export QE_PVACCESS_SUPPORT="NO"
-   echo "QE_PVACCESS_SUPPORT cleared"
-fi
-
+# This is determined by version of epics base >= 7 YES, < 7 NO
+#
+unset QE_PVACCESS_SUPPORT
 
 echo ""
 echo "QE environment variables:"
@@ -157,7 +142,7 @@ sleep 5
 # Guestmate download times.
 #
 acai_etc=5
-qeframework_etc=20
+qeframework_etc=30
 qegui_etc=5
 qeMonitor_etc=5
 qeReadArchive_etc=5
@@ -250,5 +235,9 @@ done
 
 echo "${workdir}"
 echo "${okay} out of ${count} components sucessfully built"
+
+echo ""
+${workdir:?}/qegui/bin/${EPICS_HOST_ARCH}/qegui -v
+echo ""
 
 # end
