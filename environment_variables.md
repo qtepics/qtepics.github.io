@@ -69,14 +69,20 @@ Applicable to Qt5 only, and defines include files needed for QtPrintSupport.
 ### <a name="QE_PVACCESS_SUPPORT"></a>QE_PVACCESS_SUPPORT (Optional, EPICS Qt 3.7 or later)
 
 For headless builds this is automatically defined by the qeframeworkSup's Makefile
-and is set to YES when EPICS base 7 or later in use and is otherwise to to NO.
+and is set to YES when EPICS base 7 or later in use and is otherwise set to to NO.
+If this is not the desired behaviour, then the Makefile should be modified.
 When using qtcreator to make/build the EPICS Qt framework this environment variable
 must be set manually.
 When not defined or not set to YES, the EPICS Qt Framework will be built to support
 the Channel Access protocol only.
-If set to YES, the framework will be built for both the Channel Access and the PV
-Access protocols provided that the EPICS Qt framework is being built against
-EPICS base 7 or later.
+If set to YES, the framework will attempt to built to support both the Channel
+Access and PV Access protocols.
+If set to YES and the EPICS Qt framework is being built against EPICS base 3.16
+or earlier, the build will fail:
+
+    protocol/QEPvaCheck.h:49:2: error: #error Including PV ACCESS support requires EPICS base 7 or later.
+    If PV ACCESS support not required then unset QE_PVACCESS_SUPPORT environment variable.
+
 
 See the [Getting Started page](getting_started.html) for more details.
 

@@ -9,50 +9,43 @@
 The new PV Access protocol have been available as EPICS 4 modules and has
 recently been merged into EPICS base as part of EPICS 7.
 As the Australian Synchrotron is planning to include some EPICS 7 functionality,
-especially in new BRIGHT beam-lines, we have decided to add support for PV Access
-to the EPICS Qt (QE) framework.
+especially on new the BRIGHT beam-lines, we have decided to add support for PV
+Access to the EPICS Qt (QE) framework.
 This support is being introduced as part of the EPICS Qt 3.7 release.
 
 On this page you will find some information about some design decisions, how to
 prepare the build environment and how to build and use the modified.
 
-# <a name="Design_Decisions"></a><span style='color:#006666'>Design Decisions</span>
+# <a name="Design_Decisions"></a><span style='color:#006666'>Normative Types</span>
 
-## EPICS Version
+For the 3.7.1 release, the following normative types will be supported.
 
-While I suspect it would be possible to add PV Access by building against
+* NTScalar
+* NTScalarArray
+* NTEnum
+* NTTable
+* NTNDArray - only 8bit mono images are currently supported.
+
+Support for other image types will be part of release 3.7.2.
+Support for other normative types will be added as and when needed.
+
+
+# <a name="Design_Decisions"></a><span style='color:#006666'>Build Considerations</span>
+
+The qtBinaries repository has a convenient msi file for Windows (it works for 7
+and 10, and probably 8) and an rpm file for CentOS 7 (which may work on other
+distribution).
+However, if you decide to/need to build it yourself, the please read the following.
+
+## <a name="Design_Decisions"></a><span style='color:#0066a6'>Building EPICS</span>
+
+If EPICS Qt is to be built with PV Access support - see below - then you will
+need EPICS 7 or later.
+While I suspect it would be possible to add PV Access functionality by building against
 EPICS 3.15.5 and EPICS 4.6 for example, the inclusion of PV Access into the
-framework is selected by checking for EPICS 7 or later.
+EPICS Qt framework is assumes you are using EPICS 7.
 
-When performing a headless build, the qeframeworkSup/Makefile checks the EPICS
-version and sets the QE_PVACCESS_SUPPORT environment variable accordingly:
-
-    ifdef BASE_7_0
-       export QE_PVACCESS_SUPPORT := YES
-    else
-       export QE_PVACCESS_SUPPORT := NO
-    endif
-
-The framework.pro project file checks for this environment variable and if set to
-'YES', then adds QE_PVACCESS_SUPPORT to the set of DEFINES.
-It also adds pvData, pvAccess and nt to the set of required libraries.
-
-The inclusion of the PV Access functionality depends using EPICS base 7.
-If not using EPICS base 7, the qmake phase outputs a warning message, but
-build process continues without the PV Access functionality.
-
-If building the EPICS Qt framework using _qtcreator_, you will have to explicitly
-set this environment variable.
-
-The EPICS Qt framwwoek code also checks the EPICS base version (see QEPvaCheck.h),
-and will
-
-    #error Including PV ACCESS support requires EPICS base 7 or later.
-
-if the QE_PVACCESS_SUPPORT macro is defined _and_  EPICS_VERSION < 7.
-
-
-# Building EPICS base 7
+There are two things to be aware of.
 
 ### -std=gnu++11
 
@@ -68,7 +61,7 @@ It was easier to build EPICS base with this flag that rebuild Qt.
 
 Notes:
    - So far (as of April 2019) I have only built the PV Access support on CentOS 7 using gcc.
-   - Where I placed/specified the extra OPT_CXXFLAGS could probably be relocated
+   - Where I located/specified the extra OPT_CXXFLAGS could probably be relocated
 such that it only impacts the building of the PV Access modules, and not _everything_
 There may be a better place with a more restricted scope to specify this.
    - That said, I have build/run many other EPICS related modules with this additional
@@ -85,25 +78,60 @@ with
 
     return pvValue->getStructure()->getFieldNames();
 
+I haven't check the 
 
-# Building EPICS Qt 3.7
+## <a name="Design_Decisions"></a><span style='color:#0066a6'>Building ACAI</span>
 
-The low level api code to the Channel Access library has been striped out of the
-framework and replaced by the ACAI library.
-This is irrespective of the inclusion/exclusion of the PV Access functionality.
+A significant change to the EPICS Qt framework is that much of the low level Channel
+Access code has been dump, and replaced by the ACAI library.
+This is available from
+[https://github.com/andrewstarritt/acai](https://github.com/andrewstarritt/acai)
 
-ACAI provides a thin-ish C++ wrapper around the low level Channel Access API.
-The ACAI library is available from git hub:
 
-    git clone https://github.com/andrewstarritt/acai.git
 
-This has been in use operationally at the Australian Synchrotron since the startedof 2019 without issue. It has been successfully built on Linux CentOS 6 and 7 using gcc and on Windows 7 and 10 using mingw.
+The need to include ACAI is irrespective of whether PV Access functionality is or is not included.
 
-If building headless, then the qeframework component's configure/RELEASE file
-must be modified to point to the ACAI's top directory.
+## <a name="Design_Decisions"></a><span style='color:#0066a6'>Building EPICS Qt 3.7</span>
 
-If building the EPICS Qt framework using _qtcreator_, you will have to explicitly
-set the ACAI environment variable to point to this location.
+
+# <a name="Design_Decisions"></a><span style='color:#006666'>Run Time Considerations</span>
+
+## <a name="Design_Decisions"></a><span style='color:#0066a6'>Protocol Selection</span>
+
+
+
+
+While I suspect it would be possible to add PV Access by building against
+EPICS 3.15.5 and EPICS 4.6 for example, the inclusion of PV Access into the
+EPICS Qt framework is selected by checking for EPICS 7 or later.
+
+When performing a headless build, the qeframeworkSup/Makefile checks the EPICS
+version and sets the QE_PVACCESS_SUPPORT environment variable accordingly:
+
+    ifdef BASE_7_0
+       export QE_PVACCESS_SUPPORT := YES
+    else
+       export QE_PVACCESS_SUPPORT := NO
+    endif
+
+The framework.pro project file checks for this environment variable and if set
+to 'YES', then adds QE_PVACCESS_SUPPORT to the set of DEFINES.
+It also adds pvData, pvAccess and nt to the set of required libraries.
+
+The inclusion of the PV Access functionality depends using EPICS base 7.
+If not using EPICS base 7, the qmake phase outputs a warning message, but
+build process continues without the PV Access functionality.
+
+If building the EPICS Qt framework using _qtcreator_, or explicitly calling qmake
+and make then you will have to explicitly set this environment variable.
+
+The EPICS Qt framework code also checks the EPICS base version (see QEPvaCheck.h),
+and will:
+
+    #error Including PV ACCESS support requires EPICS base 7 or later.
+
+if the QE_PVACCESS_SUPPORT macro is defined _and_  EPICS_VERSION < 7.
+
 
 # New/Modified Widgets
 
@@ -141,5 +169,5 @@ functionality is not included.
 In practice, this should not be a problem unless you have a weird PV naming
 convention.
 
-<font size="-1">Last updated: Fri Apr  5 19:49:02 AEDT 2019</font>
+<font size="-1">Last updated: Mon May  24 17:57:55 AEDT 2019</font>
 <br>
