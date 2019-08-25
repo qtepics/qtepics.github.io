@@ -16,42 +16,47 @@
 
 # <a name="r3.7.1"></a><span style='color:#006666'>r3.7.1</span>
 
-Estimated release date: 19th May 2019.
+Formal release date: 29th August 2019.
 
 ## <span style='color:#666666'>general</span>
 
-The most significant change to the EPICS Qt framework going from the 3.6 release
+The most significant change to the EPICS Qt framework going from the 3.6 releases
 to the 3.7 release series is that the framework is now capable of supporting the
-PV Access protocol and some of the normative types available via PV Access.
-The supported normative types are:
-
-* NTScalar
-* NTScalarArray
-* NTEnum
-* NTTable
-* NTNDArray - only 8bit mono images are currently supported, and will be fixed for release 3.7.2
+PV Access protocol for some of the normative types available via PV Access.
+For NTNDArray type only 8bit mono images are currently supported, and will be
+fixed for release 3.7.2
 
 Refer to the [pv access](pv_access.html) page for details of this update.
 __NOTE:__ this includes important build information.
 
 The more "mundane" changes since the previous release are detailed below.
 
+## <span style='color:#666666'>documentation</span>
+
 The unwieldy large QE_QEGuiAndUserInterfaceDesign document has been made more
 manageable by extracting widget specific information into another document,
 namely: QEWidgetSpecifications.
 This in turn may be further split in future releases, and the documentation for
-new widgets such as QEDistibution and QEFormStateChange will have their own
+any new widgets such as QEDistibution and QEFormStateChange will have their own
 standalone document.
+
+## <span style='color:#666666'>qtepics.github.io</span>
+
+The markdown files within this depo. have under gone a restructure and general
+renewal. The large index.md has been broken up into a number of smaller, topic
+related and more manageable files.
 
 Within the qtepics.github.io repository in the tools directory is the
 __qe_git_test_build__ script that is used to check build-ability after each
-commit or set of commits.
-For Linux users, this could be used as the basis to create your own script to
-meet your own particular needs.
+commit or set of commits to github.
+For Linux users, this could be used as the basis to create your own build script
+suited to meet your own particular needs.
+
+## <span style='color:#666666'>qeBinaries</span>
 
 In the qeBinaries repository there are the following files:
 
-###### EPICS_Qt_Installer_3-7-1.msi
+###### EPICS_Qt_Installer_3_7_1.msi
 
 This installs qegui, designer and the required libraries.
 You also get a copy of caget and caput.
@@ -96,9 +101,9 @@ So now, you can do something like:
 
     P=$(P)ABC
 
-and it will expand as expected.
+and it will expanded as expected.
 
-Also added a quick 'nothing-to-do' check for the substitute function.
+Also added a quick 'nothing-to-do' test in the substitute function.
 
 #### writeNow functions
 
@@ -109,12 +114,12 @@ by a signal from another widget.
 
 #### Alarm handling
 
-When processing Archive Appliance data, the alarm severity was erroneously set
-as status and the status set as severity.
+When processing Archive Appliance data, the alarm severity was erroneously set as
+status and the status set as severity.
 This has now been now fixed.
 
 QCaAlarmInfo's severityName function now includes the Channel Access archive
-severity names.
+severity names as well.
 
 Modified the QCaAlarmInfo::isInAlarm function to test severity as opposed to status.
 
@@ -126,8 +131,8 @@ Maid some functions in QEAnalogIndicator virtual and protected to help do this.
 #### QEGroupBox, QRadioGroup and QERadioGroup
 
 These widgets will now interpret a property title of "-" as a blank title.
-Previously, setting a title blank would result in the original default title,
-e.g. " QRadioButton ".
+Previously setting a title blank would result in the original default title,
+e.g. "QRadioButton".
 
 #### QEPushButton, QECheckBox and QERadioButton
 
@@ -160,20 +165,18 @@ The QESimpleShape widget now copies both variable names when using the context
 menu copyVariable option and when dragging on to anything that accepts textual
 drops.
 
-QESimpleShape modified to honour the "when in alarm state" option for both main
+QESimpleShape modified to honor the "when in alarm state" option for both main
 and edge colours.
 User specified colours, when not in alarm, should be readily distinguishable from
 alarm colours if/when this option is used.
 
-QSimpleShape - added some new shapes: star, cross, plus, pentagon rounded pie and pie.
+QSimpleShape - added some new shapes: star, cross, plus and pentagon.
 The cross and plus shapes are modify-able by the percentSize property.
-The rounded pie and pie shaped  are modify-able using the new centreAngle and
-spanAngle properties.
 
 Also created a shape selection slot function, which takes an int parameter.
 This means that shape itself may be controlled by a PV, possibly via a QELink
 or QECalcout widget.
-We will endeavour to keep the int value to shape mapping contestant if/when new
+We will endeavor to keep the int value to shape mapping contestant if/when new
 shapes are added.
 
 #### QEStripChart
@@ -186,7 +189,7 @@ presentation similar to QEDistribution.
 
 #### QEPvProperties
 
-Ch1, Ch2, Ch3 and Ch4 fields have been added to the iTech liberaSignal record
+The Ch1, Ch2, Ch3 and Ch4 fields have been added to the iTech liberaSignal record
 type's field list specification.
 Note: the actual existence of some of the liberaSignal fields are device type
 dependent.
@@ -203,8 +206,7 @@ Explicitly call connectChannel, needed for new qcaobject::QCaObject objects.
 
 The persistanceManager has been extended to support addValue/getValue for QColor
 type values.
-This is only relevant if you have created your own widgets, and want to save/restore
-the colour.
+This is only relevant if you have created your own widgets.
 
 #### applicationLauncher
 
@@ -248,13 +250,15 @@ Change the format on the time duration dialog to be HH:MM:SS where the HH is 24 
 
 #### QEEnvironmentVariables
 
-Fixed the interpretation of false boolean environment variable values, and also added YES and NO options.
+Fixed the interpretation of false boolean environment variable values, and 
+also added YES and NO options.
 
 ## <span style='color:#666666'>qegui</span>
 
 #### Parameters
 
-Introduce long parameter options and allow use of adaptation_parameters_file.ini file and/or environment variables.
+Introduce long parameter options and allow use of adaptation_parameters_file.ini 
+file and/or environment variables.
 This means that
 
     export QEGUI_ADJUST_SCALE=200 ; qegui
@@ -280,7 +284,8 @@ This work is a prelude to verion 4 integration.
 ## <span style='color:#666666'>qtepics.github.io</span>
 
 All documentation upgraded to markdown.
-Cleaner, can be maintained by simple text editor, and no more buggy translation from .docx to .html
+Cleaner, can be maintained by simple text editor, and no more buggy translation
+from .docx to .html
 
 # <a name="r3.6.3"></a><span style='color:#006666'>r3.6.3</span>
 
@@ -784,5 +789,5 @@ Refer to SourceForge for all history prior to release r.3.4.2 as the
 SourceForge history was not been transferred to GitHub.
 
 
-<font size="-1">Last updated: Mon May  6 17:46:20 AEST 2019</font>
+<font size="-1">Last updated: Sun Aug 25 18:12:34 AEST 2019</font>
 <br>
