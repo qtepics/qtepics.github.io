@@ -31,7 +31,7 @@ Other documents you may be interested in are:
 * [QE_QEGuiAndUserInterfaceDesign.pdf](https://github.com/qtepics/qeframework/blob/master/documentation/QE_QEGuiAndUserInterfaceDesign.pdf) -
 general documentation for developing code free GUI applications.
 
-* [QEWidgetSpecifications.pdf](https://github.com/qtepics/qeframework/blob/master/documentation/QEWidgetSpecifications.pdf.pdf) -
+* [QEWidgetSpecifications.pdf](https://github.com/qtepics/qeframework/blob/master/documentation/QEWidgetSpecifications.pdf) -
 widget specific documentation for developing code free GUI applications.
 
 * [QE_FrameworkOverview.pdf](https://github.com/qtepics/qeframework/blob/master/documentation/QE_FrameworkOverview.pdf) -
@@ -39,6 +39,7 @@ technical overview of the QE framework.
 
 * [QE_ReferenceManual.pdf](https://github.com/qtepics/qeframework/blob/master/documentation/QE_ReferenceManual.pdf) -
 reference manual for programmers using QE widgets and classes.
+
 
 ## <a name="License"></a><span style='color:#006666'>License</span>
 
@@ -56,10 +57,12 @@ You should have received a copy of the GNU Lesser General Public License along
 with the EPICS QT Framework.
 If not, see [https://www.gnu.org/licenses/](https://www.gnu.org/licenses/).
 
+
 ## <a name="Structure"></a><span style='color:#006666'>Repository Structure</span>
 
 The repository structure is documented separately in
 [structure.html](structure.html).
+
 
 ## <a name="RoadMap"></a><span style='color:#006666'>Quick Road-map for Code Free GUI Development</span>
 
@@ -84,24 +87,29 @@ and the environment variables see environment variables or environment variables
 This is documented separately in
 [getting_started.html](getting_started.html).
 
+
 ## <a name="Environment_Variables"></a><span style='color:#006666'>Environment Variables</span>
 
 These are documented separately in
 [environment_variables.html](environment_variables.html).
 
+
 ## <span style='color:#006666'>Archiver Appliance (Optional)</span>
 
 Please visit [EPICS Archiver Appliance](archiver_appliance.html) support documentation.
 
+
 ## <span style='color:#006666'>PV Access Support</span>
 
 Please visit [PV Access support documentation](pv_access.html).
+
 
 ## <a name="Collaboration"></a><span style='color:#006666'>Future Plans</span>
 
 In brief:
 - Update PV Access functionality to support all image formats.
 - Revisit PSI's caQtDM integration.
+
 
 ## <a name="Collaboration"></a><span style='color:#006666'>Feed Back and Collaboration</span>
 
@@ -110,9 +118,11 @@ Please email: [andrews@ansto.gov.au](andrews@ansto.gov.au)
 Note: this is new e-mail address - the old synchrotron.org.au address will still
 work for a while.
 
+
 ## <a name="Release_Notes"></a><span style='color:#006666'>Release Notes</span>
 
 These are documented separately and are available [here](release_notes.html).
+
 
 ## <a name="Credits"></a><span style='color:#006666'>Credits</span>
 
