@@ -57,7 +57,7 @@ This is one of the flags that Qt uses when compiling the QE framework.
 It was easier to build EPICS base with this flag that rebuild Qt without it.
 
 Notes:
-   - So far (as of August 2019) I have only built the EPICS Qt PV Access support 
+   - So far (as of August 2019) I have only built the EPICS Qt PV Access support
    on CentOS 7 using gcc, other platforms/build chains may require something similar.
    - The extra OPT_CXXFLAGS could probably be relocated such that it _only_ impacts
    the building of the PV Access modules, and not _everything_ in EPICS base.
@@ -67,7 +67,7 @@ Notes:
 
 ### modules/normativeTypes/src/nttable.cpp
 
-For base-7.0.2, I found an apparent bug in nttable.cpp which needs fixed to 
+For base-7.0.2, I found an apparent bug in nttable.cpp which needs fixed to
 QENTTablethe use of the QENTTable widget.
 
 At line 274 in the NTTable::getColumnNames function, replace
@@ -93,7 +93,7 @@ The need to include ACAI is irrespective of whether PV Access functionality is
 or is not included. See the [getting started](getting_started.html#ACAI) page for
 more information.
 
-## <a name="Building_EPICS_Qt"></a></a><span style='color:#0066a6'>Building EPICS Qt 3.7</span>
+## <a name="Building_EPICS_Qt"></a><span style='color:#0066a6'>Building EPICS Qt 3.7</span>
 
 While I suspect it would be possible to add PV Access by building against
 EPICS 3.15.5 and EPICS 4.6, the inclusion of PV Access into the EPICS Qt framework
@@ -120,7 +120,7 @@ If building the EPICS Qt framework using _qtcreator_, or explicitly calling qmak
 and make then __you will have to__ explicitly set the QE_PVACCESS_SUPPORT environment
 variable.
 
-The EPICS Qt framework code also has a checks the EPICS base version if the 
+The EPICS Qt framework code also has a checks the EPICS base version if the
 QE_PVACCESS_SUPPORT macro defined (see QEPvaCheck.h), and will:
 
     #error Including PV ACCESS support requires EPICS base 7 or later.
@@ -147,7 +147,7 @@ but cannot display NTTable or NTNDArray data.
 # <a name="Protocol_Selection"> </a><span style='color:#006666'>Protocol Selection</span>
 
 All widgets' variable (PV) properties may now be prefixed by __&lt;protocol&gt;://__
-in order to specify the protocol to be used. The allowed protocols are __ca://__ for 
+in order to specify the protocol to be used. The allowed protocols are __ca://__ for
 Channel Access, and when PV Access support included, __pva://__ for PV Access.
 
 The default protocol when no protocol has been specified is Channel Access (__ca://__).
@@ -173,7 +173,7 @@ Examples:
     CURRENT_MONITOR        - connect using default protocol, Channel Access.
     xyz://FRED             - unknown protocol - this results in a message on stderr:
                              PV protocol identification failed for: "xyz://FRED"
-    ca://WEIRD//:NAME      - connect to PV 'WEIRD//:NAME' using Channel Access. 
+    ca://WEIRD//:NAME      - connect to PV 'WEIRD//:NAME' using Channel Access.
 
-<font size="-1">Last updated: Sun Aug 25 20:13:37 AEST 2019</font>
+<font size="-1">Last updated: Thu Sep 26 16:46:20 AEST 2019</font>
 <br>
