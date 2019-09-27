@@ -101,7 +101,12 @@ Please visit [EPICS Archiver Appliance](archiver_appliance.html) support documen
 
 ## <span style='color:#006666'>PV Access Support</span>
 
-Please visit [PV Access support documentation](pv_access.html).
+Please visit the [PV Access support documentation](pv_access.html) for details.
+
+
+## <span style='color:#006666'>PSI's caQtDM Integration</span>
+
+Please visit the [caQtDM integration documentation](caqtdm_integration.html) for details.
 
 
 ## <a name="Collaboration"></a><span style='color:#006666'>Future Plans</span>
@@ -123,13 +128,12 @@ work for a while.
 
 These are documented separately and are available [here](release_notes.html).
 
-
 ## <a name="Credits"></a><span style='color:#006666'>Credits</span>
 
 ### Developers
 
 Andrew Ryder, Glenn Jackson, Anthony Owen, Ricardo Fernandes, Anton Maksimenko,
-Andraz Pozar, Andrew Starritt.
+Andraz Pozar, Andrew Starritt, Zai Wang.
 
 ### 3rd Party Software
 
@@ -150,11 +154,11 @@ on Google Protocol Buffers
 When built with MPEG support, the EPICS Qt framework relies on FFmpeg for reading
 MPEG image streams [https://www.ffmpeg.org/](https://www.ffmpeg.org/).
 
-The QEGui application can be built to support caQtDM (version 3) widgets provided
-by The Paul Scherrer Institute.
+The QEGui application can be built to support caQtDM (version 3 and after
+EPICS Qt release 3.7.2 will support version 4) widgets provided by The Paul
+Scherrer Institute.
 [https://epics.web.psi.ch/software/caqtdm/](https://epics.web.psi.ch/software/caqtdm/).
 
 
-
-<font size="-1">Last updated: <Mon Aug 26 12:17:08 AEST 2019/font>
+<font size="-1">Last updated: Fri Sep 27 16:29:58 AEST 2019</font>
 <br>
