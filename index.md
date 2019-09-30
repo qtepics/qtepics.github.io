@@ -157,8 +157,8 @@ MPEG image streams [https://www.ffmpeg.org/](https://www.ffmpeg.org/).
 The QEGui application can be built to support caQtDM (version 3 and after
 EPICS Qt release 3.7.2 will support version 4) widgets provided by The Paul
 Scherrer Institute.
-[https://epics.web.psi.ch/software/caqtdm/](https://epics.web.psi.ch/software/caqtdm/).
+[http://epics.web.psi.ch/software/caqtdm/](http://epics.web.psi.ch/software/caqtdm/).
 
 
-<font size="-1">Last updated: Fri Sep 27 16:29:58 AEST 2019</font>
+<font size="-1">Last updated: Mon Sep 30 19:27:29 AEST 2019</font>
 <br>
