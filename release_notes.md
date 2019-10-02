@@ -2,6 +2,7 @@
 
 # <span style='color:#006666'>Release Index</span>
 
+[r3.7.2](#r3.7.2)<br>
 [r3.7.1](#r3.7.1)<br>
 [r3.6.4](#r3.6.4)<br>
 [r3.6.3](#r3.6.3)<br>
@@ -13,6 +14,85 @@
 [r3.4.3](#r3.4.3)<br>
 [r3.4.2](#r3.4.2)<br>
 [Earlier Releases](#Earlier_Releases)
+
+# <a name="r3.7.2"></a><span style='color:#006666'>r3.7.2</span>
+
+Expected release date: 20th October 2019.
+The main changes are itemised below.
+
+## <span style='color:#666666'>qeframework</span>
+
+#### QEStripChart
+
+Setting QEStripChart PV variable names in designer now works as expected.
+
+When calculating distribution statistics, avoid the potential divide by zero and
+subsequent segmentation fault.
+
+Sorted out font on StripChart toolbar (especially when global style sheet is
+being applied).
+Also now apply a consistant formatting for zero values.
+
+This widget has been modified to include markup settings when saveing and/or
+restoring configuration data.
+
+#### QEMenuButton
+
+Updated the setup dialog to introduce a 3:5 stretch ratio for each side of the dialog.
+
+The default name is now _name..._ (as opposed to 'X' plus number).
+
+#### QEScalarHistogram and QEWaveformHistogram
+
+Added readout format properties to scalar and waveform histogram widgets.
+These are a subset of the usual display format properties.
+
+#### QEImage
+
+Made QEImage more robust with respect to dynamic scaling.
+
+#### general
+
+Removed use of deprecated functions.
+
+#### documentation
+
+Reworked QBitStatus/QEBitStatus documentation, and delivered as a separate document.
+
+Removed the old readme.txt file and Updated the README.md file.
+
+## <span style='color:#666666'>QEGui</span>
+
+#### caQtDM
+Support for caQtDM integration has been revampled and we now support V4.
+Please see the [caQtDM integration](caqtdm_integration.html) page for details.
+Note: caQtDM integration is still optional.
+
+#### Dialogs
+
+The various dialogs (about, saveConfig, restoreConfig and manageConfig) now use
+QEDialog so that the dialog itself is located in the middle of the relavent form.
+Ensure we save and relocate to the intial startup directory when using config
+related dialogs.
+
+#### designer
+
+When opening designer, QEGui used to check for designer-qt4 and then designer programs.
+Now we just attempt to callup designer.
+Qt 4.8 users should fake designer to call designer-qt4.
+
+#### structure
+
+The QEGui files have been restructured.
+The UISamples folder have beem moved from the qeguiApp/project directory to own
+top level uiSamples directory.
+The header files have been colocated with corresponding .cpp files in the
+qeguiApp/project/src folder.
+
+## <span style='color:#666666'>qeBinaries</span>
+
+New 3.7.2 msi and rpm files available.
+
 
 # <a name="r3.7.1"></a><span style='color:#006666'>r3.7.1</span>
 
@@ -250,14 +330,14 @@ Change the format on the time duration dialog to be HH:MM:SS where the HH is 24 
 
 #### QEEnvironmentVariables
 
-Fixed the interpretation of false boolean environment variable values, and 
+Fixed the interpretation of false boolean environment variable values, and
 also added YES and NO options.
 
 ## <span style='color:#666666'>qegui</span>
 
 #### Parameters
 
-Introduce long parameter options and allow use of adaptation_parameters_file.ini 
+Introduce long parameter options and allow use of adaptation_parameters_file.ini
 file and/or environment variables.
 This means that
 
@@ -789,5 +869,5 @@ Refer to SourceForge for all history prior to release r.3.4.2 as the
 SourceForge history was not been transferred to GitHub.
 
 
-<font size="-1">Last updated: Sun Aug 25 18:12:34 AEST 2019</font>
+<font size="-1">Last updated: Wed Oct 2 17:26:10 AEST 2019</font>
 <br>
