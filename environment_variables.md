@@ -1,8 +1,18 @@
 # ![](epicsqt_logo.png?raw=true) <span style='color:#006666'>EPICS Qt Environment Variables</span>
 
-Environment variables influence the behavior both at build time and at run time.
+[Introduction](#Introduction)<br>
+[Build Time Environment Variables](#Build)<br>
+[Run Time Environment Variables](#Runtime)<br>
 
-## <span style='color:#006666'>Build Time Environment Variables</span>
+# <a name="Introduction"></a><span style='color:#006666'>Introduction</span>
+
+Environment variables influence the behavior both at build time and at run time.
+These can be further broken down into thos that affect the EPICS Qt framework in
+general and those that explicitly impact the QEGui display manager program.
+
+# <a name="Build"></a><span style='color:#006666'>Build Time Environment Variables</span>
+
+## <a name="Build"></a><span style='color:#006666'>EPICS Qt Framework</span>
 
 ### EPICS_BASE (Required)
 
@@ -52,15 +62,6 @@ If defined then this is used to locate the QWT library.
 If you want MPEG support, install FFmpeg and define this environment variable.
 This can be defined as anything (we suggest YES) on Linux,
 but must point to the FFmpeg directory on Windows.
-
-### QE_CAQTDM (Optional)
-
-If integration with PSI's caQtDM is required, this variable specifies the
-location of the caQtDM_Project directory.
-
-### QE_CAQTDM_LIB (Optional)
-
-This provides the location of caQtDM_Lib if not within location specified by QE_CAQTDM.
 
 ### QTINC (Optional)
 
@@ -115,8 +116,25 @@ must be defined accordingly.
 
 This is a legacy option and we suggest it is not used.
 
+## <a name="Build"></a><span style='color:#006666'>QEGui Display Manager</span>
 
-## <span style='color:#006666'>Run Time Environment Variables</span>
+### QE_CAQTDM (Optional)
+
+If integration with PSI's caQtDM is required, this variable specifies the
+location of the caQtDM_Project directory.
+
+### QE_CAQTDM_MAJOR_VERSION (Required if QE_CAQTDM is defined)
+
+This specifies the major version of the caQtDM being used.
+Currently, as of November 2019, only version 4 is supporetd.
+
+### QE_CAQTDM_LIB (Optional)
+
+This provides the location of caQtDM_Lib if not within location specified by QE_CAQTDM.
+
+# <a name="Runtiime"></a><span style='color:#006666'>Run Time Environment Variables</span>
+
+## <a name="Build"></a><span style='color:#006666'>EPICS Qt Framework</span>
 
 ### QT_PLUGIN_PATH (Required)
 
@@ -231,6 +249,37 @@ As the EPICS Qt framework is a Channel Access client, the values assigned to:
 can affect the operation of this program.
 Please refer to EPICS R3.14 Channel Access Reference Manual for details.
 
+## <a name="Build"></a><span style='color:#006666'>QEGui Display Manager</span>
 
-<font size="-1">Last updated: Wed Feb  6 20:25:44 AEDT 2019</font>
+These environmnet variables affact QEGui only.
+They will not affect other bespoke display managers using the QPICS Qt framework.
+
+With the exception of --help and --version, any QEGui long option may now also be
+specified by a correcponding environmnet variable.
+This environmnet variable is the long option name withount the leading --, converted
+to upper case and prefixed by "QEGUI_".
+
+For example, on Linux, the following are equivilent:
+
+    export QEGUI_ADJUST_SCALE="120"
+    export QEGUI_DISABLE_AUTOSAVE="YES"
+    qegui
+
+and
+
+    qegui --adjust_scale=200  --disable_autosave
+
+
+If both an environment variable and command line option are specified, the command
+line option takes precedence.
+Run qegui -h to get a complete list of long options.
+
+### QEGUI_CAQTDM_CONTEXT_MENU
+
+When caQtDm is integrated into QEGui, this environmnet variable controls whether
+the caQtDm widgets using their native contect menu or the EPICS Qt standard
+context menu. Set this variable to "1", "TRUE" or "YES" to select this feature.
+
+
+<font size="-1">Last updated: Wed Nov  6 12:11:11 AEDT 2019</font>
 <br>
