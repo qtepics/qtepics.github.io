@@ -132,7 +132,11 @@ Currently, as of November 2019, only version 4 is supporetd.
 
 This provides the location of caQtDM_Lib if not within location specified by QE_CAQTDM.
 
-# <a name="Runtiime"></a><span style='color:#006666'>Run Time Environment Variables</span>
+
+# <a name="Runtime"></a><span style='color:#006666'>Run Time Environment Variables</span>
+
+These environmnet variables affact all programs/display managers using the EPICS Qt
+framework.
 
 ## <a name="Build"></a><span style='color:#006666'>EPICS Qt Framework</span>
 
@@ -252,7 +256,7 @@ Please refer to EPICS R3.14 Channel Access Reference Manual for details.
 ## <a name="Build"></a><span style='color:#006666'>QEGui Display Manager</span>
 
 These environmnet variables affact QEGui only.
-They will not affect other bespoke display managers using the QPICS Qt framework.
+They will not affect other bespoke display managers using the EPICS Qt framework.
 
 With the exception of --help and --version, any QEGui long option may now also be
 specified by a correcponding environmnet variable.
@@ -281,5 +285,5 @@ the caQtDm widgets using their native contect menu or the EPICS Qt standard
 context menu. Set this variable to "1", "TRUE" or "YES" to select this feature.
 
 
-<font size="-1">Last updated: Wed Nov  6 12:11:11 AEDT 2019</font>
+<font size="-1">Last updated: Wed Nov  6 13:49:21 AEDT 2019</font>
 <br>
