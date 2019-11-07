@@ -108,12 +108,17 @@ Please visit the [PV Access support documentation](pv_access.html) for details.
 
 Please visit the [caQtDM integration documentation](caqtdm_integration.html) for details.
 
+## <span style='color:#006666'>Andrew Rhyder's Notes for Winodws 10</span>
+
+For in house EPICS Qt Windows builds, we use the mingw compiler.
+However, EPICS Qt has been successfully built using MSVC.
+Please see [Andrew Rhyder's notes](andrew_rhyder_windows_10.html) for details.
+This is somewhat old now, any contructive feed back is welcome.
 
 ## <a name="Collaboration"></a><span style='color:#006666'>Future Plans</span>
 
 In brief:
 - Update PV Access functionality to support all image formats.
-- Revisit PSI's caQtDM integration.
 
 
 ## <a name="Collaboration"></a><span style='color:#006666'>Feed Back and Collaboration</span>
@@ -122,7 +127,6 @@ Please email: [andrews@ansto.gov.au](andrews@ansto.gov.au)
 
 Note: this is new e-mail address - the old synchrotron.org.au address will still
 work for a while.
-
 
 ## <a name="Release_Notes"></a><span style='color:#006666'>Release Notes</span>
 
@@ -160,5 +164,5 @@ Scherrer Institute.
 [http://epics.web.psi.ch/software/caqtdm/](http://epics.web.psi.ch/software/caqtdm/).
 
 
-<font size="-1">Last updated: Mon Sep 30 19:27:29 AEST 2019</font>
+<font size="-1">Last updated: Thu Nov  7 18:46:39 AEDT 2019</font>
 <br>
