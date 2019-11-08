@@ -17,8 +17,11 @@
 
 # <a name="r3.7.2"></a><span style='color:#006666'>r3.7.2</span>
 
-Expected release date: 20th October 2019.
-The main changes are itemised below.
+Release date: 11th November 2019.
+
+The main feature of this release is the revamping of the caQtDm integration.
+Please see [caQtDM integration documentation](caqtdm_integration.html) for details.
+The other changes are itemised below.
 
 ## <span style='color:#666666'>qeframework</span>
 
@@ -28,6 +31,9 @@ Setting QEStripChart PV variable names in designer now works as expected.
 
 When calculating distribution statistics, avoid the potential divide by zero and
 subsequent segmentation fault.
+
+There have been three additional preset PV scaling options to the strip chart.
+These are re-scale plotted data to upper, lower and centre third of the chart
 
 Sorted out font on StripChart toolbar (especially when global style sheet is
 being applied).
@@ -51,6 +57,13 @@ These are a subset of the usual display format properties.
 
 Made QEImage more robust with respect to dynamic scaling.
 
+#### PV Access
+
+Updated PV Access related functionality for base-7.0.3.
+Now process precision and have dropped using format (form is still to be done).
+The hysteresis is alwayus extracted as a byte from alarmValue.
+Introduced opaque variant type for unknown/unhandled PVA types.
+
 #### general
 
 Removed use of deprecated functions.
@@ -64,9 +77,16 @@ Removed the old readme.txt file and Updated the README.md file.
 ## <span style='color:#666666'>QEGui</span>
 
 #### caQtDM
+
 Support for caQtDM integration has been revampled and we now support V4.
 Please see the [caQtDM integration](caqtdm_integration.html) page for details.
 Note: caQtDM integration is still optional.
+
+Running
+
+    qegui -v
+
+reveals if caQtDM integration has been included.
 
 #### Dialogs
 
@@ -77,7 +97,8 @@ related dialogs.
 
 #### designer
 
-When opening designer, QEGui used to check for designer-qt4 and then designer programs.
+When opening designer, QEGui used to check for designer-qt4 program and then
+the designer program.
 Now we just attempt to callup designer.
 Qt 4.8 users should fake designer to call designer-qt4.
 
@@ -93,6 +114,9 @@ qeguiApp/project/src folder.
 
 New 3.7.2 msi and rpm files available.
 
+The new msi file includes a wrapper script for qegui and designer, so that we
+don't clobber the 'global' QT_PLUGIN_PATH environment variable which can then
+break other programs.
 
 # <a name="r3.7.1"></a><span style='color:#006666'>r3.7.1</span>
 
@@ -869,5 +893,5 @@ Refer to SourceForge for all history prior to release r.3.4.2 as the
 SourceForge history was not been transferred to GitHub.
 
 
-<font size="-1">Last updated: Wed Oct 2 17:26:10 AEST 2019</font>
+<font size="-1">Last updated: Fri Nov  8 11:27:05 AEDT 2019</font>
 <br>
