@@ -38,8 +38,8 @@ of software versions.
 
 | No. | OS              | QT    | EPICS Base | QWT     | caQtDM     | EPICS Qt      |
 | --- | ---             | ---   | ---        | ---     | ---        | ---           |
-| 1   |Linux Centos 7.3 |Qt 5.8 |EPICS 3.15.5|Qwt 6.1.3|caQtDM 4.2.4|EPICS Qt 3.7.1 |
-| 2   |Linux Centos 7.7 |Qt 5.10|EPICS 7.0.3 |Qwt 6.1.3|caQtDM 4.2.4|EPICS Qt 3.7.1 |
+| 1   |Linux Centos 7.3 |Qt 5.8 |EPICS 3.15.5|Qwt 6.1.3|caQtDM 4.2.4|EPICS Qt 3.7.2 |
+| 2   |Linux Centos 7.7 |Qt 5.10|EPICS 7.0.3 |Qwt 6.1.3|caQtDM 4.2.4|EPICS Qt 3.7.2 |
 
 __Note:__ Other combinations of software versions might work as well but we
 haven't tried them yet.
