@@ -1,6 +1,6 @@
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2uigen.py $
-# $Revision: #1 $
-# $DateTime: 2019/08/25 21:33:37 $
+# $Revision: #2 $
+# $DateTime: 2019/12/05 17:37:50 $
 # Last checked in by: $Author: starritt $
 #
 
@@ -486,7 +486,7 @@ class QEPlot(QWidget):
 
             pen = self.adl.get("pen[%s]" % slot, None)
             if pen is not None:
-                if slot >= 4:
+                if slot >= 8:
                     print("warning - too many strip chart PVs")
                     continue
 

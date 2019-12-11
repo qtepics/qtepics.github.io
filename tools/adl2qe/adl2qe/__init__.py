@@ -2,7 +2,7 @@
     MEDM adl file to EPICS Qt ui file converter
 """
 
-__version__ = "1.1.3"
+__version__ = "1.1.4"
 __license__ = "GPL3"
 
 # end

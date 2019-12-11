@@ -1,11 +1,16 @@
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/setup.py $
-# $Revision: #2 $
-# $DateTime: 2019/08/25 21:37:19 $
+# $Revision: #3 $
+# $DateTime: 2019/12/05 17:47:40 $
 # Last checked in by: $Author: starritt $
 #
 # setup.py for adl2qe
 #
+# Note: to upload to aspypi, run command:
+#
+#    python setup.py sdist upload -r aspypi
+#
 
+import sys
 import re
 from setuptools import setup
 
