@@ -90,7 +90,7 @@ As mentioned before, AA support for QE Framework requires __Fall 2017 release (t
 
 ## Install Google Protocol Buffers
 
-AA support for QE Framework has been tested with versions 2.5.0 and 3.5.0 and 3.5.1
+AA support for QE Framework has been tested with versions 2.5.0, 3.5.0, 3.5.1 and 3.11.1
 
 ### On Linux
 
@@ -140,7 +140,6 @@ The package name should be in the format of "protobuf-cpp-x.x.x.zip". Extract it
        -Dprotobuf_BUILD_TESTS=OFF ^
        -DCMAKE_INSTALL_PREFIX=<MinGW_DIR> ../..
 
-
 This will generate Makefiles for MinGW, which will be
 used to build Release build, have default C++ version set to C++11, build dynamic
 libraries, avoid building tests and install generated files in &lt;MinGW_DI&gt;/lib,
@@ -159,6 +158,9 @@ libraries, avoid building tests and install generated files in &lt;MinGW_DI&gt;/
        protoc -h
 
 This should print the help for this command.
+
+* At least with the Qt provided MinGW, I had to copy the <MinGW_DIR>/include/google directory to <MinGW_DIR>/i686-w64-mingw32/include
+otherwise the headers were not found when building the archapplDataSup library.
 
 
 ## Set Environment Variables
@@ -183,6 +185,10 @@ while building archapplDataApp to point to PB libraries directory.
 Once PB is installed and variables set, QE Framework can be normally built in
 the same way as it has been built before, by executing ?make? in the QE Framework's
 TOP directory.
+
+PB version 3.6.0 or later requires C++ 11. To support that we've added a ARCHAPPL_USE_CPP11 flag in the $(TOP)/configure/CONFIG_SITE file.
+By default the flag is set to YES and archapplDataSup will be built with C++ 11 support. If you don't want that, set it to NO but bear in 
+mind that you have to use PB < 3.6.0. QeFramework doesn't rely on any functionallity added in versions after 3.6.0.
 
 The build with AA support enabled will result in two new libraries archapplData.*
 in QE Framework's libraries directory and one new header archapplData.h in framework's
