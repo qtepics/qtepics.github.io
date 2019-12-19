@@ -39,7 +39,8 @@ Information regarding downloading and building EPICS may be found at
 [EPICS Controls](https://epics-controls.org/) web site.
 Alternatively speak to your local EPICS expert.
 
-EPICS Qt has successfully been built and tested using, but not limited to, EPICS base  versions 3.14.12.5, 3.15.6 and 7.0.2.
+EPICS Qt has successfully been built and tested using, but not limited to,
+EPICS base  versions 3.14.12.5, 3.15.6 and 7.0.2.
 For PV Access functionality, EPICS 7 is required.
 
 ## <span style='color:#006666'>Qt</span>
@@ -126,7 +127,14 @@ For Windows users, thre is some info in [Archive Appliance](archiver_appliance.h
 
 This is only required if building FFMpeg Support.
 For Linux users using the yum package manager, this can be achieved by
-(drop the sudo if running as root):
+(drop the sudo if running as root) first installing the nux repo if needs be.
+For CentOS 7 this can be done like this:
+
+    sudo rpm --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro
+    sudo rpm -Uvh \
+      http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
+
+And the ffmpeg packages themselves please run:
 
     sudo yum install -y  ffmpeg-devel  ffmpeg-libs
 
@@ -310,5 +318,5 @@ in qtcreator :
 
 <span style='color:#00c000'>/home/user/qtepics</span>/qegui/qeguiApp/project/QEGuiApp.pro
 
-<font size="-1">Last updated: Sun Aug 25 21:17:30 AEST 2019</font>
+<font size="-1">Last updated: Thu Dec 19 16:31:36 AEDT 2019</font>
 <br>
