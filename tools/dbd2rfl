@@ -1,0 +1,166 @@
+#!/usr/bin/env python
+
+""" Converts a dbd file, or a number of concatinated dbd files
+    into a record field list suitable for use by the EPICS Qt
+    framework's QEPvProperties widget.
+"""
+
+import os.path
+import sys
+import enum
+import collections
+
+Process_State = enum.Enum("Process_State", ("Ready", "RecordType", "Field"))
+
+# -----------------------------------------------------------------------------
+#
+
+
+def report(msg):
+    sys.stderr.write(msg + "\n")
+
+
+# -----------------------------------------------------------------------------
+#
+def find_between(s, first, last):
+    try:
+        start = s.index(first) + len(first)
+        end = s.index(last, start)
+        return s[start:end]
+    except:
+        report (f"s:     '{s}'")
+        report (f"first: '{first}'")
+        report (f"last:  '{last}'")
+        raise
+
+# -----------------------------------------------------------------------------
+#
+def update_rfl(rfl, dbd_file):
+    report(f"processing: {dbd_file}")
+
+    try:
+        source_file = open(dbd_file, "r")
+    except:
+        report("cannot open: %s" % dbd_file)
+        return False
+
+    lines = source_file.read().splitlines()
+    source_file.close()
+
+    # We use a state machine top process each line.
+    # There is minimal error checking as input is a generated
+    # and well formatted file.
+    #
+    state = Process_State.Ready
+    record_type_spec = None
+    field_spec = None
+
+    for line in lines:
+        line = line.strip()
+
+        if len(line) == 0 or line[0] == '#':
+            continue
+
+        if state == Process_State.Ready:
+            if line.startswith("recordtype"):
+                record_type_name = find_between(line, "(", ")").strip()
+
+                record_type_spec = collections.OrderedDict()
+
+                # Add pseudo RTYP field                
+                record_type_spec ["RTYP"] = {"type": "DBF_STRING",
+                                             "comment": "Record Type",
+                                             "size": 20}
+
+                if record_type_name not in rfl:
+                    report (f"adding {record_type_name} specification")
+                    rfl[record_type_name] = record_type_spec
+                else:
+                    report (f"duplicate specification of {record_type_name} ignored")
+
+                state = Process_State.RecordType
+
+        elif state == Process_State.RecordType:
+            if line.startswith("field"):
+                field_name = find_between(line, "(", ",").strip()
+                field_type = find_between(line, ",", ")").strip()
+
+                field_spec = {"type": field_type, "comment" : "", "size" : 0 }
+                record_type_spec[field_name] = field_spec
+
+                state = Process_State.Field
+
+            elif line == "}":
+                state = Process_State.Ready
+                record_type_spec = None
+
+        elif state == Process_State.Field:
+            if line.startswith("promptgroup"):
+                pass
+            
+            elif line.startswith("prompt"):
+                comment = find_between(line, '("', '")').strip()
+                field_spec["comment"] = comment
+
+            elif line.startswith("size"):
+                size = find_between(line, "(", ")").strip()
+                field_spec["size"] = int(size)
+
+            elif line == "}":
+                state = Process_State.RecordType
+                field_spec = None
+
+        else:
+            assert False, ""
+
+    return True
+
+
+# -----------------------------------------------------------------------------
+#
+def output(rfl, target):
+
+    for record_type_name in sorted(rfl.keys()):
+        target.write("#-------------------------------------------------------------------------------\n")
+        target.write("#\n")
+        target.write(f"<<{record_type_name}>>\n")
+        record_type_spec = rfl[record_type_name]
+
+        for field_name, field_spec in record_type_spec.items():
+            if field_spec["type"] == "DBF_NOACCESS":
+                continue
+
+            if field_spec["type"] == "DBF_STRING" and field_spec["size"] > 41:
+                field_name = field_name + '$'
+
+            elif field_spec["type"] in ("DBF_INLINK", "DBF_OUTLINK", "DBF_FWDLINK"):
+                field_name = field_name + '$'
+
+            gap = " " * (5 - len(field_name))
+            comment = field_spec["comment"]
+            target.write(f'{field_name}, {gap}"{comment}"\n')
+
+        target.write("\n")
+    target.write("# end\n")
+
+
+# -----------------------------------------------------------------------------
+#
+def run():
+    
+    args = sys.argv
+    args.pop (0)   # remove exectuable name
+
+    rfl = {}
+    for dbd_file in args:
+        status = update_rfl(rfl, dbd_file)
+        state = "okay" if status else "fail"
+        report(f"status: {state}")
+
+    output(rfl, sys.stdout)
+
+
+if __name__ == "__main__":
+    run()
+
+# end
