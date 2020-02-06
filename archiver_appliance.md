@@ -105,6 +105,8 @@ At least in the case of CentOS 7, this will install a fairly old version of PB (
 For the purpose of AA support in QE Framework, this is good enough, however you
 can get the latest version of PB from their github releases website.
 
+For CentOS 7, I needed to define PROTOBUF_LIB_DIR='/usr/lib64'.
+
 ### On Windows
 
 As expected, here is where it gets a bit trickier.
@@ -165,7 +167,7 @@ otherwise the headers were not found when building the archapplDataSup library.
 
 ## Set Environment Variables
 
-Three new optional environment variables have been introduced with AA support for QE Framework:
+A number of optional environment variables have been introduced with AA support for QE Framework:
 
 * QE_ARCHAPPL_SUPPORT - This is a build time variable. If set to YES, QE Framework
 will be built with support for AA. If not defined, support for AA will not be built.
@@ -175,10 +177,13 @@ where CA defines that we are connecting to EPICS Channel Access Archive and ARCH
 defines that we are connecting to AA. If not defined, QT Framework will try to
 connect to the EPICS Channel Access Archive.
 
-* PROTOBUF_LIBS_DIR - This is a build time variable. In case PB libraries are
+* PROTOBUF_INCLUDE_PATH - This is a build time variable. In case PB header files
+are not on your compilers include, this variable is used while building archapplDataApp
+to point to PB header files.
+
+* PROTOBUF_LIB_DIR - This is a build time variable. In case PB libraries are
 not on your PATH (Windows) or LD_LIBRARY_PATH (Linux), this variable is used
 while building archapplDataApp to point to PB libraries directory.
-
 
 # <a name="Building"></a><span style='color:#006666'>Building</span>
 
@@ -203,5 +208,5 @@ The URL should point to AA's management BPL so something like http://archiver01/
 
 
 
-<font size="-1">Last updated: Sat Jan 26 18:25:01 AEDT 2019</font>
+<font size="-1">Last updated: Wed Feb  5 18:09:40 AEDT 2020</font>
 <br>

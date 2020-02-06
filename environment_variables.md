@@ -96,7 +96,14 @@ the EPICS Archiver Appliance.
 
 See the [Archiver Appliance page](archiver_appliance.html) for more details.
 
-### PROTOBUF_LIBS_DIR (Optional)
+### PROTOBUF_INCLUDE_PATH (Optional)
+
+If you want to build the QE Framework with Archiver Appliance support (QE_ARCHAPPL_SUPPORT=YES),
+Google Protocol Buffers have to be installed on the system.
+If the directory containing the header files  is not on the standard compiler include path,
+its location can be defined using this variable.
+
+### PROTOBUF_LIB_DIR (Optional)
 
 If you want to build the QE Framework with Archiver Appliance support (QE_ARCHAPPL_SUPPORT=YES),
 Google Protocol Buffers have to be installed on the system.
@@ -285,5 +292,5 @@ the caQtDm widgets using their native contect menu or the EPICS Qt standard
 context menu. Set this variable to "1", "TRUE" or "YES" to select this feature.
 
 
-<font size="-1">Last updated: Wed Nov  6 13:49:21 AEDT 2019</font>
+<font size="-1">Last updated: Wed Feb  5 17:59:44 AEDT 2020</font>
 <br>
