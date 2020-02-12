@@ -69,9 +69,11 @@ Applicable to Qt5 only, and defines include files needed for QtPrintSupport.
 
 ### <a name="QE_PVACCESS_SUPPORT"></a>QE_PVACCESS_SUPPORT (Optional, EPICS Qt 3.7 or later)
 
-For headless builds this is automatically defined by the qeframeworkSup's Makefile
+For headless builds, this is automatically defined by the qeframeworkSup's Makefile
 and is set to YES when EPICS base 7 or later in use and is otherwise set to to NO.
-If this is not the desired behaviour, then the Makefile should be modified.
+If this is not the desired behavior (e.g. using EPICS 3 plus EPICS 4), then the
+Makefile should be modified.
+
 When using qtcreator to make/build the EPICS Qt framework this environment variable
 must be set manually.
 When not defined or not set to YES, the EPICS Qt Framework will be built to support
@@ -86,6 +88,24 @@ or earlier, the build will fail:
 
 
 See the [Getting Started page](getting_started.html) for more details.
+
+### <a name="ADSUPPORT"></a>ADSUPPORT (Optional)
+
+This defines the location of the Area Detector ADSupport module top directory.
+If not required, ADSUPPORT must be unset as it serves both as a flag and location.
+
+For headless builds, this can be defined in the qeframework's configure/RELEASE
+file, however when using qtcreator it must be defined explicitly.
+
+The ADSupport module is used to decompress images compressed using the Area
+Detector Codec plugin and delivered via a PV Access NTNDArray PV.
+The decompression modes supported by the EPICS Qt framework are jpeg, lz4, blosc
+and bslz4. If used, __your__ AD support module must be built to support all of
+these.
+
+ADSUPPORT need only be defined if QE_PVACCESS_SUPPORT is set to YES, however it
+will build/link against the ADSupport module even when QE_PVACCESS_SUPPORT is NO.
+
 
 ### <a name="QE_ARCHAPPL_SUPPORT"></a>QE_ARCHAPPL_SUPPORT (Optional)
 
@@ -103,12 +123,18 @@ Google Protocol Buffers have to be installed on the system.
 If the directory containing the header files  is not on the standard compiler include path,
 its location can be defined using this variable.
 
+An alternative to defining an environment variable is to define this value in
+qeframework's configure/CONFIG_SITE file.
+
 ### PROTOBUF_LIB_DIR (Optional)
 
 If you want to build the QE Framework with Archiver Appliance support (QE_ARCHAPPL_SUPPORT=YES),
 Google Protocol Buffers have to be installed on the system.
 If the directory containing the libraries is not on the standard library path,
 its location can be defined using this variable.
+
+An alternative to defining an environment variable is to define this value in
+qeframework's configure/CONFIG_SITE file.
 
 ### QE_TARGET_DIR (Optional/Deprecated)
 
@@ -133,7 +159,8 @@ location of the caQtDM_Project directory.
 ### QE_CAQTDM_MAJOR_VERSION (Required if QE_CAQTDM is defined)
 
 This specifies the major version of the caQtDM being used.
-Currently, as of November 2019, only version 4 is supporetd.
+Currently, as of November 2019, only version 4 is supported.
+We have dropped support for version 3.
 
 ### QE_CAQTDM_LIB (Optional)
 
@@ -194,19 +221,21 @@ See [QE_ARCHAPPL_SUPPORT](#QE_ARCHAPPL_SUPPORT)
 This specifies a space separated list of Channel Access archive servers.
 In turn each server is specified by a slash ('/') separated host name, port number
 and cgi program.
-
 Example:
 
     "cr01arc01:80/cgi-bin/ArchiveDataServer.cgi cr01arc02:80/cgi-bin/ArchiveDataServer.cgi"
 
-For the Archiver appliance, for format is hostname/path. Example:
+For the Archiver appliance, for format is hostname[:port]/path.
+The default port number is 80.
+Example:
 
-    "cr01arc04/mgmt/bpl/"
+    "cr01arc04:80/mgmt/bpl/ sr02ir01arc01/mgmt/bpl/"
 
 ### QE_ARCHIVE_PATTERN (Optional)
 
-A pattern match applied when extracting PV list from the archives.
-This can be used to restrict, and hence speed up, the amount of PV meta ArchiveDataServerretrieved from the archiver.
+A pattern match applied when extracting PV list from the Channel Access archives.
+This can be used to restrict, and hence speed up, the amount of PV meta
+ArchiveDataServer retrieved from the archiver.
 
 ### QE_STRIPCHART_PREDEFINED_PVS (Optional)
 
@@ -266,11 +295,12 @@ These environmnet variables affact QEGui only.
 They will not affect other bespoke display managers using the EPICS Qt framework.
 
 With the exception of --help and --version, any QEGui long option may now also be
-specified by a correcponding environmnet variable.
-This environmnet variable is the long option name withount the leading --, converted
-to upper case and prefixed by "QEGUI_".
+specified by a corresponding environment variable.
 
-For example, on Linux, the following are equivilent:
+This environment variable is the long option name without the leading --,
+converted to upper case and prefixed by "QEGUI_".
+
+For example, on Linux, the following are equivalent:
 
     export QEGUI_ADJUST_SCALE="120"
     export QEGUI_DISABLE_AUTOSAVE="YES"
@@ -287,10 +317,10 @@ Run qegui -h to get a complete list of long options.
 
 ### QEGUI_CAQTDM_CONTEXT_MENU
 
-When caQtDm is integrated into QEGui, this environmnet variable controls whether
-the caQtDm widgets using their native contect menu or the EPICS Qt standard
+When caQtDm is integrated into QEGui, this environment variable controls whether
+the caQtDm widgets use their native context menu or the EPICS Qt standard
 context menu. Set this variable to "1", "TRUE" or "YES" to select this feature.
 
 
-<font size="-1">Last updated: Wed Feb  5 17:59:44 AEDT 2020</font>
+<font size="-1">Last updated: Sat Feb  8 14:33:39 AEDT 2020</font>
 <br>

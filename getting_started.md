@@ -40,7 +40,7 @@ Information regarding downloading and building EPICS may be found at
 Alternatively speak to your local EPICS expert.
 
 EPICS Qt has successfully been built and tested using, but not limited to,
-EPICS base  versions 3.14.12.5, 3.15.6 and 7.0.2.
+EPICS base  versions 3.14.12.5, 3.15.6 and 7.0.3.
 For PV Access functionality, EPICS 7 is required.
 
 ## <span style='color:#006666'>Qt</span>
@@ -78,8 +78,12 @@ and to this on Windows:
 ## <span style='color:#006666'>QWT</span>
 
 The selected version of QWT must be compatible with your version of Qt.
-For Qt 5.6 or later we use QWT version 6.1.3. For Linux users, a suitable version
-of QWT may be available via your distribution's package manager (e.g. yum, apt).
+For Qt 5.6 or later we use QWT version 6.1.3.
+For Qt 5.13 we found 6.1.3 uses a number of deprecated function and QWT 6.1.4 is
+recommended.
+
+For Linux users, a suitable version of QWT may be available via your
+distribution's package manager (e.g. yum, apt).
 If not, it is available from [http://qwt.sourceforge.net/](http://qwt.sourceforge.net/).
 
 ## <a name="ACAI"> <span style='color:#006666'>ACAI</span>
@@ -107,8 +111,8 @@ or:
     C:\> acai_monitor -v
     ACAI 1.5.4 using EPICS 3.14.12.4
 
-acai_monitor is a test/demo program that uses the ACAI and EPICS libraries, however
-the program itself is not used by EPICS Qt.
+acai_monitor is a test/demo program that uses the ACAI and EPICS libraries,
+however the program itself is not used by EPICS Qt.
 
 For MSVC users, please use ACAI version 1.5.3 or later.
 
@@ -121,7 +125,7 @@ For Linux users using the yum package manager, this can be achieved by
 
     sudo yum install -y protobuf
 
-For Windows users, thre is some info in [Archive Appliance](archiver_appliance.html).
+For Windows users, there is some info in [Archive Appliance](archiver_appliance.html).
 
 ## <span style='color:#006666'>FFMpeg Support</span>
 
@@ -134,7 +138,7 @@ For CentOS 7 this can be done like this:
     sudo rpm -Uvh \
       http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
 
-And the ffmpeg packages themselves please run:
+And to install the ffmpeg packages themselves please run:
 
     sudo yum install -y  ffmpeg-devel  ffmpeg-libs
 
@@ -161,22 +165,34 @@ will need to download the following:
 The commands shown here illustrate downloading and building EPICS Qt in the
 directory <span style='color:#00c000'>/home/user/qtepics</span>.
 This is just for the purposes of providing example commands.
-You are free to to down load and install anywhere on your system.
+You are free to down load and install anywhere on your system.
 Replace the <span style='color:#00c000'>green</span> part of the path in the
 examples below to suit your own environment.
 
 Note: This instructions are currently Linux-centric, however Windows users should
 have no trouble translating these to the Windows equivalent.
 
-Modify <span style='color:#00c000'>/home/user/qtepics</span>/qeframework/configure/RELEASE file such that:
+Modify <span style='color:#00c000'>/home/user/qtepics</span>/__qeframework__/configure/RELEASE file such that:
 
     QE_FRAMEWORK=<span style='color:#00c000'>/home/user/qtepics</span>/qeframework<br>
-    EPICS_BASE=__a reference your EPICS base__
+    ACAI=__a reference your ACAI diretory__
+    EPICS_BASE=__a reference your EPICS base diretory__
 
-Modify <span style='color:#00c000'>/home/user/qtepics</span>/qegui/configure/RELEASE file such that:
+
+If you are using EPICS 7 together with  PV Access, and wish to decompress images
+compressed using the Area Detector Codec plugin, the modify
+<span style='color:#00c000'>/home/user/qtepics</span>/__qeframework__/configure/RELEASE file
+such that:
+
+    ADSUPPORT=__a reference your ADSUPPORT module__
+
+If not required, please remove the ADSUPPORT definition.
+
+Modify <span style='color:#00c000'>/home/user/qtepics</span>/__qegui__/configure/RELEASE file such that:
 
     QE_FRAMEWORK=<span style='color:#00c000'>/home/user/qtepics</span>/qeframework<br>
-    EPICS_BASE=__a reference your EPICS base__
+    EPICS_BASE=__a reference your EPICS base diretory__
+
 
 
 ### Environment Variables
@@ -191,6 +207,14 @@ export QWT_ROOT='/usr/local/qwt-6.1.3' on Linux if not in default location)
 _Optional:_ Define QE_FFMPEG if mpeg streaming is required (on Windows, this must
   point to the FFMPEG directory; on Linux just being defined is sufficient).
 
+_Optional:_ Define QE_ARCHAPPL_SUPPORT=YES to include Archive Appliance support.
+
+_Optional:_ Define PROTOBUF_INCLUDE_PATH. When Archive Appliance selected, location
+of the protobuf header files (if not already in tool chain search path).
+
+_Optional:_ Define PROTOBUF_LIB_DIR. When Archive Appliance selected, location
+of the protobuf library files (if not already in tool chain search path).
+
 _Optional:_ Define QE_CAQTDM if integration of PSI's caQtDM into QEGui is required.
 If you want caQtDM integrated, download and build it and define the environment
 variable QE_CAQTDM to point to the caQtDM_Project directory.
@@ -200,6 +224,8 @@ and binaries to be built/installed into the nominated directory.
 This is not recommended and included for legacy purposes only.
 Note: If this environment variable is defined, you must modify the QE_FRAMEWORK
 definitions in the configure/RELEASE files to be consistent with this variable.
+
+More details are available at [environment_variables.html](environment_variables.html).
 
 ### qmake
 
@@ -267,19 +293,20 @@ the basis of such a script that would suit your facility.
 This getting started section assumes the reader is familiar with qtcreator.
 
 There are three separate Qt projects, one each for qeframework, qeplugin and qegui.
-There is no overall project to build them all. Note: the archapplDataSup must be
+There is no overall project to build them all. Note: the archapplDataSup _must_ be
 built command line style.
 
-One consequence is when building the QE Framework using qtcrerate, the framework
-project qtcreator must be configured with an extra build step in install the header
-files so that they are available when building the qeplugin library, qegui libarary
+One consequence is when building the QE Framework using qtcreator, the framework
+project must be configured with an extra build step in install the header
+files so that they are available when building the qeplugin library, qegui program
 or any other QE Framework client.
 This step is done automatically when using the headless build option described in
 the previous section.
 
 Another consequence is that in addition to the environment variables required
-for the headless build as described above, the environment variables EPICS_BASE
-and QE_FRAMEWORK must also be defined manually when using qtcreator.
+for the headless build as described above, the environment variables EPICS_BASE,
+ACAI, QE_FRAMEWORK and if required ADSUPPORT must also be defined manually when
+using qtcreator.
 
 ## qeframework
 
@@ -296,7 +323,7 @@ During the qmake phase the following message is output.
 To do this, open the project build configuration page in qtcreator and click on
 Add Build Step button/combo box and select Make.
 In the Make arguments line edit specify install.
-In the existing regular make step, consider adding a â-j Nâ argument to allow
+In the existing regular make step, consider adding a __-j N__  argument to allow
 parallel compilation (where N is the number of available CPU cores).
 
 # ![](build_steps.png?raw=true)
@@ -318,5 +345,5 @@ in qtcreator :
 
 <span style='color:#00c000'>/home/user/qtepics</span>/qegui/qeguiApp/project/QEGuiApp.pro
 
-<font size="-1">Last updated: Thu Dec 19 16:31:36 AEDT 2019</font>
+<font size="-1">Last updated: Sat Feb 08 14:10:23 AEDT 2020</font>
 <br>
