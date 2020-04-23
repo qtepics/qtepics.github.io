@@ -2,6 +2,7 @@
 
 # <span style='color:#006666'>Release Index</span>
 
+[r3.7.3](#r3.7.3)<br>
 [r3.7.2](#r3.7.2)<br>
 [r3.7.1](#r3.7.1)<br>
 [r3.6.4](#r3.6.4)<br>
@@ -14,6 +15,11 @@
 [r3.4.3](#r3.4.3)<br>
 [r3.4.2](#r3.4.2)<br>
 [Earlier Releases](#Earlier_Releases)
+
+# <a name="r3.7.3"></a><span style='color:#006666'>r3.7.3</span>
+
+Expected release date: May 2020
+
 
 # <a name="r3.7.2"></a><span style='color:#006666'>r3.7.2</span>
 
