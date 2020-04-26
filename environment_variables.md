@@ -181,6 +181,10 @@ so that qegui (and designer) may load the QEPlugin library and create QEFramewor
 
 Note: the plugin library is located at:   _<where-your-epicsqt-is-located>_/qeframework/lib/<epics_host_arch>/designer
 
+***Note***: the "/designer" suffix ***must not*** be added to the QT_PLUGIN_PATH
+definition, this is implicitly added by the Qt plugin loader.
+It is a "feature" of the Qt system.
+
 Using an environment variable is the easiest way to do this; there are other ways,
 please refer to the Qt documentation.
 
@@ -195,7 +199,7 @@ be specified if the libraries are relocated.
 
 On Windows builds, PATH must include %EPIC_BASE%\bin\%EPICS_HOST_ARCH% which is
 where the ca.dll and Com.dll files are built;  and
-_<where-your-epicsqt-is-located>\qeframework\lib\%EPICS_HOST_ARCH% which is
+<where-your-epicsqt-is-located>\qeframework\lib\%EPICS_HOST_ARCH% which is
 where the QEFramework.dll is located.
 
 ### QE_UI_PATH (Optional)
@@ -284,7 +288,9 @@ As the EPICS Qt framework is a Channel Access client, the values assigned to:
 * EPICS_CA_AUTO_ADDR_LIST,
 * EPICS_CA_ADDR_LIST,
 * EPICS_CA_MAX_ARRAY_BYTES,
-* EPICS_CA_SERVER_PORT etc.
+* EPICS_CA_SERVER_PORT,
+* EPICS_PVA_AUTO_ADDR_LIST,
+* EPICS_PVA_ADDR_LIST etc.
 
 can affect the operation of this program.
 Please refer to EPICS R3.14 Channel Access Reference Manual for details.
@@ -322,5 +328,5 @@ the caQtDm widgets use their native context menu or the EPICS Qt standard
 context menu. Set this variable to "1", "TRUE" or "YES" to select this feature.
 
 
-<font size="-1">Last updated: Sat Feb  8 14:33:39 AEDT 2020</font>
+<font size="-1">Last updated: Sun Apr 26 13:11:23 AEST 2020</font>
 <br>
