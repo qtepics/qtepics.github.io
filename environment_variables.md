@@ -198,14 +198,40 @@ For Linux, the  _-Wl,-rpath_  link flags are used, so LD_LIBRARY_PATH need only
 be specified if the libraries are relocated.
 
 On Windows builds, PATH must include %EPIC_BASE%\bin\%EPICS_HOST_ARCH% which is
-where the ca.dll and Com.dll files are built;  and
-<where-your-epicsqt-is-located>\qeframework\lib\%EPICS_HOST_ARCH% which is
+where the ca.dll and Com.dll files are built; and
+{where-your-epicsqt-is-located}\qeframework\lib\%EPICS_HOST_ARCH% which is
 where the QEFramework.dll is located.
 
 ### QE_UI_PATH (Optional)
 
 This defines alternative/additional paths used when searching for a ui file.
 This augments qegui's -u command line option.
+
+### QE_STYLE_COLOR_NAMES and QE_COLOR_NAMES
+
+These environment variables allow the default alarm colours to be overriden - this
+may be particularly usefull for colour blind users.
+
+QE_STYLE_COLOR_NAMES defines the background colours to be used for QELabel and
+the like, while QE_COLOR_NAMES defines the more solid graphical colours used by
+QESimpleShape, QEHistogram etc.
+
+The format of each is a set of colon seperated colour names, e.g
+
+    "green:yellow:red:white"
+
+or 
+    "#00ff00::#ffff00:#ff0000:#ffffff" 
+
+or a combination of names and hex values.
+
+If colour missing, then default is used, e.g. to only redine the invalid color
+to orange, define 
+
+    QE_STYLE_COLOR_NAMES as ":::#ffc0a0"
+
+Note: if dark background style colours are selected, then the font colour will be
+set to white.
 
 ### QE_ARCHIVE_TYPE (Optional)
 
