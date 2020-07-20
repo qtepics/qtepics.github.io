@@ -2,6 +2,7 @@
 
 # <span style='color:#006666'>Release Index</span>
 
+[r3.7.4](#r3.7.4)<br>
 [r3.7.3](#r3.7.3)<br>
 [r3.7.2](#r3.7.2)<br>
 [r3.7.1](#r3.7.1)<br>
@@ -17,9 +18,13 @@
 [Earlier Releases](#Earlier_Releases)
 
 
+# <a name="r3.7.4"></a><span style='color:#006666'>r3.7.4</span>
+
+Expected release date: 8th August 2020.
+
 # <a name="r3.7.3"></a><span style='color:#006666'>r3.7.3</span>
 
-Expected release date: 4th May 2020.
+Release date: 16th April 2020.
 
 The main feature of this release is is a rework of the QEPlot widget, the
 introduction of a new QEDateTime widget, updates to cater for latest protobuf
