@@ -1,0 +1,212 @@
+#!/usr/bin/env python
+#
+# $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/compare_common_properties $
+# $Revision: #1 $
+# $DateTime: 2020/07/20 17:11:46 $
+# Last checked in by: $Author: starritt $
+#
+# 1.3  - Modified for python 3
+#
+
+__author__ = "Andrew Starritt"
+__email__ = "andrew.starritt@synchrotron.org.au"
+__copyright__ = "Copyright (c) 2015-2010 Australian Synchrotron"
+__version__ = "1.3"
+__date__ = "2017/APR/15"
+__description__ = "Script to extract, compare and report on standard sets of properties"
+__status__ = "Production"
+
+import os.path
+import sys
+
+
+# -----------------------------------------------------------------------------
+#
+def process_file(filename, lookfor, extracted):
+
+    extracted[:] = []
+
+    if (not os.path.isfile(filename)):
+        print ("%s: does not exists or is not a file" % filename)
+        return False
+
+    try:
+        f = open(filename, 'r')
+    except IOError:
+        print ("Cannot open file: %s" % filename)
+        return False
+
+    try:
+        lines = f.read().splitlines()
+    except:
+        print ("Cannot read/splt lines for file: %s" % filename)
+        f.close()
+        return False
+
+    f.close()
+
+    first_line_number = 1
+    initial_size = len(lines)
+
+#   print ("processing %s  (%d lines)" % (filename, initial_size))
+
+    if len(lines) == 0:
+        print ("file %s is empty" % filename)
+        return False
+
+    status = False
+
+    begin = "BEGIN-" + lookfor
+    end = "END-" + lookfor
+    copy = False
+
+    for line in lines:
+        if begin in line:
+            copy = True
+
+        if copy:
+            extracted.append(line)
+
+        if end in line:
+            status = True
+            break
+
+    return True
+
+
+
+# -----------------------------------------------------------------------------
+#
+def compare(a, b, verbose):
+    """ Provides an equality test on two lists of strings. 
+    """
+    
+    result = True
+    
+    if len(a) != len(b):
+        if verbose:
+            print ("length mis match %d vs. %d" % (len(a), len(b)))
+        result = False
+    
+    # Find first mis-match from the start of the two lists.
+    #
+    ai = 0
+    bi = 0
+    while ai < len(a) and bi < len(b):
+        pa = a[ai].strip()
+        pb = b[bi].strip()
+        
+        if pa == pb:
+            ai += 1
+            bi += 1
+            continue
+        
+        # Found a mismatch
+        #
+        result = False
+        break
+    
+    # Find first mis-match from the end of the two lists.
+    #
+    aj = len(a)
+    bj = len(b)
+    while aj > 0 and bj > 0:
+        aj -= 1
+        bj -= 1
+        pa = a[aj].strip()
+        pb = b[bj].strip()
+        
+        if pa == pb:
+            continue
+        
+        # Found a mismatch
+        #
+        result = False
+        break
+    
+    # Note: we don't try to find intermediate matches.
+    #
+    if verbose:
+        for j in range (ai, aj):
+            pa = a[j].strip()
+            print("< %2d  %s" % (j, pa))
+        
+        for j in range (bi, bj):
+            pb = b[j].strip()
+            print("> %2d  %s" % (j, pb))
+
+
+    return result
+
+
+# -----------------------------------------------------------------------------
+#
+groups = ('STANDARD-PROPERTIES',
+          'SINGLE-VARIABLE-PROPERTIES',
+          'SINGLE-VARIABLE-V2-PROPERTIES',
+          'SINGLE-VARIABLE-V3-PROPERTIES',
+          'STRING-FORMATTING-PROPERTIES',
+          'GENERIC-BUTTON-PROPERTIES')
+
+
+
+# -----------------------------------------------------------------------------
+#
+def main():
+    args = sys.argv
+
+    # Save and remove exectuable name
+    #
+    iam = os.path.basename(args.pop(0))
+
+    if len(args) == 0:
+        print ("%s - no arguments specified" % iam)
+        print ("")
+        print ("Try something like:  compare_common_properties  frameworkSup/projects/widgets/*/*.h")
+        print ("")
+        return
+
+
+    print ("")
+    for group in groups:
+        print("Processing group", group)
+
+        the_set = []
+
+        for arg in args:
+            try:
+                extracted = []
+                status = process_file(arg, group, extracted)
+                if len(extracted) > 0:
+                    the_set.append((arg, extracted))
+            except:
+                print ("failed to parse %s" % arg)
+                raise
+
+        total = len(the_set)
+        if total == 0:
+            print ("There are no matches for %s" % group)
+            print ("")
+            continue
+
+        reference = the_set.pop(0)
+        mis_match = 0
+        for j in range(len(the_set)):
+            item = the_set[j]
+            status = compare(reference[1], item[1], verbose=False)
+            if not status:
+                mis_match = mis_match + 1
+                print(reference[0], "and", item[0], "differ")
+                status = compare(reference[1], item[1], verbose=True)
+                print("")
+
+        print ("The are %d mis matches out of %d files" % (mis_match, total))
+        print ("")
+
+    print ("%s complete" % iam)
+    
+
+if __name__ == "__main__":
+    main()
+
+# end
