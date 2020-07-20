@@ -1,12 +1,12 @@
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2uigen.py $
-# $Revision: #2 $
-# $DateTime: 2019/12/05 17:37:50 $
+# $Revision: #3 $
+# $DateTime: 2020/07/20 17:32:41 $
 # Last checked in by: $Author: starritt $
 #
 
 """
 Note: we indent the generated xml, not because designer or qegui
-needs it, but this helps with debugging
+needs it, but this helps with debugging.
 """
 
 import os.path
@@ -587,6 +587,7 @@ class QELineEdit(QWidget):
                   "engr. notation": "QELineEdit::Scientific",
                   "compact": "QELineEdit::Automatic"}
         self.write_enum("notation", lookup.get(format, "QELineEdit::Fixed"))
+        self.write_enum("dropOption", "QEGenericEdit::DropToTextAndWrite")
 
 
 # ------------------------------------------------------------------------------
