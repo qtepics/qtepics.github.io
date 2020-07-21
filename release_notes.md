@@ -13,6 +13,98 @@
 
 Expected release date: 8th August 2020.
 
+## <span style='color:#666666'>qeframework</span>
+
+The significant changes to the qeframework associated with this release are
+described below.
+
+#### QEPvLoadSaveButton
+
+The QEPvLoadSaveButton is a new widget that allows a nominated xml file of PV
+names and associated PV values (it uses the same format as used by QEPvLoadSave)
+to be read and the values from the file written to the PVs.
+
+The widget can also be used to capture a set of PV values and update the xml file.
+
+#### QEPlot
+
+This widget as been modified to add optional sizeVaraibles (similar to the size
+variables used in QEPlotter) to limit the number of array elements that are
+plotted.
+
+One use case would be using a sscan record's current point (.CPT) field in order
+to only plot up-to and including the current scan point.
+
+#### QELineEdit
+
+The QEgenericEdit parent class has been modified to introduced a dropOptions
+property to allow DropToText and DropToTextAndWrite in addition to the
+default/implict DropToVariable option.
+
+This allows, for example, dragging a detector PV from a QELabel to a QELineEdit
+widget connected to the .D01PV field of a sscan record, which will then write the
+PV name associated with the QELabel to the sscan record's .D01PV field.
+
+#### Alarm styles
+
+The default framework background alarm colour names (as used by QELables etc) and
+the solid alarm colour names (as used by graphical widgets) can now be redefined
+using using environment variables.
+Please see the documentation and
+[environment variables page](environment_variables.html) for details.
+
+#### QESimpleShape
+
+QESimpleShape has been updated to ensure that the PV value used to select the
+stateSet text, irrespective of the value of the displayAlarmStateOption property.
+Use the .SEVR field if you want the state text selected by the alarm severity.
+
+#### QEPlotter
+
+Updated the QEPlotter widget to be more tolerant of NaN and +/-Inf PV values.
+
+
+## <span style='color:#666666'>qegui</span>
+
+No change to the qegui application per se.
+
+For the run_qegui.bat, run_qt_designer.bat and run_qerad.bat scripts, we now set
+the QT_PLUGIN_PATH by using the to %QE_FRAMEORK% variable as opposed to being
+hard coded.
+
+For the EPICS Qt installer config file, added our new archives to the
+specification of the QE_ARCHIVE_LIST environment variable.
+This is only applicable to Australian Synchrotron users.
+Other sites will have to manually define QE_ARCHIVE_LIST.
+
+Updated qeguiApp RELEASE and CONFIG_SITE file to be more configurable with
+respect to caQtDM integration.
+
+## <span style='color:#666666'>qeReadArchive</span>
+
+Fixed the time zone issues with the qerad program.
+
+The qerad program now uses double quotes in the help time string examples - this
+makes the examples compatible with Windows.
+Also updated examples to 2020.
+
+## <span style='color:#666666'>qeBinaries</span>
+
+New 3.7.4 rpm and msi file available after formal release.
+
+## <span style='color:#666666'>documentation</span>
+
+The documentation files, in the qeframework repository, have been updated to
+reflect the above changes.
+Also the documentation for the following widgets:
+
+ * QELineEdit
+ * QNumericEdit/QENumericEdit
+ * QRadioGrouo/QERadioGroup
+
+have now be separated into their own documents.
+
+
 # <a name="r3.7.3"></a><span style='color:#006666'>r3.7.3</span>
 
 Release date: 16th April 2020.
@@ -512,5 +604,5 @@ Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
 
-<font size="-1">Last updated: Mon Jul 20 18:26:59 AEST 2020</font>
+<font size="-1">Last updated: Tue Jul 21 14:41:34 AEST 2020</font>
 <br>
