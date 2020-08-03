@@ -11,7 +11,7 @@
 
 # <a name="r3.7.4"></a><span style='color:#006666'>r3.7.4</span>
 
-Expected release date: 8th August 2020.
+Release date: 3rd August 2020.
 
 ## <span style='color:#666666'>qeframework</span>
 
