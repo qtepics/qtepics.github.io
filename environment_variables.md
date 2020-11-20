@@ -209,29 +209,32 @@ This augments qegui's -u command line option.
 
 ### QE_STYLE_COLOR_NAMES and QE_COLOR_NAMES
 
-These environment variables allow the default alarm colours to be overriden - this
-may be particularly usefull for colour blind users.
+These environment variables allow the default alarm colours to be overridden -
+this may be particularly useful for colour blind users.
 
 QE_STYLE_COLOR_NAMES defines the background colours to be used for QELabel and
 the like, while QE_COLOR_NAMES defines the more solid graphical colours used by
 QESimpleShape, QEHistogram etc.
 
-The format of each is a set of colon seperated colour names, e.g
+The format of each is a set of colon separated colour names, e.g
 
-    "green:yellow:red:white"
+    "green:yellow:red:white:blue"
 
-or 
-    "#00ff00::#ffff00:#ff0000:#ffffff" 
+or
+    "#00ff00::#ffff00:#ff0000:#ffffff:#0080ff"
 
 or a combination of names and hex values.
 
-If colour missing, then default is used, e.g. to only redine the invalid color
-to orange, define 
+The colours specify the colour used for no alarm, minor alarm, major alarm,
+invalid and out of service respectively.
+
+If a colour missing, then the default is used, e.g. to only define the invalid
+colour to orange, define
 
     QE_STYLE_COLOR_NAMES as ":::#ffc0a0"
 
-Note: if dark background style colours are selected, then the font colour will be
-set to white.
+Note: if dark background style colours are selected, then the font colour will
+be set to white.
 
 ### QE_ARCHIVE_TYPE (Optional)
 
@@ -354,5 +357,5 @@ the caQtDm widgets use their native context menu or the EPICS Qt standard
 context menu. Set this variable to "1", "TRUE" or "YES" to select this feature.
 
 
-<font size="-1">Last updated: Sun Apr 26 13:11:23 AEST 2020</font>
+<font size="-1">Last updated: Fri Nov 20 15:42:45 AEDT 2020</font>
 <br>

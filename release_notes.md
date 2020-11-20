@@ -2,6 +2,7 @@
 
 # <span style='color:#006666'>Release Index</span>
 
+[r3.7.5](#r3.7.5)<br>
 [r3.7.4](#r3.7.4)<br>
 [r3.7.3](#r3.7.3)<br>
 [r3.7.2](#r3.7.2)<br>
@@ -9,9 +10,132 @@
 [Earlier Releases](#Earlier_Releases)
 
 
+# <a name="r3.7.5"></a><span style='color:#006666'>r3.7.5</span>
+
+Expected release date: 2nd December 2020.
+
+## <span style='color:#666666'>qeframework</span>
+
+The significant changes to the qeframework associated with this release are
+described below.
+
+#### QECaClient
+
+The class now handles QByteArray variant data type on write.
+The consequence of this is that the qeframework now requires acai 1-5-8 or later.
+
+#### 2D Data Visualisation widgets
+
+Release 3.7.5 sees the introduction of three 2D visualisation widgets, namely
+QESpectrogram, QEWaterfall and QESurface.
+QESurface is only functional with Qt 5.7 or later.
+
+These all allow the presentation of 1D and 2D data in various formats.
+
+When the data is 1D, the widgets will accumulate a fixed number of 1D data sets
+(not unlike the compress record) to form a 2D data set.
+
+When the data is 2D, a second variable may be specified to define the "width" of
+the data.
+Alternatively a hard coded property value may be used to define the width.
+
+See the QE2DDataVisualisation.pdf documentation for details.
+
+Please note: while these widgets are functional, they are still under development
+and therefore the normal 'try hard to maintain backward compatibility philosophy'
+will not apply here.
+
+#### QEAxisPainter
+
+To support the new widgets, this class has been updated to provide a paint method
+to also draw on a QPainter object, and fix a few typos.
+
+#### Out of Service (OOS)
+
+Introduced Out of Service quazi alarm state capability.
+The QCaAlarmInfo support class QCaAlarmInfoColorNamesManager now provides the
+following:
+
+    static void setOosPvNameList (const QStringList& pvNameList);
+
+which allows the declaration of a number of PV being "out-of-service".
+
+An out of service PV is displayed with a blue background and the tool
+tip, if displayed, includes the text "OOS" next to the alarm state.
+The OOS colour may be modified by use of the QE_STYLE_COLOR_NAMES and
+QE_COLOR_NAMES environment variables.
+Please see the documentation and
+[environment variables page](environment_variables.html) for details.
+
+An oosAware property, default true, has been added to applicable widgets.
+This controls if a widget is sensitive to its "out-of-service" status.
+
+This functionality requires bespoke plugin to call setOosPvNameList.
+There is __no__ means provided by which qegui can call this function.
+
+#### displayAlarmStateOption property
+
+This has been extended to include a WhenInvalid option in order to provide
+extra control on how widgets respond to alarm states.
+
+####  QEPvLoadSaveButton, QEScript, QEConfiguredLayout and QEFileBrowser
+
+These widgets have been updated to remove non-applicable properties relating
+to aspects of QEWidget managed PV connections, such as variableNameAsTooltip
+and displayAlarnStateOption.
+
+#### QEPvLoadSave
+
+Set widget properties to be suitable for a widget with no QEWidget managed
+variables.
+
+Separate PV names may now be specified for reading and writing.
+For example, this widget can be configured to write a motor records .VAL field,
+but read from its .RBV field.
+Indeed it could be configured to write to and read from two totally different
+records.
+
+This is described in QEPvLoadSave specified document which has been created as
+a stand-alone document.
+
+#### QEPvLoadSaveButton
+
+Updated to be compatible with earlier version of the  gcc/g++ compiler.
+
+#### QEImage
+
+The setImage, setDataImage and setPvaImage slot functions are now public,
+by tech-talk request.
+
+#### QNumericEdit/QENumericEdit
+
+For the QNumericEdit::setInternalValue and QEFixedPointRadix::toString()
+functions, we now check for nan and inf values to avoid any unpleasantness.
+
+#### QSimpleShape
+
+Added alignment and indent properties for text positioning (similar to QLabel).
+
+#### PV Name Selection dialog
+
+This dialog is used by the QEStripChart and other widgets to select PV names.
+A regular expression may be used to filter PV names received from the archiver(s).
+The dialog has been updated to save the filtered PV names and re-populate the
+combo-box the next time the dialog is re-opened.
+
+
+## <span style='color:#666666'>qegui</span>
+
+No change to the qegui application per se.
+
+## <span style='color:#666666'>qeBinaries</span>
+
+The new 3.7.5 rpm and msi files will be made available after formal release.
+
+
 # <a name="r3.7.4"></a><span style='color:#006666'>r3.7.4</span>
 
-Release date: 3rd August 2020.
+Release date: 24th July 2020.
 
 ## <span style='color:#666666'>qeframework</span>
 
@@ -604,5 +728,5 @@ Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
 
-<font size="-1">Last updated: Tue Jul 21 14:41:34 AEST 2020</font>
+<font size="-1">Last updated: Fri Nov 20 15:49:42 AEDT 2020</font>
 <br>
