@@ -12,7 +12,7 @@
 
 # <a name="r3.7.5"></a><span style='color:#006666'>r3.7.5</span>
 
-Expected release date: 2nd December 2020.
+Release date: 7th December 2020.
 
 ## <span style='color:#666666'>qeframework</span>
 
@@ -21,16 +21,23 @@ described below.
 
 #### QECaClient
 
-The class now handles QByteArray variant data type on write.
+The class now handles the QByteArray variant data type on write.
 The consequence of this is that the qeframework now requires acai 1-5-8 or later.
 
 #### 2D Data Visualisation widgets
 
 Release 3.7.5 sees the introduction of three 2D visualisation widgets, namely
 QESpectrogram, QEWaterfall and QESurface.
-QESurface is only functional with Qt 5.7 or later.
+QESurface is only functional with Qt 5.7 or later and also required the
+datavisualization to be installed.
+If the QT datavisualization module not available, comment out _both_ of the
+following lines in the framework.pro project file (approx line 80):
 
-These all allow the presentation of 1D and 2D data in various formats.
+    DEFINES += QE_DATA_VISUALISATION
+    QT += datavisualization
+
+
+These widgets all allow the presentation of 1D and 2D data in various formats.
 
 When the data is 1D, the widgets will accumulate a fixed number of 1D data sets
 (not unlike the compress record) to form a 2D data set.
@@ -70,7 +77,7 @@ Please see the documentation and
 An oosAware property, default true, has been added to applicable widgets.
 This controls if a widget is sensitive to its "out-of-service" status.
 
-This functionality requires bespoke plugin to call setOosPvNameList.
+__Note:__ This functionality requires bespoke plugin to call setOosPvNameList.
 There is __no__ means provided by which qegui can call this function.
 
 #### displayAlarmStateOption property
@@ -728,5 +735,5 @@ Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
 
-<font size="-1">Last updated: Fri Nov 20 15:49:42 AEDT 2020</font>
+<font size="-1">Last updated: Mon Dec  7 12:41:04 AEDT 2020</font>
 <br>
