@@ -1,6 +1,6 @@
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2uigen.py $
-# $Revision: #3 $
-# $DateTime: 2020/07/20 17:32:41 $
+# $Revision: #5 $
+# $DateTime: 2021/01/15 12:32:15 $
 # Last checked in by: $Author: starritt $
 #
 
@@ -54,6 +54,7 @@ class QWidget (object):
     m = 10
     d = 10
     font_size = 8
+    default_colours = False
 
     @staticmethod
     def relative_position(item, origin):
@@ -236,8 +237,12 @@ class QWidget (object):
                 # Will set forground to black
                 fcn = 14
 
-            defaultStyle = adl2colour.get_style(bcn, fcn)
-            self.write_stdset_string("defaultStyle", defaultStyle)
+            # If default colours specified, do NOT set colours based on the
+            # original medm adl file.
+            #
+            if not QWidget.default_colours:            
+                defaultStyle = adl2colour.get_style(bcn, fcn)
+                self.write_stdset_string("defaultStyle", defaultStyle)
 
     def write_alignment(self, name, value):
         assert type(value) == str, "write_alignment: value is not a string"
@@ -295,7 +300,12 @@ class QESubstitutedLabel (QWidget):
 
         bcn = adl2colour.RGBA(0, 0, 0, 0)  # see through
         styleSheet = adl2colour.get_style(bcn, fcn)
-        self.write_stdset_string("styleSheet", styleSheet)
+        
+        # If default colours specified, do NOT set colours based on the
+        # original medm adl file.
+        #
+        if not QWidget.default_colours:            
+            self.write_stdset_string("styleSheet", styleSheet)
 
 
 # ------------------------------------------------------------------------------
@@ -983,7 +993,15 @@ class UiFile (QWidget):
 
 #------------------------------------------------------------------------------
 #
-def dump_to_file(filename, adl, scale, font_size):
+def dump_to_file(filename, adl_dic, scale, font_size, default_colours):
+    """
+    filename : target ui file name
+    adl_dic : dictionary from the adl file
+    scale : scale factor (percentage)
+    font_size : the required font size
+    default_colours : when True use the QE framework default colours
+                      exceptions are ...
+    """
     try:
         out_file = open(filename, 'w')
     except IOError:
@@ -993,8 +1011,9 @@ def dump_to_file(filename, adl, scale, font_size):
     QWidget.m = int(scale)
     QWidget.d = int(100)
     QWidget.font_size = font_size
+    QWidget.default_colours = default_colours
 
-    ui_file = UiFile(adl, out_file, 0)
+    ui_file = UiFile(adl_dic, out_file, 0)
     ui_file.write_widget()
     out_file.close()
 

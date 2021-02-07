@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 #
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2qe.py $
-# $Revision: #1 $
-# $DateTime: 2019/08/25 21:33:37 $
+# $Revision: #3 $
+# $DateTime: 2021/02/07 16:01:55 $
 # Last checked in by: $Author: starritt $
 #
 
 import os
 import os.path
 import json
+import sys
 import click
 
 from . import __version__
@@ -23,7 +24,8 @@ def print_version(ctx, param, value):
     if not value or ctx.resilient_parsing:
         return
 
-    print("adl2qe version: %s" % __version__)
+    vi = sys.version_info
+    print("adl2qe version: %s  (python %s.%s.%s)" % (__version__, vi.major, vi.minor, vi.micro))
     ctx.exit()
 
 # -----------------------------------------------------------------------------
@@ -90,6 +92,15 @@ Specifies font point size. Must be in the range 4 to 72.\
 #
 # -----------------------------------------------------------------------------
 #
+@click.option('--default_colours', '-d',
+              is_flag=True,
+              help="""\
+Use default EPICS Qt colours for most widgets, i.e. ignore the MEDM \
+colours specified in the .adl file(s).\
+""")
+#
+# -----------------------------------------------------------------------------
+#
 @click.option('--version', '-v',
               is_flag=True,
               callback=print_version,
@@ -104,7 +115,7 @@ Specifies font point size. Must be in the range 4 to 72.\
 #
 #------------------------------------------------------------------------------
 #
-def main(debug, scale, font_size, filenames):
+def main(debug, scale, font_size, default_colours, filenames):
     """ adl2qe converts one or more medm .adl files into EPICS Qt .ui files.
     """
     count = 0
@@ -134,7 +145,7 @@ def main(debug, scale, font_size, filenames):
             print ("%s:\n%s\n\n" % (adl_file, json.dumps (adl_dic, indent=4)))
 
         try:
-            adl2uigen.dump_to_file (ui_file, adl_dic, scale, font_size)
+            adl2uigen.dump_to_file (ui_file, adl_dic, scale, font_size, default_colours)
             print("generated: %s" % ui_file)
         except:
             print("failed to write to %s" % ui_file)
