@@ -1,6 +1,6 @@
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2uigen.py $
-# $Revision: #5 $
-# $DateTime: 2021/01/15 12:32:15 $
+# $Revision: #6 $
+# $DateTime: 2021/03/15 10:44:49 $
 # Last checked in by: $Author: starritt $
 #
 
@@ -597,6 +597,7 @@ class QELineEdit(QWidget):
                   "engr. notation": "QELineEdit::Scientific",
                   "compact": "QELineEdit::Automatic"}
         self.write_enum("notation", lookup.get(format, "QELineEdit::Fixed"))
+        self.write_bool("allowDrop", True)
         self.write_enum("dropOption", "QEGenericEdit::DropToTextAndWrite")
 
 

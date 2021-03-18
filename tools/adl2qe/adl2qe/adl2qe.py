@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 #
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2qe.py $
-# $Revision: #3 $
-# $DateTime: 2021/02/07 16:01:55 $
+# $Revision: #4 $
+# $DateTime: 2021/03/15 10:44:49 $
 # Last checked in by: $Author: starritt $
 #
 
@@ -92,7 +92,7 @@ Specifies font point size. Must be in the range 4 to 72.\
 #
 # -----------------------------------------------------------------------------
 #
-@click.option('--default_colours', '-d',
+@click.option('--default_colours', '-c',
               is_flag=True,
               help="""\
 Use default EPICS Qt colours for most widgets, i.e. ignore the MEDM \
