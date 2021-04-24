@@ -2,12 +2,114 @@
 
 # <span style='color:#006666'>Release Index</span>
 
+[r3.7.6](#r3.7.6)<br>
 [r3.7.5](#r3.7.5)<br>
 [r3.7.4](#r3.7.4)<br>
 [r3.7.3](#r3.7.3)<br>
 [r3.7.2](#r3.7.2)<br>
 [r3.7.1](#r3.7.1)<br>
 [Earlier Releases](#Earlier_Releases)
+
+
+# <a name="r3.7.6"></a><span style='color:#006666'>r3.7.6</span>
+
+Expected Release date: 4th May 2021.
+
+I have stopped active support for Qt4, and while I won't be removing any
+Qt4 version conditional compilation checks, I won't be adding any either.
+
+## <span style='color:#666666'>qeframework</span>
+
+The significant changes to the qeframework for this release are described below.
+
+#### Documentation
+
+The documentation has been relocated from the documentation folder to the
+qtepics.github.io repository.
+
+#### Shared Memory
+
+Removed the shared memory management - this no longer required since the library
+was split (i.e. the dual purpose QEFramework library became standard QEFramework
+non-plugin library and separate QEPlugin plugin library - release 3.5.1), and as
+such the QEFramework library is no longer loaded twice on Windows.
+
+#### QEWaveformHistogram
+
+Add PV name selection capability to this widget via its context menu.
+
+#### QEPvProperties
+
+Modified this widget to read a single value for main (usually .VAL) PV
+(this is especially important for very large arrays).
+
+__Note:__ *this broke items like CALC_RECORD.INPA$ when looking at the INPA field.
+This has since been fixed but will not available until the next release, or
+you could try HEAD - this is usually a very safe bet anyways.*
+
+Modified to use lower case labels for time, host and now just display simple
+element count.
+
+Re-ordered the LOLO, LOW, HIGH, HIHI fields into ascending order in record field
+lists definition file and added VAL to the set of waveform fields.
+
+#### 2D Data Visualisation widgets
+
+Improved readouts and readout options.
+Added more context menu options:  extended auto-scale on/off to manual, operating
+range, dynamic range or currently displayed data range.
+Added a false colour flip context meu option for QESpectrogram.
+Documentation is still lagging.
+
+__Note:__ *QESurface as is being totally revamped to use a home-grown widget
+based on the original Delphi surface rather than the built in Qt surface -
+details on the next release.*
+
+#### QEPlot
+
+Added time/x and y value readouts and/or signal options.
+This can be any or all of:
+  - directed to the status bar;
+  - a signal to anything with a slot that accepts a QString; and/or
+  - a data signal (intended for third party applications/plugins)
+
+#### PV Name selection dialog
+
+This is normally populated with PV names retried from the archiver(s).
+
+Added a means to add global PV name list to the PV name selection dialog.
+Note: qegui still to be modified to leverage off this.
+
+Also removed the restriction re the maximum element count on the PV name
+selection combo-box.
+
+####  QEPVLoadSave PV Name Selection dialog.
+
+Created a variation of the standard PV name selection dialog specifically for the
+QEPVLoadSave widget.
+This allows up-to three PV names to be specified (for write, read and archive
+access).
+This is a lot easier to use when entering two or three PV names compared to using
+the syntax used to display the two/three PV names.
+
+#### QEStripChart
+
+The strip chart now allows the specification of alias names (at design time only)
+and allows showing/hiding the tool bar and the PV items, both similar to the
+QEPlotter widget.
+
+If the alias name is specified, the alias name is used in the strip chart's PV
+bar as opposed to the actual PV name.
+Introduced a context menu item to allow the selection of:
+  - the PV name;
+  - the alias name if it exists (the default); or
+  - the description (from the .DESC field) if exists and is none-empty.
+
+#### Style Manager
+
+Updated the QE widgets style manager such that the connection style takes
+precedence over the alarm severity style.
+This ensures text for disconnected QELabels and the like becomes grayed out.
 
 
 # <a name="r3.7.5"></a><span style='color:#006666'>r3.7.5</span>
@@ -735,5 +837,5 @@ Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
 
-<font size="-1">Last updated: Mon Dec  7 12:41:04 AEDT 2020</font>
+<font size="-1">Last updated: Sat Apr 24 15:17:47 AEST 2021</font>
 <br>
