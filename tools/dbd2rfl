@@ -3,6 +3,8 @@
 """ Converts a dbd file, or a number of concatinated dbd files
     into a record field list suitable for use by the EPICS Qt
     framework's QEPvProperties widget.
+    
+    Note: requires python 3.6 or later.
 """
 
 import os.path
@@ -12,10 +14,9 @@ import collections
 
 Process_State = enum.Enum("Process_State", ("Ready", "RecordType", "Field"))
 
+
 # -----------------------------------------------------------------------------
 #
-
-
 def report(msg):
     sys.stderr.write(msg + "\n")
 
@@ -28,10 +29,11 @@ def find_between(s, first, last):
         end = s.index(last, start)
         return s[start:end]
     except:
-        report (f"s:     '{s}'")
-        report (f"first: '{first}'")
-        report (f"last:  '{last}'")
+        report(f"s:     '{s}'")
+        report(f"first: '{first}'")
+        report(f"last:  '{last}'")
         raise
+
 
 # -----------------------------------------------------------------------------
 #
@@ -67,16 +69,16 @@ def update_rfl(rfl, dbd_file):
 
                 record_type_spec = collections.OrderedDict()
 
-                # Add pseudo RTYP field                
-                record_type_spec ["RTYP"] = {"type": "DBF_STRING",
-                                             "comment": "Record Type",
-                                             "size": 20}
+                # Add pseudo RTYP field
+                record_type_spec["RTYP"] = {"type": "DBF_STRING",
+                                            "comment": "Record Type",
+                                            "size": 20}
 
                 if record_type_name not in rfl:
-                    report (f"adding {record_type_name} specification")
+                    report(f"adding {record_type_name} specification")
                     rfl[record_type_name] = record_type_spec
                 else:
-                    report (f"duplicate specification of {record_type_name} ignored")
+                    report(f"duplicate specification of {record_type_name} ignored")
 
                 state = Process_State.RecordType
 
@@ -85,7 +87,7 @@ def update_rfl(rfl, dbd_file):
                 field_name = find_between(line, "(", ",").strip()
                 field_type = find_between(line, ",", ")").strip()
 
-                field_spec = {"type": field_type, "comment" : "", "size" : 0 }
+                field_spec = {"type": field_type, "comment": "", "size": 0}
                 record_type_spec[field_name] = field_spec
 
                 state = Process_State.Field
@@ -97,7 +99,7 @@ def update_rfl(rfl, dbd_file):
         elif state == Process_State.Field:
             if line.startswith("promptgroup"):
                 pass
-            
+
             elif line.startswith("prompt"):
                 comment = find_between(line, '("', '")').strip()
                 field_spec["comment"] = comment
@@ -118,7 +120,40 @@ def update_rfl(rfl, dbd_file):
 
 # -----------------------------------------------------------------------------
 #
+def output_field(record_type_name, field_name, field_spec, target):
+    """
+    """
+
+    if field_spec["type"] == "DBF_NOACCESS":
+        return
+
+    # do NAME special and sscan special
+    #
+    if field_spec["type"] in ("DBF_INLINK", "DBF_OUTLINK", "DBF_FWDLINK") or field_name == "NAME":
+        field_name = field_name + '*'
+
+    elif field_spec["type"] == "DBF_STRING" and field_spec["size"] > 41:
+        field_name = field_name + '$'
+
+    # Do a special for the sscan record
+    elif record_type_name == "sscan" and field_spec["type"] == "DBF_STRING" and field_name[-2:] == "PV":
+        field_name = field_name + '*'
+
+    gap = " " * (5 - len(field_name))
+    comment = field_spec["comment"]
+    target.write(f'{field_name}, {gap}"{comment}"\n')
+
+
+# -----------------------------------------------------------------------------
+#
 def output(rfl, target):
+
+    target.write("# record field list info\n")
+    target.write("#\n")
+    target.write("# field names ending in $ are read as long string (if supported by the IOC)\n")
+    target.write("# field names ending in * are also read as long string and support PV properties.\n")
+    target.write("#\n")
+    target.write("\n")
 
     for record_type_name in sorted(rfl.keys()):
         target.write("#-------------------------------------------------------------------------------\n")
@@ -126,19 +161,23 @@ def output(rfl, target):
         target.write(f"<<{record_type_name}>>\n")
         record_type_spec = rfl[record_type_name]
 
+        # Field names are processed in order added to the dict - we are 3.9.2 or later
+        #
+        alarm_special = True
         for field_name, field_spec in record_type_spec.items():
-            if field_spec["type"] == "DBF_NOACCESS":
-                continue
 
-            if field_spec["type"] == "DBF_STRING" and field_spec["size"] > 41:
-                field_name = field_name + '$'
+            # However we do alarm levels is more friendly order.
+            #
+            if field_name in ("HIHI", "HIGH", "LOW", "LOLO"):
+                if alarm_special:
+                    for field_name in ("HIHI", "HIGH", "LOW", "LOLO"):
+                        field_spec = record_type_spec.get (field_name, None)
+                        if field_spec is not None:
+                            output_field(record_type_name, field_name, field_spec, target)
+                    alarm_special = False
 
-            elif field_spec["type"] in ("DBF_INLINK", "DBF_OUTLINK", "DBF_FWDLINK"):
-                field_name = field_name + '$'
-
-            gap = " " * (5 - len(field_name))
-            comment = field_spec["comment"]
-            target.write(f'{field_name}, {gap}"{comment}"\n')
+            else:
+                output_field(record_type_name, field_name, field_spec, target)
 
         target.write("\n")
     target.write("# end\n")
@@ -147,15 +186,15 @@ def output(rfl, target):
 # -----------------------------------------------------------------------------
 #
 def run():
-    
+    # TODO: Check for -h/--help
     args = sys.argv
-    args.pop (0)   # remove exectuable name
+    args.pop(0)   # remove exectuable name
 
     rfl = {}
     for dbd_file in args:
         status = update_rfl(rfl, dbd_file)
         state = "okay" if status else "fail"
-        report(f"status: {state}")
+        report(f"{dbd_file} status: {state}")
 
     output(rfl, sys.stdout)
 
