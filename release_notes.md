@@ -13,10 +13,33 @@
 
 # <a name="r3.7.6"></a><span style='color:#006666'>r3.7.6</span>
 
-Expected Release date: 4th May 2021.
+Expected Release date: 29th May 2021.
 
-I have stopped active support for Qt4, and while I won't be removing any
-Qt4 version conditional compilation checks, I won't be adding any either.
+I have stopped active support for Qt4, and while I won't be removing any Qt4
+version conditional compilation checks, I won't be adding any new ones either.
+
+## <span style='color:#666666'>qegui</span>
+
+The significant qegui changes are described below.
+
+#### new options
+
+##### --known_pvs_list, -k   
+
+This option defines name of a file that provides a list of know PV names.
+This list augments any PV names retrieved from the archiver and is used when
+using regular expression name search in the PV name selection dialog as used
+by the StripChart for example.
+
+##### --out_of_service, -z
+
+This option defines name of a file that provides a list of out-of-service PV names.
+Such PVs are displayed using the out of service blue "alarm" colour.
+
+For now, the name check is an exact name match, e.g. FOO and FOO.VAL are
+considered to be different PV names.
+
+Note: The definition of what out-of-service means is up to you.
 
 ## <span style='color:#666666'>qeframework</span>
 
@@ -24,8 +47,8 @@ The significant changes to the qeframework for this release are described below.
 
 #### Documentation
 
-The documentation has been relocated from the documentation folder to the
-qtepics.github.io repository.
+The documentation has been relocated from the documentation folder in the
+qeframework repository to the qtepics.github.io repository.
 
 #### Shared Memory
 
@@ -837,5 +860,5 @@ Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
 
-<font size="-1">Last updated: Sat Apr 24 15:17:47 AEST 2021</font>
+<font size="-1">Last updated: Sat May 29 15:21:21 AEST 2021</font>
 <br>
