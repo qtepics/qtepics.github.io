@@ -28,16 +28,16 @@ desired functionality, then using those widgets within a code free GUI developme
 
 Other documents you may be interested in are:
 
-* [QE_QEGuiAndUserInterfaceDesign.pdf](https://qtepics.github.io/blob/master/documentation/QE_QEGuiAndUserInterfaceDesign.pdf) -
+* [QE_QEGuiAndUserInterfaceDesign.pdf](https://qtepics.github.io/documentation/QE_QEGuiAndUserInterfaceDesign.pdf) -
 general documentation for developing code free GUI applications.
 
-* [QEWidgetSpecifications.pdf](https://qtepics.github.io/blob/master/documentation/QEWidgetSpecifications.pdf) -
+* [QEWidgetSpecifications.pdf](https://qtepics.github.io/documentation/QEWidgetSpecifications.pdf) -
 widget specific documentation for developing code free GUI applications.
 
-* [QE_FrameworkOverview.pdf](https://qtepics.github.io/blob/master/documentation/QE_FrameworkOverview.pdf) -
+* [QE_FrameworkOverview.pdf](https://qtepics.github.io/documentation/QE_FrameworkOverview.pdf) -
 technical overview of the QE framework.
 
-* [QE_ReferenceManual.pdf](https://qtepics.github.io/blob/master/documentation/QE_ReferenceManual.pdf) -
+* [QE_ReferenceManual.pdf](https://qtepics.github.io/documentation/QE_ReferenceManual.pdf) -
 reference manual for programmers using QE widgets and classes.
 
 
@@ -164,5 +164,5 @@ Scherrer Institute.
 [http://epics.web.psi.ch/software/caqtdm/](http://epics.web.psi.ch/software/caqtdm/).
 
 
-<font size="-1">Last updated: Fri Jun 25 11:58:36 AEST 2021</font>
+<font size="-1">Last updated: Fri Jun 25 12:11:14 AEST 2021</font>
 <br>
