@@ -12,7 +12,7 @@ different for each type.
 EPICS Qt users can broadly be divided into the following categories (note a user
 may "belong" to more than one category):
 
-*  Code down loader and builder - this user knows how to down load and install
+*  Code down-loader and builder - this user knows how to down load and install
 the Qt development tool suite and download the source code from GitHub and build
 the EPICS Qt framework and QEGui display manager.
 
@@ -345,5 +345,5 @@ in qtcreator :
 
 <span style='color:#00c000'>/home/user/qtepics</span>/qegui/qeguiApp/project/QEGuiApp.pro
 
-<font size="-1">Last updated: Sat Feb 08 14:10:23 AEDT 2020</font>
+<font size="-1">Last updated: Fri Jun 25 11:55:26 AEST 2021</font>
 <br>
