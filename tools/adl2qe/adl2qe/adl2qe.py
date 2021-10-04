@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 #
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2qe.py $
-# $Revision: #4 $
-# $DateTime: 2021/03/15 10:44:49 $
+# $Revision: #5 $
+# $DateTime: 2021/09/07 11:32:00 $
 # Last checked in by: $Author: starritt $
 #
 
@@ -101,7 +101,7 @@ colours specified in the .adl file(s).\
 #
 # -----------------------------------------------------------------------------
 #
-@click.option('--version', '-v',
+@click.option('--version', '-V', '-v',
               is_flag=True,
               callback=print_version,
               expose_value=False, 

@@ -1,6 +1,6 @@
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2uigen.py $
-# $Revision: #6 $
-# $DateTime: 2021/03/15 10:44:49 $
+# $Revision: #7 $
+# $DateTime: 2021/09/07 11:32:00 $
 # Last checked in by: $Author: starritt $
 #
 
@@ -14,7 +14,7 @@ import xml.sax.saxutils
 
 from . import adl2colour
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 #
 class_object_counters = {}
 
@@ -36,7 +36,7 @@ def gen_object_name(classname):
     return "%s_%03d" % (classname.lower(), j)
 
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 #
 def escape(text):
     """ modified escape to do " as well as &, < and >
@@ -46,7 +46,7 @@ def escape(text):
     return result
 
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # Python class names reflect Qt class names.
 #
 class QWidget (object):
@@ -240,7 +240,7 @@ class QWidget (object):
             # If default colours specified, do NOT set colours based on the
             # original medm adl file.
             #
-            if not QWidget.default_colours:            
+            if not QWidget.default_colours:
                 defaultStyle = adl2colour.get_style(bcn, fcn)
                 self.write_stdset_string("defaultStyle", defaultStyle)
 
@@ -300,11 +300,15 @@ class QESubstitutedLabel (QWidget):
 
         bcn = adl2colour.RGBA(0, 0, 0, 0)  # see through
         styleSheet = adl2colour.get_style(bcn, fcn)
-        
+
         # If default colours specified, do NOT set colours based on the
         # original medm adl file.
         #
-        if not QWidget.default_colours:            
+        if QWidget.default_colours:
+            # Not strictly default, but sensible.
+            #
+            self.write_stdset_string("styleSheet", "")
+        else:
             self.write_stdset_string("styleSheet", styleSheet)
 
 
@@ -357,7 +361,7 @@ class QSimpleShape (QWidget):
             if edge_style == "dash":
                 self.write_enum("edgeStyle", "Qt::DotLine")
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # We use a QFrame (as opposed to a QWidget and this allows the user to define
 # a boarder manually if they wish.
 #
@@ -383,7 +387,7 @@ class QFrame (QWidget):
                 "styleSheet", "QFrame#%s { border-image: url(%s); }" % (self.object_name, url_name))
 
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 #
 class QELabel (QWidget):
 
@@ -403,7 +407,7 @@ class QELabel (QWidget):
         self.write_enum("notation", lookup.get(format, "QELabel::Fixed"))
 
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 #
 class QEAnalogProgressBar (QWidget):
 
@@ -423,7 +427,7 @@ class QEAnalogProgressBar (QWidget):
         self.write_enum("mode", mode)
 
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 #
 class QEBitStatus (QWidget):
 
@@ -691,7 +695,7 @@ class QEComboBox(QWidget):
         self.write_alarm_and_style("control")
 
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 #
 class QERadioGroup(QWidget):
 
@@ -712,7 +716,7 @@ class QERadioGroup(QWidget):
         self.write_enum("buttonOrder", "QRadioGroup::colMajor")
 
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 #
 class QEMenuButton (QWidget):
 
@@ -813,7 +817,7 @@ class QEMenuButton (QWidget):
         self.write_stdset_string("menuEntries", menuEntries)
 
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # We use a QEFrame as opposed to just a QFrame - more flexible post conversion
 # composite may also be am embedded file
 #
@@ -841,7 +845,7 @@ class QEFrame (QWidget):
                 item.write_widget(own_geo)
 
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 #
 class QEForm (QWidget):
 
@@ -853,7 +857,7 @@ class QEForm (QWidget):
             self.write_stdset_string("uiFile", uifile)
 
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 #
 def select_frame_form(adl, target, level):
     """ Has the same signature, sans self, as the widget classes.
@@ -870,7 +874,7 @@ def select_frame_form(adl, target, level):
     return QENoConversion(adl, target, level)
 
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 #
 class UiFile (QWidget):
     """ Quazi widget """
@@ -992,7 +996,7 @@ class UiFile (QWidget):
         raise Exception(self.classname + ".write_properties() - unexpected call.")
 
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 #
 def dump_to_file(filename, adl_dic, scale, font_size, default_colours):
     """
@@ -1019,7 +1023,7 @@ def dump_to_file(filename, adl_dic, scale, font_size, default_colours):
     out_file.close()
 
 
-#------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 #
 _widget_map = {
     "composite":       select_frame_form,
