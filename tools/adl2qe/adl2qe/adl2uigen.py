@@ -1,6 +1,6 @@
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2uigen.py $
-# $Revision: #7 $
-# $DateTime: 2021/09/07 11:32:00 $
+# $Revision: #10 $
+# $DateTime: 2021/11/14 10:36:34 $
 # Last checked in by: $Author: starritt $
 #
 
@@ -54,7 +54,8 @@ class QWidget (object):
     m = 10
     d = 10
     font_size = 8
-    default_colours = False
+    default_colours = False          # as in use default EPICS Qt colours
+    default_alarm_colours = False    # as in use default EPICS Qt alarm colours
 
     @staticmethod
     def relative_position(item, origin):
@@ -170,6 +171,14 @@ class QWidget (object):
         self.write_line('  <string>' + escape(text) + '</string>')
         self.write_line('</property>')
 
+    def write_string_list(self, name, text_list):
+        self.write_line('<property name="' + name + '">')
+        self.write_line('  <stringlist>')
+        for text in text_list:
+            self.write_line('    <string>' + escape(text) + '</string>')
+        self.write_line('  </stringlist>')
+        self.write_line('</property>')
+
     def write_enum(self, name, text):
         self.write_line('<property name="' + name + '" stdset="0">')
         self.write_line('  <enum>' + escape(text) + '</enum>')
@@ -216,6 +225,11 @@ class QWidget (object):
         if common is not None:
             if "chan" in common:
                 pv_name = common["chan"]
+                if QWidget.macro_name is not None:
+                    find = "$(%s)" % QWidget.macro_name
+                    replace = "$(%s):" % QWidget.macro_name
+                    pv_name = pv_name.replace(find, replace)
+
                 self.write_stdset_string("variable", pv_name)
 
     def write_alarm_and_style(self, kind, prefix=None):
@@ -226,7 +240,9 @@ class QWidget (object):
         lookup = {"static":   "%s::Never" % prefix,
                   "alarm":    "%s::Always" % prefix,
                   "discrete": "%s::Never" % prefix}
-        self.write_enum("displayAlarmStateOption", lookup[clrmod])
+
+        if not QWidget.default_alarm_colours:
+            self.write_enum("displayAlarmStateOption", lookup[clrmod])
 
         common = self.adl.get(kind, None)
         if common is not None:
@@ -259,25 +275,6 @@ class QWidget (object):
         self.write_line('<property name="' + name + '">')
         self.write_line('  <set>' + escape(text) + '</set>')
         self.write_line('</property>')
-
-
-# ------------------------------------------------------------------------------
-#
-class QENoConversion (QWidget):
-
-    class_type = "???"
-
-    """ Default class used when no conversion is available.
-    """
-    @property
-    def classname(self):
-        # need to override the class name
-        return "QLabel"
-
-    def write_properties(self):
-        self.write_string("styleSheet", "background-color: rgba(255, 160, 255, 100);")
-        self.write_string("text", str(QENoConversion.class_type))
-        self.write_string("alignment", "Qt::AlignCenter")
 
 
 # ------------------------------------------------------------------------------
@@ -383,8 +380,8 @@ class QFrame (QWidget):
             if parts[1] != ".png":
                 print("note: run convert %s %s" % (image_name, url_name))
 
-            self.write_string(
-                "styleSheet", "QFrame#%s { border-image: url(%s); }" % (self.object_name, url_name))
+            self.write_string("styleSheet", "QFrame#%s { border-image: url(%s); }" %
+                              (self.object_name, url_name))
 
 
 # ------------------------------------------------------------------------------
@@ -620,7 +617,7 @@ class QEAnalogSlider(QWidget):
 
 
 # ------------------------------------------------------------------------------
-#
+# PV writer
 class QEPushButton(QWidget):
 
     def write_properties(self):
@@ -720,22 +717,79 @@ class QERadioGroup(QWidget):
 #
 class QEMenuButton (QWidget):
 
-    def write_properties(self):
+    @property
+    def _is_singular_item(self):
+        # Look for display entries or command entires, we  expect one or the other
+        #
+        total = 0
 
-        label = self.adl.get("label", "")
-        if label is not None:
+        # Look for related displays.
+        #
+        for index in range(16):
+            key = f"display[{index}]"
+            item = self.adl.get(key, None)
+            if item is None:
+                continue
+
+            # Allow empty labels
+
+            filename = item.get("name", None)
+            if filename is None:
+                continue
+
+            # Found an valid entry
             #
-            if label.startswith("-"):
-                label = label[1:]
+            total += 1
+
+        # Similar - look for run commands.
+        #
+        for index in range(16):
+            key = f"command[{index}]"
+            item = self.adl.get(key, None)
+            if item is None:
+                continue
+
+            # Allow empty labels
+
+            command = item.get("name", None)
+            if command is None:
+                continue
+
+            # Found an entry
+            #
+            total += 1
+
+        return total == 1
+
+    @property
+    def classname(self):
+        if self._is_singular_item:
+            return "QEPushButton"
+
+        return self.__class__.__name__
+
+    def write_properties(self):
+        if self._is_singular_item:
+            self.write_push_button_properties()
+        else:
+            self.write_menu_button_properties()
+
+    def write_menu_button_properties(self):
+        button_label = self.adl.get("label", "")
+        if button_label is not None:
+            #
+            if button_label.startswith("-"):
+                button_label = button_label[1:]
             else:
                 # Add "icon" - QEMenuButton has not icon option use use #
-                label = "#" + label
+                button_label = "#" + button_label
 
             # QEMenuButton does not like null strings - see ACC 155
-            if len(label) == 0:
-                label = " "
+            #
+            if len(button_label) == 0:
+                button_label = " "
 
-            self.write_stdset_string("labelText", label)
+            self.write_stdset_string("labelText", button_label)
 
         fcn = self.adl.get("clr", None)
         bcn = self.adl.get("bclr", None)
@@ -751,9 +805,12 @@ class QEMenuButton (QWidget):
             item = self.adl.get(key, None)
             if item is None:
                 continue
+
             label = item.get("label", None)
             if label is None:
-                continue
+                # Allow emptpy labels
+                label = button_label
+
             filename = item.get("name", None)
             if filename is None:
                 continue
@@ -791,9 +848,11 @@ class QEMenuButton (QWidget):
             item = self.adl.get(key, None)
             if item is None:
                 continue
+
             label = item.get("label", None)
             if label is None:
-                continue
+                # Allow emptpy labels
+                label = button_label
             command = item.get("name", None)
             if command is None:
                 continue
@@ -816,6 +875,95 @@ class QEMenuButton (QWidget):
         menuEntries += "</MenuButton>"
         self.write_stdset_string("menuEntries", menuEntries)
 
+    def write_push_button_properties(self):
+        # The first part is essentially the same.
+        #
+        button_label = self.adl.get("label", "")
+        if button_label is not None:
+            #
+            if button_label.startswith("-"):
+                button_label = button_label[1:]
+            else:
+                # Add "icon" - QEMenuButton has not icon option use use #
+                button_label = "#" + button_label
+
+            # QEMenuButton does not like null strings - see ACC 155
+            #
+            if len(button_label) == 0:
+                button_label = " "
+
+            self.write_stdset_string("text", button_label)
+
+        fcn = self.adl.get("clr", None)
+        bcn = self.adl.get("bclr", None)
+        defaultStyle = adl2colour.get_style(bcn, fcn)
+        self.write_stdset_string("defaultStyle", defaultStyle)
+
+        # We expect one or the other
+        #
+        for index in range(16):
+            key = f"display[{index}]"
+            item = self.adl.get(key, None)
+            if item is None:
+                continue
+
+            label = item.get("label", None)
+            if label is None:
+                # Allow emptpy labels
+                label = button_label
+
+            filename = item.get("name", None)
+            if filename is None:
+                continue
+
+            # Found it
+            #
+            parts = os.path.splitext(filename)
+            uifile = parts[0] + ".ui"
+            subtitutions = item.get("args", "")
+            policy = item.get("policy", None)
+            if policy == "replace display":
+                policy = "Open"
+            else:
+                policy = "NewWindow"
+
+            self.write_string("guiFile", uifile)
+            self.write_string("creationOption", policy)
+            self.write_string("prioritySubstituins", subtitutions)
+
+            break
+
+        # end loop
+
+        # Similar
+        #
+        for index in range(16):
+            key = f"command[{index}]"
+            item = self.adl.get(key, None)
+            if item is None:
+                continue
+
+            label = item.get("label", None)
+            if label is None:
+                # Allow emptpy labels
+                label = button_label
+
+            command = item.get("name", None)
+            if command is None:
+                continue
+            args = item.get("args", "")
+            args = args.split()
+
+            # Found it
+            #
+            self.write_string("program", command)
+            self.write_string_list("arguments", args)
+            self.write_string("programStartupOption", "QEPushButton::StdOutput")
+
+            break
+
+        # end loop
+
 
 # ------------------------------------------------------------------------------
 # We use a QEFrame as opposed to just a QFrame - more flexible post conversion
@@ -835,14 +983,13 @@ class QEFrame (QWidget):
             for key, child_adl in children.items():
 
                 child_type = child_adl.get("class_type", None)
-                child_class = _widget_map.get(child_type, QENoConversion)
+                child_class = _widget_map.get(child_type, None)
 
-                if child_class is QENoConversion:
-                    print("QEFrame: unknown child type: %s %s" % (key, child_type))
-                    QENoConversion.class_type = child_class
-
-                item = child_class(child_adl, self.target, self.level + 1)
-                item.write_widget(own_geo)
+                if child_class is None:
+                    print("QEFrame: unknown child type: %s %-8s - ignored" % (key, child_type))
+                else:
+                    item = child_class(child_adl, self.target, self.level + 1)
+                    item.write_widget(own_geo)
 
 
 # ------------------------------------------------------------------------------
@@ -871,7 +1018,7 @@ def select_frame_form(adl, target, level):
         return QEFrame(adl, target, level)
 
     print("QEForm/QEFrame ambiguity")
-    return QENoConversion(adl, target, level)
+    return None
 
 
 # ------------------------------------------------------------------------------
@@ -969,8 +1116,11 @@ class UiFile (QWidget):
 
         fcn = display.get("clr", None)
         bcn = display.get("bclr", None)
-
         style = adl2colour.get_style(bcn, fcn)
+
+        if QWidget.default_colours:
+            style = ""
+
         self.target.write(header.format(title=title, width=width,
                                         height=height, style=style))
 
@@ -982,13 +1132,12 @@ class UiFile (QWidget):
                 continue
 
             class_type = value.get("class_type", None)
-            item_class = _widget_map.get(class_type, QENoConversion)
-            if item_class is QENoConversion:
-                print("UiFile:  unknown class_type: %s %s" % (key, class_type))
-                QENoConversion.class_type = class_type
-
-            item = item_class(value, self.target, self.level + 5)
-            item.write_widget()
+            item_class = _widget_map.get(class_type, None)
+            if item_class is None:
+                print("UiFile:  unknown class_type: %s %-8s - ignored" % (key, class_type))
+            else:
+                item = item_class(value, self.target, self.level + 5)
+                item.write_widget()
 
         self.target.write(footer)
 
@@ -998,7 +1147,7 @@ class UiFile (QWidget):
 
 # ------------------------------------------------------------------------------
 #
-def dump_to_file(filename, adl_dic, scale, font_size, default_colours):
+def dump_to_file(filename, adl_dic, scale, font_size, default_colours, default_alarm_colours, macro_name):
     """
     filename : target ui file name
     adl_dic : dictionary from the adl file
@@ -1013,10 +1162,14 @@ def dump_to_file(filename, adl_dic, scale, font_size, default_colours):
         print("Cannot create file: " + filename)
         return None
 
+    # Quazi globals - stored in QWidgett class
+    #
     QWidget.m = int(scale)
     QWidget.d = int(100)
     QWidget.font_size = font_size
     QWidget.default_colours = default_colours
+    QWidget.default_alarm_colours = default_alarm_colours
+    QWidget.macro_name = macro_name
 
     ui_file = UiFile(adl_dic, out_file, 0)
     ui_file.write_widget()

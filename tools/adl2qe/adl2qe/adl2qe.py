@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 #
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2qe.py $
-# $Revision: #5 $
-# $DateTime: 2021/09/07 11:32:00 $
+# $Revision: #8 $
+# $DateTime: 2021/11/14 10:36:34 $
 # Last checked in by: $Author: starritt $
 #
 
@@ -28,6 +28,7 @@ def print_version(ctx, param, value):
     print("adl2qe version: %s  (python %s.%s.%s)" % (__version__, vi.major, vi.minor, vi.micro))
     ctx.exit()
 
+
 # -----------------------------------------------------------------------------
 # Allow -h as well as --help
 #
@@ -49,6 +50,9 @@ sets the foreground, i.e. text colour, whereas EPICS Qt sets the background
 colour. When the widget is alarm sensiitve, the nominated MEDM font colour,
 say white, may not be suitable for the default pale-ish EPICS Qt backround 
 alarm colours, and is therefore set to black.
+\b
+Use the --default_alarm_colours option such that each widget uses its default
+displayAlarmStateOption property setting.
 \b\n\b
 Engineering Units
 \b
@@ -56,6 +60,8 @@ MEDM has no option to implicitly present engineering units. These can be
 presented explicitly using a separate monitor of the .EGU field. The EPICS Qt 
 addUnits property is neither set nor cleared by adl2qe, and each widget will
 or will not present engineering units dependent on the widget class default.
+\b\n\b
+General
 \b
 Requires python 3.6 or later.
 \b\n\b
@@ -92,11 +98,41 @@ Specifies font point size. Must be in the range 4 to 72.\
 #
 # -----------------------------------------------------------------------------
 #
+@click.option('--add_colon', '-a',
+              is_flag=True,
+              help="""\
+Add colons such that variable name PV reference change from '$(macro)' to '$(macro):'
+The default macro_name is P.
+""")
+#
+# -----------------------------------------------------------------------------
+#
+@click.option('--macro_name', '-m',
+              type=str,
+              default="P",
+              show_default=True,
+              help="""\
+Specifies the macro name to which colons are added. \
+Only used inconjunction with the --add_colon flag.
+""")
+#
+# -----------------------------------------------------------------------------
+#
 @click.option('--default_colours', '-c',
               is_flag=True,
               help="""\
-Use default EPICS Qt colours for most widgets, i.e. ignore the MEDM \
-colours specified in the .adl file(s).\
+Use default EPICS Qt colours for most widgets, i.e. ignores the MEDM \
+colours specified in the .adl file(s). 
+""")
+#
+# -----------------------------------------------------------------------------
+#
+@click.option('--default_alarm_colours', '-l',
+              is_flag=True,
+              help="""\
+Use default EPICS Qt displayAlarmStateOption value, i.e. does not \
+set the property irrespective of the alarm sensitivity selected for \
+the MEDM object.
 """)
 #
 # -----------------------------------------------------------------------------
@@ -104,7 +140,7 @@ colours specified in the .adl file(s).\
 @click.option('--version', '-V', '-v',
               is_flag=True,
               callback=print_version,
-              expose_value=False, 
+              expose_value=False,
               is_eager=True,
               help="Show version and exit.")
 #
@@ -113,20 +149,23 @@ colours specified in the .adl file(s).\
 #
 @click.argument('filenames', nargs=-1, required=True)
 #
-#------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 #
-def main(debug, scale, font_size, default_colours, filenames):
+def main(debug, scale, font_size, add_colon, macro_name, default_colours, default_alarm_colours, filenames):
     """ adl2qe converts one or more medm .adl files into EPICS Qt .ui files.
     """
+    if not add_colon:
+        macro_name = None
+
     count = 0
     success = 0
-    
+
     for adl_file in filenames:
         count += 1
 
         parts = os.path.splitext(adl_file)
-        if parts [1] != ".adl":
-            print ("warning: %s does not have .adl extension" % adl_file)
+        if parts[1] != ".adl":
+            print("warning: %s does not have .adl extension" % adl_file)
 
         ui_file = parts[0] + ".ui"
 
@@ -140,20 +179,20 @@ def main(debug, scale, font_size, default_colours, filenames):
             print("parse of %s returned None" % adl_file)
             continue
 
-        
         if debug:
-            print ("%s:\n%s\n\n" % (adl_file, json.dumps (adl_dic, indent=4)))
+            print("%s:\n%s\n\n" % (adl_file, json.dumps(adl_dic, indent=4)))
 
         try:
-            adl2uigen.dump_to_file (ui_file, adl_dic, scale, font_size, default_colours)
+            adl2uigen.dump_to_file(ui_file, adl_dic, scale, font_size,
+                                   default_colours, default_alarm_colours,
+                                   macro_name)
             print("generated: %s" % ui_file)
         except:
             print("failed to write to %s" % ui_file)
             raise
-            
-        
+
         success += 1
-        
+
     print("")
     print("adl2qe complete:  %d out of %d successfull" % (success, count))
 
@@ -161,7 +200,7 @@ def main(debug, scale, font_size, default_colours, filenames):
 __doc__ = main.__doc__
 
 
-def call_cli ():
+def call_cli():
     """ Click wrapper function. This sets env variables for click and
         python 3, does no harm for python 2
     """

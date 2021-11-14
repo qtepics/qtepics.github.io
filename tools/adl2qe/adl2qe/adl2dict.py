@@ -1,6 +1,6 @@
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2dict.py $
-# $Revision: #1 $
-# $DateTime: 2019/08/25 21:33:37 $
+# $Revision: #2 $
+# $DateTime: 2021/11/14 10:36:34 $
 # Last checked in by: $Author: starritt $
 #
 
@@ -9,6 +9,22 @@
 
 import os.path
 import json
+
+
+def no_quote_find(text, sub):
+    """ This is like  text.find(sub) except that ingores sub if found within " "
+        Note: not general purpose
+    """
+    result = text.find(sub)
+    if result >= 0:
+        quote1 = text.find('"')
+        if quote1 >= 0:
+            quote2 = text.find('"', quote1 + 1)
+            if quote2 >= 0:
+                if quote1 < result < quote2:
+                    result = -1
+
+    return result
 
 
 def load_file(filename):
@@ -99,11 +115,9 @@ def load_file(filename):
         #  (int,int)       -- points - the set of polyline/polygon points
         #  }
         #
-        # Modify to hide if in quotes.
-        #
-        ps = line.find("{")
-        pe = line.find("=")
-        pf = line.find("}")
+        ps = no_quote_find(line, "{")
+        pe = no_quote_find(line, "=")
+        pf = no_quote_find(line, "}")
 
         if (ps >= 0 and pe >= 0) or (pe >= 0 and pf >= 0) or (pf >= 0 and ps >= 0):
             print("Two or more key chars on line %d: %s" % (lineno, line))
