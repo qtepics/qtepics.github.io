@@ -1,6 +1,6 @@
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2uigen.py $
-# $Revision: #10 $
-# $DateTime: 2021/11/14 10:36:34 $
+# $Revision: #11 $
+# $DateTime: 2021/11/16 17:27:37 $
 # Last checked in by: $Author: starritt $
 #
 
@@ -999,9 +999,21 @@ class QEForm (QWidget):
     def write_properties(self):
         composite_file = self.adl.get("composite file", "")
         if composite_file:
-            parts = os.path.splitext(composite_file)
-            uifile = parts[0] + ".ui"
+            # file name proper and any macros separated by a ';'
+            #
+            parts = composite_file.split(";")
+            
+            # Split on '.' as in xxxx.adl
+            #
+            name_parts = os.path.splitext(parts[0])
+            uifile = name_parts[0] + ".ui"
             self.write_stdset_string("uiFile", uifile)
+            
+            if len(parts) >= 2:
+                # Macros are defined.
+                #
+                subs = parts[1]
+                self.write_stdset_string("variableSubstitutions", subs)
 
 
 # ------------------------------------------------------------------------------
