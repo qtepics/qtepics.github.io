@@ -1,6 +1,6 @@
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2uigen.py $
-# $Revision: #11 $
-# $DateTime: 2021/11/16 17:27:37 $
+# $Revision: #13 $
+# $DateTime: 2021/12/10 15:36:35 $
 # Last checked in by: $Author: starritt $
 #
 
@@ -12,6 +12,7 @@ needs it, but this helps with debugging.
 import os.path
 import xml.sax.saxutils
 
+from . import AlarmMode
 from . import adl2colour
 
 # ------------------------------------------------------------------------------
@@ -55,7 +56,7 @@ class QWidget (object):
     d = 10
     font_size = 8
     default_colours = False          # as in use default EPICS Qt colours
-    default_alarm_colours = False    # as in use default EPICS Qt alarm colours
+    alarm_state_option = AlarmMode.when_in_alarm
 
     @staticmethod
     def relative_position(item, origin):
@@ -236,21 +237,42 @@ class QWidget (object):
         if prefix is None:
             prefix = self.classname
 
-        clrmod = self.adl.get("clrmod", "static")
-        lookup = {"static":   "%s::Never" % prefix,
-                  "alarm":    "%s::Always" % prefix,
-                  "discrete": "%s::Never" % prefix}
+        daso_inuse = True  # hypothesize displayAlarmStateOption in use
 
-        if not QWidget.default_alarm_colours:
-            self.write_enum("displayAlarmStateOption", lookup[clrmod])
+        # Alarm state handling
+        #
+        if QWidget.alarm_state_option == AlarmMode.when_in_alarm:
+            self.write_enum("displayAlarmStateOption", "%s::WhenInAlarm" % prefix)
 
+        elif QWidget.alarm_state_option == AlarmMode.widget_default:
+            # No need to set the displayAlarmStateOption,
+            # just use the widget default what ever it is.
+            #
+            pass
+
+        elif QWidget.alarm_state_option == AlarmMode.medm_mode:
+            clrmod = self.adl.get("clrmod", "static")        
+            lookup = {"static": "Never",
+                      "alarm": "Always",
+                      "discrete": "Never"}
+            option = lookup[clrmod]
+            self.write_enum("displayAlarmStateOption", "%s::%s" % (prefix, option))
+            daso_inuse = (lookup == "Always")
+            
+        else:
+            print("Warning: un-handled alarm state option: %s" % QWidget.alarm_state_option)
+
+
+        # Style
+        #
         common = self.adl.get(kind, None)
         if common is not None:
             fcn = common.get("clr", None)
             bcn = common.get("bclr", None)
 
-            if clrmod == "alarm":
-                # Will set forground to black
+            if daso_inuse:
+                # Always set forground to black
+                #
                 fcn = 14
 
             # If default colours specified, do NOT set colours based on the
@@ -317,8 +339,8 @@ class QSimpleShape (QWidget):
 
         class_type = self.adl.get("class_type", None)
         lookup = {"rectangle": "QSimpleShape::rectangle",
-                  "oval":      "QSimpleShape::ellipse",
-                  "arc":       "QSimpleShape::pie"}
+                  "oval": "QSimpleShape::ellipse",
+                  "arc": "QSimpleShape::pie"}
         self.write_enum("shape", lookup[class_type])
 
         if class_type == "arc":
@@ -604,6 +626,24 @@ class QELineEdit(QWidget):
 
 # ------------------------------------------------------------------------------
 #
+class QENumericEdit(QWidget):
+
+    def write_properties(self):
+        self.write_pv_name("control")
+        self.write_alarm_and_style("control", prefix="QEAbstractWidget")
+        self.write_bool("autoScale", True)
+        # Hopefully the database designed as defined control min, max and precision
+        # Define, hopefully, workaable fallbacks
+        #
+        self.write_number("leadingZeros", 6)
+        self.write_number("precision", 6)
+        self.write_double("minimum", 999999.999999)
+        self.write_double("maximum", 999999.999999)
+        self.write_bool("addUnits", False)
+
+
+# ------------------------------------------------------------------------------
+#
 class QEAnalogSlider(QWidget):
 
     def write_properties(self):
@@ -663,7 +703,7 @@ class QEPushButton(QWidget):
 
                     # No exception
                     format = "QEPushButton::Integer"
-                except:
+                except BaseException:
                     # Not int - so try float.
                     pass
 
@@ -676,7 +716,7 @@ class QEPushButton(QWidget):
 
                     # No exception
                     format = "QEPushButton::Floating"
-                except:
+                except BaseException:
                     # Not float - so stick with default.
                     pass
 
@@ -1002,13 +1042,13 @@ class QEForm (QWidget):
             # file name proper and any macros separated by a ';'
             #
             parts = composite_file.split(";")
-            
+
             # Split on '.' as in xxxx.adl
             #
             name_parts = os.path.splitext(parts[0])
             uifile = name_parts[0] + ".ui"
             self.write_stdset_string("uiFile", uifile)
-            
+
             if len(parts) >= 2:
                 # Macros are defined.
                 #
@@ -1159,7 +1199,8 @@ class UiFile (QWidget):
 
 # ------------------------------------------------------------------------------
 #
-def dump_to_file(filename, adl_dic, scale, font_size, default_colours, default_alarm_colours, macro_name):
+def dump_to_file(filename, adl_dic, scale, font_size,
+                 default_colours, alarm_state_option, macro_name):
     """
     filename : target ui file name
     adl_dic : dictionary from the adl file
@@ -1174,13 +1215,13 @@ def dump_to_file(filename, adl_dic, scale, font_size, default_colours, default_a
         print("Cannot create file: " + filename)
         return None
 
-    # Quazi globals - stored in QWidgett class
+    # Quazi globals - stored in the QWidget class
     #
     QWidget.m = int(scale)
     QWidget.d = int(100)
     QWidget.font_size = font_size
     QWidget.default_colours = default_colours
-    QWidget.default_alarm_colours = default_alarm_colours
+    QWidget.alarm_state_option = alarm_state_option
     QWidget.macro_name = macro_name
 
     ui_file = UiFile(adl_dic, out_file, 0)
@@ -1207,7 +1248,7 @@ _widget_map = {
     "text entry":      QELineEdit,
     "message button":  QEPushButton,
     "menu":            QEComboBox,
-    "valuator":        QEAnalogSlider,
+    "valuator":        QENumericEdit,
     "choice button":   QERadioGroup,
     "related display": QEMenuButton,
     "shell command":   QEMenuButton

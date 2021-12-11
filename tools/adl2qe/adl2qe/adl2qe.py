@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 #
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2qe.py $
-# $Revision: #8 $
-# $DateTime: 2021/11/14 10:36:34 $
+# $Revision: #9 $
+# $DateTime: 2021/12/10 15:30:38 $
 # Last checked in by: $Author: starritt $
 #
 
@@ -13,12 +13,22 @@ import sys
 import click
 
 from . import __version__
+from . import AlarmMode
 from . import adl2dict
 from . import adl2uigen
 
+# map for click ioptions.
+#
+_alarm_mode_map = {'WIA': AlarmMode.when_in_alarm,
+                   'WD': AlarmMode.widget_default,
+                   'MM': AlarmMode.medm_mode}
+
+_alarm_mode_choices = tuple(_alarm_mode_map.keys())
 
 # -----------------------------------------------------------------------------
 #
+
+
 def print_version(ctx, param, value):
     """ Click parser helper function """
     if not value or ctx.resilient_parsing:
@@ -42,26 +52,31 @@ context_settings = dict(help_option_names=['--help', '-h'],
 @click.command(context_settings=context_settings,
                epilog="""
 \b\n\b
-Alarm Modes
+\b\bAlarm Modes
 \b
-EPICS Qt and MEDM differ in the way alarm modes are presented. While both 
+EPICS Qt and MEDM differ in the way alarm modes are presented. While both
 provide the option to present data with or without an alarm mode colour, MEDM
-sets the foreground, i.e. text colour, whereas EPICS Qt sets the background 
+sets the foreground, i.e. text colour, whereas EPICS Qt sets the background
 colour. When the widget is alarm sensiitve, the nominated MEDM font colour,
-say white, may not be suitable for the default pale-ish EPICS Qt backround 
+say white, may not be suitable for the default pale-ish EPICS Qt backround
 alarm colours, and is therefore set to black.
 \b
-Use the --default_alarm_colours option such that each widget uses its default
-displayAlarmStateOption property setting.
+Use the --alarm_mode option to control how wigests responds to the PV being in
+alarm. There are three options:
+    \b
+WIA - always set to WhenInAlarm (default),
+WD  - use EPICS Qt widget default, and
+MM  - use medm clrmod setting.
+
 \b\n\b
-Engineering Units
+\b\bEngineering Units
 \b
-MEDM has no option to implicitly present engineering units. These can be 
-presented explicitly using a separate monitor of the .EGU field. The EPICS Qt 
+MEDM has no option to implicitly present engineering units. These can be
+presented explicitly using a separate monitor of the .EGU field. The EPICS Qt
 addUnits property is neither set nor cleared by adl2qe, and each widget will
 or will not present engineering units dependent on the widget class default.
 \b\n\b
-General
+\b\bGeneral
 \b
 Requires python 3.6 or later.
 \b\n\b
@@ -83,7 +98,7 @@ Output debug information
               default=100,
               show_default=True,
               help="""\
-Specifies geometry scaling (percent). Must be in the range 40 to 400.\
+Specifies geometry scaling x (percent).\
 """)
 #
 # -----------------------------------------------------------------------------
@@ -93,7 +108,7 @@ Specifies geometry scaling (percent). Must be in the range 40 to 400.\
               default=8,
               show_default=True,
               help="""\
-Specifies font point size. Must be in the range 4 to 72.\
+Specifies font point size x.\
 """)
 #
 # -----------------------------------------------------------------------------
@@ -122,22 +137,25 @@ Only used inconjunction with the --add_colon flag.
               is_flag=True,
               help="""\
 Use default EPICS Qt colours for most widgets, i.e. ignores the MEDM \
-colours specified in the .adl file(s). 
+colours specified in the .adl file(s).
 """)
 #
 # -----------------------------------------------------------------------------
 #
-@click.option('--default_alarm_colours', '-l',
-              is_flag=True,
+@click.option('--alarm_mode', '-l',
+              type=click.Choice(_alarm_mode_choices),
+              default='WIA',
+              show_default=True,
               help="""\
-Use default EPICS Qt displayAlarmStateOption value, i.e. does not \
-set the property irrespective of the alarm sensitivity selected for \
-the MEDM object.
+Controls setting of the displayAlarmStateOption property value:
+WIA - always set to WhenInAlarm,
+WD - use EPICS Qt widget default, and
+MM - use medm clrmod setting
 """)
 #
 # -----------------------------------------------------------------------------
 #
-@click.option('--version', '-V', '-v',
+@click.option('--version', '-V',
               is_flag=True,
               callback=print_version,
               expose_value=False,
@@ -151,11 +169,13 @@ the MEDM object.
 #
 # -----------------------------------------------------------------------------
 #
-def main(debug, scale, font_size, add_colon, macro_name, default_colours, default_alarm_colours, filenames):
+def main(debug, scale, font_size, add_colon, macro_name, default_colours, alarm_mode, filenames):
     """ adl2qe converts one or more medm .adl files into EPICS Qt .ui files.
     """
     if not add_colon:
         macro_name = None
+
+    alarm_state_option = _alarm_mode_map[alarm_mode]
 
     count = 0
     success = 0
@@ -171,11 +191,11 @@ def main(debug, scale, font_size, add_colon, macro_name, default_colours, defaul
 
         try:
             adl_dic = adl2dict.load_file(adl_file)
-        except:
+        except BaseException:
             print("failed to parse %s" % adl_file)
             raise
 
-        if adl_dic == None:
+        if adl_dic is None:
             print("parse of %s returned None" % adl_file)
             continue
 
@@ -184,10 +204,10 @@ def main(debug, scale, font_size, add_colon, macro_name, default_colours, defaul
 
         try:
             adl2uigen.dump_to_file(ui_file, adl_dic, scale, font_size,
-                                   default_colours, default_alarm_colours,
+                                   default_colours, alarm_state_option,
                                    macro_name)
             print("generated: %s" % ui_file)
-        except:
+        except BaseException:
             print("failed to write to %s" % ui_file)
             raise
 
