@@ -2,8 +2,98 @@
 
 # <span style='color:#006666'>Release Index</span>
 
+[r3.8.2](#r3.8.2)<br>
 [r3.8.1](#r3.8.1)<br>
 [Earlier Releases](#Earlier_Releases)
+
+# <a name="r3.8.2"></a><span style='color:#006666'>r3.8.2</span>
+
+Expected release date: 4th April 2022.
+
+## <span style='color:#666666'>general</span>
+
+This is a minor release for some widget enhancements.
+There are *no* new widgets.
+The qeframework, qeplugin and qegui project files now check for Qt6
+and issue an error message.
+
+### <span style='color:#666666'>qeframework</span>
+
+#### QEPlot, QEPlotter and QEWaveformHistogram.
+
+These widgets now subscribe for zero elements by default.
+The actual number of elements returned by the server is determined by the record.
+For example a waveform record will return the number of elements as
+specified in its .NORD field.
+This can significantly reduce network bandwidth and client memory usage.
+
+For use with older versions of base or non-IOC servers that do not support this
+functionality a new property, fullLengthArraySubscriptions, is available
+to re-instate the previous behavior.
+
+#### QEStripChart
+
+The write trace to file functionality has been updated to:
+- offer a default file name derived from the PV name, and
+- includes the PV name in the output file.
+
+As well as by the context menu, this functionality can now be invoked
+using a new strip chart slot:  writeTraceToFile(int).
+This can be triggered from any widget then has an int (range 0 to 15)
+signal, e.g. QEPushButton.
+
+There is also a new property, numberPvsVisible, to set initial number of
+PVs seen in the PV Item frame.
+
+The QEStripChart now allows transparent colours (i.e. setting the alpha
+channel) when selecting PV colours.
+
+#### QEFileImage
+
+This widget has been updated to allow a lightness threshold and colour
+to be specified, such that where the image's lightness is greater than or
+equal the threshold value, the colour is replaced by the threshold colour.
+Both the threshold and colour are defined as properties and may be updated
+using slot functions.
+
+Please refer to the updated documentation for this widget for details.
+
+#### QEPlotter
+
+Updated to set the PV item list width in post construction slot function
+to ensure consistent and expected behavior.
+
+The QEPlotter now allows transparent colours (i.e. setting the alpha channel)
+when selecting PV colours.
+
+#### QEMenuButton
+
+The macro facility for the QEMenuButton widget has been extended to include
+menu and sub-menu names, PV names, and PV values.
+It already applies to ui file names, program names and program arguments.
+
+#### QEDateTime
+
+The widget now allows data time text to be copied to the copy-paste buffer
+using the context menu.
+The QEDateTime widgets now all use a single timer object to ensure common
+application wide synchronisation and use the size hint mechanism rather
+than setting a minimum size.
+
+#### QECalcout
+
+The widget now allows boolean inputs (as well as int and double).
+
+#### QEPvProperties
+
+The AMIM field has been added to for motor record's set of fields.
+
+__Note:__  The AMIM field is an Australian Synchrotron special.
+
+#### QEPeriodic
+
+The designer editor setup form now includes the atomic number as well as
+the element abbreviation in the check box text.
 
 # <a name="r3.8.1"></a><span style='color:#006666'>r3.8.1</span>
 
@@ -220,5 +310,5 @@ the 3.5 series release notes.
 Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
-<font size="-1">Last updated: Mon Jan 31 16:49:25 AEDT 2022</font>
+<font size="-1">Last updated: Sat Apr  2 15:27:44 AEDT 2022</font>
 <br>
