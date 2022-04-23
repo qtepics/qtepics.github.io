@@ -1,47 +1,91 @@
 #!/usr/bin/env python
 #
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/compare_common_properties $
-# $Revision: #2 $
-# $DateTime: 2020/10/02 16:39:16 $
+# $Revision: #3 $
+# $DateTime: 2022/04/23 13:03:11 $
 # Last checked in by: $Author: starritt $
 #
-# 1.3  - Modified for python 3
+# 1.3    - Modified for python 3
+# 1.4.1  - Use colordiff
 #
 
 __author__ = "Andrew Starritt"
 __email__ = "andrew.starritt@synchrotron.org.au"
-__copyright__ = "Copyright (c) 2015-2010 Australian Synchrotron"
-__version__ = "1.3"
-__date__ = "2017/APR/15"
+__copyright__ = "Copyright (c) 2015-2022 Australian Synchrotron"
+__version__ = "1.4.1"
+__date__ = "2022/APR/25"
 __description__ = "Script to extract, compare and report on standard sets of properties"
 __status__ = "Production"
 
 import os.path
+import subprocess
 import sys
 
 
 # -----------------------------------------------------------------------------
 #
-def process_file(filename, lookfor, extracted):
+def mkdir_p(path):
+    """ The equivilent to the Linux shell command mkdir -p
+    """
+    try:
+        os.makedirs(path)
+    except FileExistsError:
+        pass
 
-    extracted[:] = []
+
+# -----------------------------------------------------------------------------
+#
+def run(command, *args, stdout=True, stderr=True):
+    """ Runs a system command as a sub-process
+        Returns the sub-process status code.
+        0 typically means all okay
+        127 means that the command file was not found
+    """
+
+    popen_args = [command]
+    for arg in args:
+        popen_args.append(arg)
+
+    try:
+        cp = subprocess.Popen(popen_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    except FileNotFoundError:
+        output("easy build: %s: command not found" % command)
+        return 127, ""
+
+    returncode = cp.wait()
+
+    t = cp.stdout.read().decode('utf-8').strip()
+    r = cp.stderr.read().decode('utf-8').strip()
+
+    if stdout and len(t) > 0:
+        print(t, file=sys.stdout)
+
+    if stderr and len(r) > 0:
+        print(r, file=sys.stderr)
+
+    return returncode
+
+
+# -----------------------------------------------------------------------------
+#
+def process_file(filename, lookfor):
 
     if (not os.path.isfile(filename)):
-        print ("%s: does not exists or is not a file" % filename)
+        print(f"{filename}: does not exists or is not a file")
         return False
 
     try:
         f = open(filename, 'r')
     except IOError:
-        print ("Cannot open file: %s" % filename)
-        return False
+        print(f"Cannot open file: {filename}")
+        return
 
     try:
         lines = f.read().splitlines()
     except:
-        print ("Cannot read/splt lines for file: %s" % filename)
+        print("Cannot read/splt lines for file: %s" % filename)
         f.close()
-        return False
+        return
 
     f.close()
 
@@ -51,15 +95,14 @@ def process_file(filename, lookfor, extracted):
 #   print ("processing %s  (%d lines)" % (filename, initial_size))
 
     if len(lines) == 0:
-        print ("file %s is empty" % filename)
-        return False
-
-    status = False
+        print(f"file {filename} is empty")
+        return
 
     begin = "BEGIN-" + lookfor
     end = "END-" + lookfor
-    copy = False
 
+    extracted = []
+    copy = False
     for line in lines:
         if begin in line:
             copy = True
@@ -68,75 +111,59 @@ def process_file(filename, lookfor, extracted):
             extracted.append(line)
 
         if end in line:
-            status = True
             break
 
-    return True
+    if len(extracted) == 0:
+        return
+    
+    base_name = os.path.basename (filename)
+    result = f"/tmp/ccp_{lookfor}_{base_name}"
+    
+    with open (result, 'w') as f:
+        for line in extracted:
+            f.write(line)
+            f.write("\n")
 
+    return result
 
 
 # -----------------------------------------------------------------------------
 #
-def compare(a, b, verbose):
-    """ Provides an equality test on two lists of strings. 
+def process_group(group, header_files):
     """
-    
-    result = True
-    
-    if len(a) != len(b):
-        if verbose:
-            print ("length mis match %d vs. %d" % (len(a), len(b)))
-        result = False
-    
-    # Find first mis-match from the start of the two lists.
-    #
-    ai = 0
-    bi = 0
-    while ai < len(a) and bi < len(b):
-        pa = a[ai].strip()
-        pb = b[bi].strip()
-        
-        if pa == pb:
-            ai += 1
-            bi += 1
-            continue
-        
-        # Found a mismatch
-        #
-        result = False
-        break
-    
-    # Find first mis-match from the end of the two lists.
-    #
-    aj = len(a)
-    bj = len(b)
-    while aj > 0 and bj > 0:
-        aj -= 1
-        bj -= 1
-        pa = a[aj].strip()
-        pb = b[bj].strip()
-        
-        if pa == pb:
-            continue
-        
-        # Found a mismatch
-        #
-        result = False
-        break
-    
-    # Note: we don't try to find intermediate matches.
-    #
-    if verbose:
-        for j in range (ai, aj):
-            pa = a[j].strip()
-            print("< %2d  %s" % (j, pa))
-        
-        for j in range (bi, bj):
-            pb = b[j].strip()
-            print("> %2d  %s" % (j, pb))
+    """
+    print(f"Processing group {group}")
 
+    compare_list = []
+    original = []
 
-    return result
+    for header_file in header_files:
+        extracted = process_file(header_file, group)
+        if extracted is not None:
+            compare_list.append(extracted)
+            original.append(header_file)
+
+    number = len(compare_list)
+    
+    if number == 0:
+        print ("No matching files found")
+        print()
+        return
+    
+    if number == 1:
+        print (f"One match file found: {original[0]}")
+        print()
+        return
+    
+    count = 0
+    for index in range (1, number):
+        print (f"%s  %s" % (original[0], original[index]))
+        status = run('colordiff', '-b', compare_list[0], compare_list[index])
+        if status > 0:
+            count += 1
+        
+    print(f"The are {count} mis matches out of {number} files")
+    print()
 
 
 # -----------------------------------------------------------------------------
@@ -150,7 +177,6 @@ groups = ('STANDARD-PROPERTIES',
           'GENERIC-BUTTON-PROPERTIES')
 
 
-
 # -----------------------------------------------------------------------------
 #
 def main():
@@ -160,52 +186,45 @@ def main():
     #
     iam = os.path.basename(args.pop(0))
 
-    if len(args) == 0:
-        print ("%s - no arguments specified" % iam)
-        print ("")
-        print ("Try something like:  compare_common_properties  frameworkSup/projects/widgets/*/*.h")
-        print ("")
+    if len(args) >= 1 and args[0] in ("-h", "--help"):
+        print(f"""\
+{iam} extracts, compares and reports on the consistancy
+or otherwise of the standard sets of properties.
+
+Parameters:
+  one or more QE widget header files.
+
+Options:
+  -V, --version    Show version and exit.
+  -h, --help       Show this message and exit.
+  
+Additional information
+  {iam} uses colordiff to perform the actual difference.
+  You must either install colordiff or fake it, e.g. run command:
+
+      ln -s /usr/bin/diff  ~/bin/colordiff
+""")
         return
 
+    if len(args) >= 1 and args[0] in ("-V", "--version"):
+        vi = sys.version_info
+        pv = "%s.%s.%s" % (vi.major, vi.minor, vi.micro)
+        print(f"{iam} version: 1.4.1 (python {pv})")
+        return
 
-    print ("")
+    if len(args) == 0:
+        print("%s - no arguments specified" % iam)
+        print("")
+        print("Try something like:  compare_common_properties  frameworkSup/projects/widgets/*/*.h")
+        print("")
+        return
+
+    print("")
+
     for group in groups:
-        print("Processing group", group)
+        process_group(group, args)
 
-        the_set = []
-
-        for arg in args:
-            try:
-                extracted = []
-                status = process_file(arg, group, extracted)
-                if len(extracted) > 0:
-                    the_set.append((arg, extracted))
-            except:
-                print ("failed to parse %s" % arg)
-                raise
-
-        total = len(the_set)
-        if total == 0:
-            print ("There are no matches for %s" % group)
-            print ("")
-            continue
-
-        reference = the_set.pop(0)
-        mis_match = 0
-        for j in range(len(the_set)):
-            item = the_set[j]
-            status = compare(reference[1], item[1], verbose=False)
-            if not status:
-                mis_match = mis_match + 1
-                print(reference[0], "and", item[0], "differ")
-                status = compare(reference[1], item[1], verbose=True)
-                print("")
-
-        print ("The are %d mis matches out of %d files" % (mis_match, total))
-        print ("")
-
-    print ("%s complete" % iam)
-    
+    print(f"{iam} complete")
 
 if __name__ == "__main__":
     main()
