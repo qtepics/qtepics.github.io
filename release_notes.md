@@ -2,13 +2,123 @@
 
 # <span style='color:#006666'>Release Index</span>
 
+[r3.8.3](#r3.8.3)<br>
 [r3.8.2](#r3.8.2)<br>
 [r3.8.1](#r3.8.1)<br>
 [Earlier Releases](#Earlier_Releases)
 
+# <a name="r3.8.3"></a><span style='color:#006666'>r3.8.3</span>
+
+Expected release date: 16th November 2022.
+
+## <span style='color:#666666'>general</span>
+
+This is a minor release for some widget enhancements.
+There are *no* new widgets.
+
+Note: This is the last release of the 3.8.3 series.
+Release 3.9.1 will be essentially identical, however it will incorporate
+those changes that will be need for Qt6 that are still Qt5.12.8 compatible.
+EPICS Qt 4.1.1 will be built against Qt6.4;
+and if it remains Qt5.12.8 compatible will depend on the required number of
+conditonal compile __#ifdef__ statements.
+
+### <span style='color:#666666'>qeframework</span>
+
+#### Window Customisation
+
+The windowCustomisation functionality, specified in an xml file, has been
+modifid to provide a write a value to a nominated PV capability.
+Example:
+
+        ...
+        <Item Name="ROI 1">
+              <PV Name="BSXPDS01:$(DEVICE).VAL">
+                    <Value>12.4</Value>
+                    <Format>Double</Format>
+              </PV>
+        </Item>
+        ...
+
+This bring the custiomised menu functionality more aligned with a QEPushButto and QEMenuButton. It also support macro substitution for the PV name and the
+value if required.
+Refer to the diocumentation.
+
+The update means the window customisation also now supports macro substitution for program names and arguments.
+
+#### Tool Tips
+
+Aw mell as the DESCriptiuon and the alarm severity, the default tool tip now
+includes the alarm status and any available alarm message.
+
+#### QEMenuButton
+
+The Time and Local Enumeration format options have been removed from the design
+time QEMenuButton setup dialog.
+Also some code factorisation between windowCustomisation and QEMenuButton
+
+#### QSimpleShape
+
+A new heart shape option (for showing heart-beats) has been added.
+This is also available to QESimpleShape.
+
+#### QEPeriodic Dialog
+
+The run time dialog code has ben modified to add a getElementName() function.
+This has only added to support one of our bespoke plugin modules.
+
+#### QEPlot
+
+Added properties and associated slot functions to enable and disable
+trace plotting of a particular plot.
+This allows, for eample, check boxes to turn on/off trace presentation.
+
+#### QEStripChart
+
+When the cursor hovers over a display point, as well as drawing a box around
+the point, we show actual (non-scaled) value in form status.
+The pop up box now include the PV DESCription.
+
+#### QEPlotter
+
+The alias (and other) property setter fuctions are now slot functions.
+The QEPlotter provide a PV label mode selection, PV name, DESCription or alias.
+
+#### QAnalogSlider
+
+All property functions are now public.
+
+#### QEStringFormatting
+
+This now provides better radix support for data presentation, data entry and
+also support non base 10 radix for floating point and well as integer numbers.
+QELabel and the like now have an integer leadingZeros property, and have dropped
+the obsolete leading and trailing zero property.
+
+#### Bug Fix
+
+Removed the double move of the interface object to thread for the origibnal
+Channel Access Archive option.
+
+#### Code Polish
+
+Updated to remove some compiler warning and deprcated function calls, perform
+some code refactorisation, fixed various typos and comments, and some variable
+name changes.
+No functional change as such.
+
+### <span style='color:#666666'>qegui</span>
+
+Remove a compiler warning: now return an actual boolan as opposed to null or
+not-null pointer.
+
+### <span style='color:#666666'>qeReadArchive</span>
+
+Updated slot function to match the current setArchiveData signal specification.
+
 # <a name="r3.8.2"></a><span style='color:#006666'>r3.8.2</span>
 
-Expected release date: 4th April 2022.
+Release date: 4th April 2022.
 
 ## <span style='color:#666666'>general</span>
 
@@ -310,5 +420,5 @@ the 3.5 series release notes.
 Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
-<font size="-1">Last updated: Sat Apr  2 15:27:44 AEDT 2022</font>
+<font size="-1">Last updated: Thu Nov  3 21:44:35 AEDT 2022</font>
 <br>
