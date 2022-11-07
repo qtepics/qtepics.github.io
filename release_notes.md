@@ -9,16 +9,17 @@
 
 # <a name="r3.8.3"></a><span style='color:#006666'>r3.8.3</span>
 
-Expected release date: 16th November 2022.
+Release date: 7th November 2022.
 
 ## <span style='color:#666666'>general</span>
 
-This is a minor release for some widget enhancements.
+This is a minor release, manly for some widget enhancements.
 There are *no* new widgets.
 
 Note: This is the last release of the 3.8.3 series.
-Release 3.9.1 will be essentially identical, however it will incorporate
-those changes that will be need for Qt6 that are still Qt5.12.8 compatible.
+Release 3.9.1 will be essentially functionally identical, however it will
+incorporate those changes that will be need for Qt6 which that are still
+Qt5.12.8 compatible.
 EPICS Qt 4.1.1 will be built against Qt6.4;
 and if it remains Qt5.12.8 compatible will depend on the required number of
 conditonal compile __#ifdef__ statements.
@@ -40,8 +41,8 @@ Example:
         </Item>
         ...
 
-This bring the custiomised menu functionality more aligned with a QEPushButto and QEMenuButton. It also support macro substitution for the PV name and the
-value if required.
+This bring the custiomised menu functionality more aligned with a QEPushButto and QEMenuButton.
+It also supports macro substitution for the PV name and the value if required.
 Refer to the diocumentation.
 
 The update means the window customisation also now supports macro substitution for program names and arguments.
@@ -60,7 +61,7 @@ Also some code factorisation between windowCustomisation and QEMenuButton
 #### QSimpleShape
 
 A new heart shape option (for showing heart-beats) has been added.
-This is also available to QESimpleShape.
+This is also available when using QESimpleShape.
 
 #### QEPeriodic Dialog
 
@@ -82,7 +83,8 @@ The pop up box now include the PV DESCription.
 #### QEPlotter
 
 The alias (and other) property setter fuctions are now slot functions.
-The QEPlotter provide a PV label mode selection, PV name, DESCription or alias.
+The QEPlotter provide a PV label mode selection, PV name, DESCription or alias
+which brings it in line with the Strip Chart.
 
 #### QAnalogSlider
 
@@ -92,8 +94,8 @@ All property functions are now public.
 
 This now provides better radix support for data presentation, data entry and
 also support non base 10 radix for floating point and well as integer numbers.
-QELabel and the like now have an integer leadingZeros property, and have dropped
-the obsolete leading and trailing zero property.
+QELabel and the like now have an integer leadingZeros property, and I have
+dropped the obsolete leading and trailing zero properties.
 
 #### Bug Fix
 
@@ -109,8 +111,8 @@ No functional change as such.
 
 ### <span style='color:#666666'>qegui</span>
 
-Remove a compiler warning: now return an actual boolan as opposed to null or
-not-null pointer.
+Removed a compiler warning: the function now returns an actual boolan as opposed
+to null or none-null pointer.
 
 ### <span style='color:#666666'>qeReadArchive</span>
 
@@ -420,5 +422,5 @@ the 3.5 series release notes.
 Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
-<font size="-1">Last updated: Thu Nov  3 21:44:35 AEDT 2022</font>
+<font size="-1">Last updated: Mon Nov  7 13:51:00 AEDT 2022</font>
 <br>
