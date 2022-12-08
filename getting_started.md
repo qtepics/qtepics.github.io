@@ -8,15 +8,16 @@
 # <a name="Introduction"></a><span style='color:#006666'>Introduction</span>
 
 There are number of different types of EPICS Qt users, and getting started is
-different for each type.
+different for each user type.
 EPICS Qt users can broadly be divided into the following categories (note a user
 may "belong" to more than one category):
 
-*  Code down-loader and builder - this user knows how to down load and install
+*  Code down loader and builder - this user knows how to down load and install
 the Qt development tool suite and download the source code from GitHub and build
 the EPICS Qt framework and QEGui display manager.
 
-*  Code rich plugin and/or application developer.
+*  Code rich plugin and/or application developer - this user know how to develope
+his/her own plugins and/or own Qt display manager.
 
 *  Code free form designer - this user if familiar with designer (Qt's form design
 tool) as well as the standard Qt widget set, the EPICS Qt widget set and any other
@@ -25,7 +26,7 @@ available widgets.
 *  GUI user - this user is familiar with the run time aspects of the widgets, for
 example understanding the meaning of the alarm colour, how to add a PV to the strip
 chart and how to retrieve data from the archive.
-Such user include operators, beam-line scientists and facility users.
+Such users include operators, beam-line scientists and facility users.
 
 
 # <a name="Download"></a><span style='color:#006666'>Download and Build</span>
@@ -40,31 +41,31 @@ Information regarding downloading and building EPICS may be found at
 Alternatively speak to your local EPICS expert.
 
 EPICS Qt has successfully been built and tested using, but not limited to,
-EPICS base  versions 3.14.12.5, 3.15.6 and 7.0.3.
+EPICS base  versions 3.14.12.5, 3.15.6, 7.0.3, and 7.0.6.1
 For PV Access functionality, EPICS 7 is required.
 
 ## <span style='color:#006666'>Qt</span>
 
 Qt is available from the [https://www.qt.io/](https://www.qt.io/) web page.
-Versions 4.6, 4.8.4, 5.6, 5.7, 5.9, 5.10 and 5.13 have been successfully used at
-the Australian Synchrotron.
-Version 4.8.4 is the earliest version we now actively support.
-For new users I would recommend Qt 5.10.
-For Archive Appliance users, Qt5 is required.
+Versions 4.6, 4.8.4, 5.6, 5.7, 5.9, 5.10, and 5.12 have been successfully
+used at the Australian Synchrotron.
+Qt Version 4 is nolonger now actively supported.
+For new users I would recommend Qt 5.12.
+For users whi need access to the Archive Appliance, Qt5 is required.
 
 After installation and adding the appropriate directory/folder to your PATH
 variable you should be able to do something similar to the following on Linux:
 
-    $ export PATH=${PATH}:/opt/Qt5.10/5.10.0/gcc_64/bin
+    $ export PATH=${PATH}:/opt/Qt5.12.8/5.12.8/gcc_64/bin
     $ qmake -v
     QMake version 3.1
-    Using Qt version 5.10.0 in /opt/Qt5.10/5.10.0/gcc_64/lib
+    Using Qt version 5.12.8 in /opt/Qt5.12.8/5.12.8/gcc_64/lib
     $ uic -v
-    uic 5.10.0
+    uic 5.12.8
     $ moc -v
-    moc 5.10.0
+    moc 5.12.8
 
-and to this on Windows:
+and like this on Windows:
 
     C:\>qmake -v
     QMake version 3.0
@@ -83,7 +84,7 @@ For Qt 5.13 we found 6.1.3 uses a number of deprecated function and QWT 6.1.4 is
 recommended.
 
 For Linux users, a suitable version of QWT may be available via your
-distribution's package manager (e.g. yum, apt).
+distribution's package manager (e.g. dnf/yum, apt).
 If not, it is available from [http://qwt.sourceforge.net/](http://qwt.sourceforge.net/).
 
 ## <a name="ACAI"> <span style='color:#006666'>ACAI</span>
@@ -96,7 +97,7 @@ This is available from [https://github.com/andrewstarritt/acai](https://github.c
 
 Building ACAI is straight forward. After downloading, cd to the &lt;top&gt;
 directory, modify the line the EPICS_BASE= definition in the configure/RELEASE
-(or configure\RELEASE on windows) file to point to **your** local EPICS base
+(or configure\\RELEASE on windows) file to point to **your** local EPICS base
 location and then call make.
 
 Once ACAI has been build, and with a suitable PATH environment variable
@@ -104,17 +105,17 @@ defined, you should be able to do similar to the following:
 
     $ export PATH=${PATH}:/epics/acai/bin/linux-x86_64
     $ acai_monitor -v
-    ACAI 1.5.4 using EPICS 3.15.5
+    ACAI 1.7.3 using EPICS 7.0.6.1, CA Protocol version 4.13
 
 or:
 
     C:\> acai_monitor -v
-    ACAI 1.5.4 using EPICS 3.14.12.4
+    ACAI 1.7.3 using EPICS 3.14.12.4, CA Protocol version 4.13
 
 acai_monitor is a test/demo program that uses the ACAI and EPICS libraries,
 however the program itself is not used by EPICS Qt.
 
-For MSVC users, please use ACAI version 1.5.3 or later.
+I suggest the latest version of ACAI, however you must use ACAI version 1.5.8 or later.
 
 ## <span style='color:#006666'>Google Protocol Buffers</span>
 
@@ -179,7 +180,7 @@ Modify <span style='color:#00c000'>/home/user/qtepics</span>/__qeframework__/con
     EPICS_BASE=__a reference your EPICS base diretory__
 
 
-If you are using EPICS 7 together with  PV Access, and wish to decompress images
+If you are using EPICS 7 together with PV Access, and wish to decompress images
 compressed using the Area Detector Codec plugin, the modify
 <span style='color:#00c000'>/home/user/qtepics</span>/__qeframework__/configure/RELEASE file
 such that:
@@ -260,7 +261,7 @@ windows-x64-mingw.
 
 See the
 <span style='color:#00c000'>/home/user/qtepics</span>/qeframework/qeframeworkSup/project/framework.pro
-project file (approximately line 92) for details.
+project file (approximately lines 103-110) for details.
 
 ### Build Framework Libraries, Plugin Library and Display Manager
 
@@ -274,18 +275,18 @@ This is simply:
 
 ### qe_git_test_build
 
-The [qe_git_test_build](tools/qe_git_test_build) script may be use on Linux to clone
-the git repositories, build the framework libraries and build the qegui display
-manger.
+The [qe_git_test_build](tools/qe_git_test_build) script may be used on Linux to
+clone the git repositories, build the framework libraries and build the qegui
+display manger.
 
 I use this after each git push update to ensure the head version of the code can
 still be successfully built;
-I do this using both Qt4.8.4 on CentOS 6 and using Qt5.10 on CentOS 7.
+I currently do this using Qt5.12.8 on CentOS 7.
 
 Run __qe_git_test_build -h__ for help information.
 
-While not intended as a general purpose download and build script, it could be
-the basis of such a script that would suit your facility.
+While it was not intended as a general purpose download and build script, it
+could be the basis of such a script that could suit your facility.
 
 
 # <a name="qtcreator"></a><span style='color:#006666'>qtcreator Build</span>
@@ -345,5 +346,5 @@ in qtcreator :
 
 <span style='color:#00c000'>/home/user/qtepics</span>/qegui/qeguiApp/project/QEGuiApp.pro
 
-<font size="-1">Last updated: Fri Jun 25 11:55:26 AEST 2021</font>
+<font size="-1">Last updated: Wed Dec  7 13:53:47 2022</font>
 <br>
