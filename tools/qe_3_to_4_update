@@ -1,0 +1,440 @@
+#!/usr/bin/env python
+#
+
+""" $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/qeuiupdate $
+    $Revision: #1 $
+    $DateTime: 2022/07/17 21:39:52 $
+    Last checked in by: $Author: starritt $
+"""
+
+import click
+import functools
+import os
+import os.path
+import sys
+import shutil
+import xml.etree.ElementTree
+
+
+# globals
+_version = "1.2.1"
+_verbose = False
+
+
+errput = functools.partial(print, file=sys.stderr)
+
+
+# The widgets, well technically the enum and set prefixes, that may need
+# to be updated. Currently a dictionary, just in case we need to add specials.
+# Note: we do not have a seprate dict. enum and sets.
+#
+widgets = {
+    "QBitStatus": None,
+    "QEAbstract2DData": None,
+    "QEAbstractDynamicWidget": None,
+    "QEAbstractWidget": None,
+    "QEAnalogIndicator": None,
+    "QEAnalogProgressBar": None,
+    "QEAnalogSlider": None,
+    "QEAxisPainter": None,
+    "QEBitStatus": None,
+    "QECheckBox": None,
+    "QEComboBox": None,
+    "QEConfiguredLayout": None,
+    "QEDynamicFormGrid": None,
+    "QEFileBrowser": None,
+    "QEFileImage": None,
+    "QEFixedPointRadix": None,
+    "QEForm": None,
+    "QEFormGrid": None,
+    "QEFormStateChange": None,
+    "QEFrame": None,
+    "QEGenericEdit": None,
+    "QEGroupBox": None,
+    "QEImage": None,
+    "QELCDNumber": None,
+    "QELabel": None,
+    "QELineEdit": None,
+    "QELog": None,
+    "QEPeriodic": None,
+    "QEPlot": None,
+    "QEPlotter": None,
+    "QEPushButton": None,
+    "QEPvLoadSaveButton": None,
+    "QERadioButton": None,
+    "QERecipe": None,
+    "QEScalarHistogram": None,
+    "QEScript": None,
+    "QESelector": None,
+    "QEShape": None,
+    "QESimpleShape": None,
+    "QESlider": None,
+    "QESpinBox": None,
+    "QEStripChartNames": None,
+    "QETable": None,
+    "QEWaveformHistogram": None,
+    "QEWidgetProperties": None,
+    "QNumericEdit": None,
+    "QRadioGroup": None,
+    "userLevelTypes": None
+}
+
+# Currently this is just an existance check disctionary.
+# It might become a name map.
+# It should be consistant with QEEnums.h
+#
+enumerations = {
+    "Any": None,
+    "Match": None,
+    "None": None,
+
+    "User": None,
+    "Scientist": None,
+    "Engineer": None,
+
+    "Always": None,
+    "WhenInAlarm": None,
+    "WhenInvalid": None,
+    "Never": None,
+
+    "Default": None,
+    "Floating": None,
+    "Integer": None,
+    "UnsignedInteger": None,
+    "Time": None,
+    "LocalEnumeration": None,
+    "String": None,
+
+    "NoSeparator": None,
+    "Comma": None,
+    "Underscore": None,
+    "Space": None,
+
+    "Fixed": None,
+    "Scientific": None,
+    "Automatic": None,
+
+    "Append": None,
+    "Ascii": None,
+    "Index": None,
+
+    "Decimal": None,
+    "Hexadecimal": None,
+    "Octal": None,
+    "Binary": None,
+
+    "NoUpdate": None,
+    "Text": None,
+    "Icon": None, 
+    "TextAndIcon": None,
+    "State": None,
+    "TextAndState": None,
+    "IconAndState": None,
+    "TextIconAndState": None,
+
+    "ignore": None,
+    "grayout": None,
+    "disable": None,
+
+    "NoOutput": None,
+    "Terminal": None,
+    "LogOutput": None,
+    "StdOutput": None,
+
+    "Open": None,
+    "NewTab": None,
+    "NewWindow": None,
+    "DockTop": None,
+    "DockBottom": None,
+    "DockLeft": None,
+    "DockRight": None,
+    "DockTopTabbed": None,
+    "DockBottomTabbed": None,
+    "DockLeftTabbed": None,
+    "DockRightTabbed": None,
+    "DockFloating": None,
+
+    "normal": None,
+    "reverse": None,
+
+    "DropToVariable": None,
+    "DropToText": None,
+    "DropToTextAndWrite": None,
+
+    "signalNone": None,
+    "signalStatus": None,
+    "signalData": None,
+    "signalText": None,
+
+    "Mono": None,
+    "Bayer": None,
+    "BayerGB": None,
+    "BayerBG": None,
+    "BayerGR": None,
+    "BayerRG": None,
+    "rgb1": None,
+    "rgb2": None,
+    "rgb3": None,
+    "yuv444": None,
+    "yuv422": None,
+    "yuv421": None,
+
+    "NoRotation": None,
+    "Rotate90Right": None,
+    "Rotate90Left": None,
+    "Rotate180": None,
+
+    "usePvName": None,
+    "useAliasName": None,
+    "useDescription": None,
+
+    "Left_To_Right": None,
+    "Top_To_Bottom": None,
+    "Right_To_Left": None,
+    "Bottom_To_Top": None,
+
+    "Top": None,
+    "Bottom": None,
+    "Left": None,
+    "Right": None,
+
+    "SourceText": None,
+    "SourceFile": None,
+
+    "RowMajor": None,
+    "ColMajor": None
+}
+
+# Special mappings
+# QBitStatus
+#
+qbit_status_map = {
+    "LSB_On_Right" : "Left_To_Right", 
+    "LSB_On_Bottom" : "Top_To_Bottom", 
+    "LSB_On_Left" : "Right_To_Left", 
+    "LSB_On_Top" : "Bottom_To_Top"
+}
+
+
+# -----------------------------------------------------------------------------
+#
+def process_node(parent_node):
+    """ Process all nodes in the parent node
+        Returns True if an update is required, otherwise False.
+    """
+
+    result = False   # hypothosize no update required
+
+    for node in parent_node:
+        if node.tag in ("enum", "set") and parent_node.tag == "property":
+            parts = node.text.split("::")
+
+            # Note: we assume that if both parts are in their respective dictionaries,
+            # then a substitution is required except fir specific combinations.
+            #
+            if len(parts) == 2:
+                if parts[0] == "QBitStatus" and parts[1] in qbit_status_map:
+                    new_text = "QE::" + qbit_status_map[parts[1]]
+                    if _verbose:
+                        print(f"{node.tag} tag: {node.text} => {new_text}")
+                    node.text = new_text
+                    result = True
+
+                elif parts[0] in widgets and parts[1] in enumerations:
+                    new_text = "QE::" + parts[1]
+                    if _verbose:
+                        print(f"{node.tag} tag: {node.text} => {new_text}")
+                    node.text = new_text
+                    result = True
+
+                elif parts[0] in widgets or parts[1] in enumerations:
+                    if _verbose:
+                        errput(f"{node.tag} tag: {node.text} no update needed")
+
+        else:
+            # Process sub-node
+            #
+            r = process_node(node)
+            result = result or r
+
+    return result     
+
+
+# -----------------------------------------------------------------------------
+#
+def process_file(filename):
+    """ Processes amd updated the specified file.
+        It creates a backup file if required.
+    """
+
+    if _verbose:
+        print(f"processing file: {filename}")
+
+    tree = xml.etree.ElementTree.parse(filename)
+    root_node = tree.getroot()
+    dirty = process_node(root_node)
+    
+    if dirty:
+        # Create a backup file.
+        # Note: we copy, as opposed to do moving, the  original file to create
+        # the backup and thereby create a new file; in this way, filename remains
+        # the same file and gets updated. This preserves attributes and, at least
+        # on Linux, the i-node number, and hence any file-system hard links to
+        # the file are preserved.
+        #
+        backup = filename + "~"
+        shutil.copy(filename, backup)
+        
+        # Now write the modified xml tree to the file
+        #
+        tree.write(filename,
+                   encoding="UTF-8",
+                   xml_declaration='<?xml version="1.0" encoding="UTF-8"?>')
+
+        # ElementTree write does not output a proper last line
+        #
+        with open(filename, 'a') as f:
+            f.write("\n")
+        print(f"{filename}: update complete")
+
+    else:
+        print(f"{filename}: no update required")
+    
+
+
+# -----------------------------------------------------------------------------
+#
+def print_version(ctx, param, value):
+    """ Click parser helper function """
+    if not value or ctx.resilient_parsing:
+        return
+
+    vi = sys.version_info
+    print("qeuiupdate version: %s  (python %s.%s.%s)" % (_version, vi.major, vi.minor, vi.micro))
+    ctx.exit()
+
+
+# -----------------------------------------------------------------------------
+#
+context_settings = dict(help_option_names=['--help', '-h'],
+                        terminal_width=96,
+                        max_content_width=96)
+
+
+@click.command(context_settings=context_settings,
+               epilog="""
+
+\b\bAdditional information:
+
+In EPICS Qt 4.x.x, many of the common enumeration types are now defined in
+one place (QEEnums.h) as opposed to being (re-)defined in each widget.
+This update not only simplifies the header files, but allows the object
+hierarchy to be subsequenctly re-organised with no, or minimal, impact on 
+existing ui files.
+
+However, for ui files created using EPICS Qt 3.x.x the enumeration values 
+are stored in the ui file, for example, like this:
+
+\b
+   QELabel::LocalEnumeration
+
+\b
+and this needs to be modified to be:
+
+\b
+   QE::LocalEnumeration
+
+\b\bNotes:
+
+ui files that only ever used the default options will not be affected.
+
+Qt appears to be able to interpret an enumueration value with or without
+the prefix, i.e. 'LocalEnumeration'  as well as 'QE:LocalEnumeration'.
+
+However it should be possible to roll back to EPICS Qt 3.x.x (if needed) by
+removeing the 'QE::' part of the enumeration (using simple text based find
+and replace). The actual enumeration part has not changed.
+
+If an update is required, a backup file is created with a tilda (~) appended
+to the original filename.
+
+The xml.etree.ElementTree utility used to read and write the xml .ui files
+introduces some minor cosmetic changes, for example
+
+\b
+<?xml version="1.0" encoding="UTF-8"?>
+<string/>
+<resources/>
+<connections/>
+
+becomes:
+
+\b
+<?xml version='1.0' encoding='UTF-8'?>
+<string />
+<resources />
+<connections />
+
+This can be "fixed" by loading the ui file into designer, making a null change
+and re-saving the ui file.
+
+\b
+ 
+""")
+#
+# -------------------------------------------------------------------------
+#
+@click.option('--verbose', '-v',
+              is_flag=True,
+              help="""Output is verbose when specified.""")
+#
+# -----------------------------------------------------------------------------
+#
+@click.option('--version', '-V',
+              is_flag=True,
+              callback=print_version,
+              expose_value=False,
+              is_eager=True,
+              help="Show version and exit.")
+#
+# -----------------------------------------------------------------------------
+# nargs is set to -1, so that an unlimited number of arguments are accepted.
+#
+@click.argument('filenames', nargs=-1, required=True)
+#
+# -----------------------------------------------------------------------------
+#
+def cli(verbose, filenames):
+    """ Update one or more ui files created using EPICS Qt 3.x.x to a form
+        suitable for EPICS Qt 4.x.x
+    """
+    global _verbose
+    _verbose = verbose
+
+    if _verbose:
+        print(f"filenames: {filenames}")
+        print()
+
+    for filename in filenames:
+        try:
+            if not filename.endswith(".ui"):
+                print(f"warning: {filename} might not be a ui file")
+            process_file(filename)
+        except Exception as error:
+            errput("%s: %s" % (type(error).__name__, error))
+
+
+# -----------------------------------------------------------------------------
+# Set env variables for click and python 3, does no harm for python 2
+# Command line entry point for setup
+#
+def call_cli():
+    os.environ["LANG"] = "en_US.utf8"
+    os.environ["LC_ALL"] = "en_US.utf8"
+    cli()
+
+
+if __name__ == "__main__":
+    call_cli()
+
+# end
