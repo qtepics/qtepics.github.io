@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 #
 
-""" $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/qeuiupdate $
+""" $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/qe_3_to_4_update $
     $Revision: #1 $
-    $DateTime: 2022/07/17 21:39:52 $
+    $DateTime: 2023/02/26 18:55:30 $
     Last checked in by: $Author: starritt $
 """
 
@@ -13,8 +13,8 @@ import os
 import os.path
 import sys
 import shutil
-import xml.etree.ElementTree
 
+import xml.etree.ElementTree
 
 # globals
 _version = "1.2.1"
@@ -125,7 +125,7 @@ enumerations = {
 
     "NoUpdate": None,
     "Text": None,
-    "Icon": None, 
+    "Icon": None,
     "TextAndIcon": None,
     "State": None,
     "TextAndState": None,
@@ -205,20 +205,60 @@ enumerations = {
     "ColMajor": None
 }
 
-# Special mappings
-# QBitStatus
+
+# Special mappings QBitStatus and QEAnalogIndicator
 #
 qbit_status_map = {
-    "LSB_On_Right" : "Left_To_Right", 
-    "LSB_On_Bottom" : "Top_To_Bottom", 
-    "LSB_On_Left" : "Right_To_Left", 
-    "LSB_On_Top" : "Bottom_To_Top"
+    "LSB_On_Right": ("Qt::Horizontal", False),
+    "LSB_On_Bottom": ("Qt::Vertical", False),
+    "LSB_On_Left": ("Qt::Horizontal", True),
+    "LSB_On_Top": ("Qt::Vertical", True)
+}
+
+qeanalog_indicator_map = {
+    "Left_To_Right": ("Qt::Horizontal", False),
+    "Bottom_To_Top": ("Qt::Vertical", False),
+    "Right_To_Left": ("Qt::Horizontal", True),
+    "Top_To_Bottom": ("Qt::Vertical", True)
 }
 
 
 # -----------------------------------------------------------------------------
 #
-def process_node(parent_node):
+def special_update(grand_parent_node, parent_node, node, enum_value, emap):
+    """ Converts single property into two (if needs be).
+        Additional properrty is invertedAppearance (bool).
+    """
+    info = emap[enum_value]
+    orientation = info[0]
+    invertedAppearance = info[1]
+    if _verbose:
+        print(f"property name: {parent_node.attrib['name']} => orientation")
+        print(f"{node.tag} tag: {node.text} => {orientation}")
+
+    # Set the new orientation property name and value
+    #
+    parent_node.attrib["name"] = "orientation"
+    node.text = orientation
+
+    if invertedAppearance:
+        if _verbose:
+            print(f"adding new invertedAppearance property")
+        element1 = xml.etree.ElementTree.Element('property')
+        element1.attrib["name"] = 'invertedAppearance'
+        element1.tail = '\n'
+
+        element2 = xml.etree.ElementTree.Element('bool')
+        element2.text = 'true'
+        element2.tail = '\n'
+
+        element1.append(element2)
+        grand_parent_node.append(element1)
+
+
+# -----------------------------------------------------------------------------
+#
+def process_node(grand_parent_node, parent_node):
     """ Process all nodes in the parent node
         Returns True if an update is required, otherwise False.
     """
@@ -226,38 +266,53 @@ def process_node(parent_node):
     result = False   # hypothosize no update required
 
     for node in parent_node:
+
         if node.tag in ("enum", "set") and parent_node.tag == "property":
             parts = node.text.split("::")
 
             # Note: we assume that if both parts are in their respective dictionaries,
-            # then a substitution is required except fir specific combinations.
+            # then a substitution is required except for specific combinations.
             #
             if len(parts) == 2:
-                if parts[0] == "QBitStatus" and parts[1] in qbit_status_map:
-                    new_text = "QE::" + qbit_status_map[parts[1]]
+                class_name = parts[0]
+                enum_value = parts[1]
+
+                if class_name == "QBitStatus" and enum_value in qbit_status_map:
+                    special_update(
+                        grand_parent_node,
+                        parent_node,
+                        node,
+                        enum_value,
+                        qbit_status_map)
+                    result = True
+
+                elif class_name == "QEAnalogIndicator" and enum_value in qeanalog_indicator_map:
+                    special_update(
+                        grand_parent_node,
+                        parent_node,
+                        node,
+                        enum_value,
+                        qeanalog_indicator_map)
+                    result = True
+
+                elif class_name in widgets and enum_value in enumerations:
+                    new_text = "QE::" + enum_value
                     if _verbose:
                         print(f"{node.tag} tag: {node.text} => {new_text}")
                     node.text = new_text
                     result = True
 
-                elif parts[0] in widgets and parts[1] in enumerations:
-                    new_text = "QE::" + parts[1]
-                    if _verbose:
-                        print(f"{node.tag} tag: {node.text} => {new_text}")
-                    node.text = new_text
-                    result = True
-
-                elif parts[0] in widgets or parts[1] in enumerations:
+                elif class_name in widgets or enum_value in enumerations:
                     if _verbose:
                         errput(f"{node.tag} tag: {node.text} no update needed")
 
         else:
             # Process sub-node
             #
-            r = process_node(node)
+            r = process_node(parent_node, node)
             result = result or r
 
-    return result     
+    return result
 
 
 # -----------------------------------------------------------------------------
@@ -272,34 +327,35 @@ def process_file(filename):
 
     tree = xml.etree.ElementTree.parse(filename)
     root_node = tree.getroot()
-    dirty = process_node(root_node)
-    
+    dirty = process_node(None, root_node)
+
     if dirty:
         # Create a backup file.
         # Note: we copy, as opposed to do moving, the  original file to create
         # the backup and thereby create a new file; in this way, filename remains
         # the same file and gets updated. This preserves attributes and, at least
         # on Linux, the i-node number, and hence any file-system hard links to
-        # the file are preserved.
+        # filename file are preserved.
         #
         backup = filename + "~"
         shutil.copy(filename, backup)
-        
+
         # Now write the modified xml tree to the file
         #
         tree.write(filename,
                    encoding="UTF-8",
-                   xml_declaration='<?xml version="1.0" encoding="UTF-8"?>')
+                   xml_declaration='<?xml version="1.0" encoding="UTF-8"?>',
+                   short_empty_elements=False)
 
         # ElementTree write does not output a proper last line
         #
         with open(filename, 'a') as f:
             f.write("\n")
+
         print(f"{filename}: update complete")
 
     else:
         print(f"{filename}: no update required")
-    
 
 
 # -----------------------------------------------------------------------------
@@ -329,10 +385,10 @@ context_settings = dict(help_option_names=['--help', '-h'],
 In EPICS Qt 4.x.x, many of the common enumeration types are now defined in
 one place (QEEnums.h) as opposed to being (re-)defined in each widget.
 This update not only simplifies the header files, but allows the object
-hierarchy to be subsequenctly re-organised with no, or minimal, impact on 
+hierarchy to be subsequenctly re-organised with no, or minimal, impact on
 existing ui files.
 
-However, for ui files created using EPICS Qt 3.x.x the enumeration values 
+However, for ui files created using EPICS Qt 3.x.x the enumeration values
 are stored in the ui file, for example, like this:
 
 \b
@@ -359,27 +415,12 @@ If an update is required, a backup file is created with a tilda (~) appended
 to the original filename.
 
 The xml.etree.ElementTree utility used to read and write the xml .ui files
-introduces some minor cosmetic changes, for example
-
-\b
-<?xml version="1.0" encoding="UTF-8"?>
-<string/>
-<resources/>
-<connections/>
-
-becomes:
-
-\b
-<?xml version='1.0' encoding='UTF-8'?>
-<string />
-<resources />
-<connections />
-
+introduces some minor cosmetic changes.
 This can be "fixed" by loading the ui file into designer, making a null change
 and re-saving the ui file.
 
 \b
- 
+
 """)
 #
 # -------------------------------------------------------------------------
