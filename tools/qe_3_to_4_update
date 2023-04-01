@@ -2,8 +2,8 @@
 #
 
 """ $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/qe_3_to_4_update $
-    $Revision: #1 $
-    $DateTime: 2023/02/26 18:55:30 $
+    $Revision: #2 $
+    $DateTime: 2023/04/01 13:56:35 $
     Last checked in by: $Author: starritt $
 """
 
@@ -17,8 +17,15 @@ import shutil
 import xml.etree.ElementTree
 
 # globals
-_version = "1.2.1"
+_version = "1.2.2"
 _verbose = False
+_quiet = True
+
+_red = "\033[31;1m"
+_green = "\033[32;1m"
+_yellow = "\033[33;1m"
+_blue = "\033[36;1m"
+_reset = "\033[00m"
 
 
 errput = functools.partial(print, file=sys.stderr)
@@ -232,9 +239,9 @@ def special_update(grand_parent_node, parent_node, node, enum_value, emap):
     info = emap[enum_value]
     orientation = info[0]
     invertedAppearance = info[1]
-    if _verbose:
-        print(f"property name: {parent_node.attrib['name']} => orientation")
-        print(f"{node.tag} tag: {node.text} => {orientation}")
+    if not _quiet:
+        print(f"{_green}property name: {parent_node.attrib['name']} => orientation{_reset}")
+        print(f"{_green}{node.tag} tag: {node.text} => {orientation}{_reset}")
 
     # Set the new orientation property name and value
     #
@@ -242,18 +249,19 @@ def special_update(grand_parent_node, parent_node, node, enum_value, emap):
     node.text = orientation
 
     if invertedAppearance:
-        if _verbose:
-            print(f"adding new invertedAppearance property")
-        element1 = xml.etree.ElementTree.Element('property')
-        element1.attrib["name"] = 'invertedAppearance'
-        element1.tail = '\n'
+        if not _quiet:
+            print(f"{_yellow}adding new invertedAppearance property{_reset}")
 
-        element2 = xml.etree.ElementTree.Element('bool')
-        element2.text = 'true'
-        element2.tail = '\n'
+        prop_elem = xml.etree.ElementTree.Element('property')
+        prop_elem.attrib["name"] = 'invertedAppearance'
+        prop_elem.tail = '\n'
 
-        element1.append(element2)
-        grand_parent_node.append(element1)
+        bool_elem = xml.etree.ElementTree.Element('bool')
+        bool_elem.text = 'true'
+        bool_elem.tail = '\n'
+
+        prop_elem.append(bool_elem)
+        grand_parent_node.append(prop_elem)
 
 
 # -----------------------------------------------------------------------------
@@ -263,7 +271,7 @@ def process_node(grand_parent_node, parent_node):
         Returns True if an update is required, otherwise False.
     """
 
-    result = False   # hypothosize no update required
+    result = False   # hypothesize no update required
 
     for node in parent_node:
 
@@ -297,14 +305,14 @@ def process_node(grand_parent_node, parent_node):
 
                 elif class_name in widgets and enum_value in enumerations:
                     new_text = "QE::" + enum_value
-                    if _verbose:
-                        print(f"{node.tag} tag: {node.text} => {new_text}")
+                    if not _quiet:
+                        print(f"{_green}{node.tag} tag: {node.text} => {new_text}{_reset}")
                     node.text = new_text
                     result = True
 
                 elif class_name in widgets or enum_value in enumerations:
-                    if _verbose:
-                        errput(f"{node.tag} tag: {node.text} no update needed")
+                    if not _quiet:
+                        errput(f"{_red}{node.tag} tag: {node.text} no update needed{_reset}")
 
         else:
             # Process sub-node
@@ -322,8 +330,8 @@ def process_file(filename):
         It creates a backup file if required.
     """
 
-    if _verbose:
-        print(f"processing file: {filename}")
+    if not _quiet:
+        print(f"{_blue}processing file: {filename}{_reset}")
 
     tree = xml.etree.ElementTree.parse(filename)
     root_node = tree.getroot()
@@ -340,6 +348,10 @@ def process_file(filename):
         backup = filename + "~"
         shutil.copy(filename, backup)
 
+        # First re-indent - eddemtially needed for new nodes.
+        #
+        xml.etree.ElementTree.indent(tree, space=' ', level=0)
+
         # Now write the modified xml tree to the file
         #
         tree.write(filename,
@@ -352,10 +364,10 @@ def process_file(filename):
         with open(filename, 'a') as f:
             f.write("\n")
 
-        print(f"{filename}: update complete")
+        print(f"{_yellow}{filename}: update complete{_reset}")
 
     else:
-        print(f"{filename}: no update required")
+        print(f"{_green}{filename}: no update required{_reset}")
 
 
 # -----------------------------------------------------------------------------
@@ -420,14 +432,14 @@ This can be "fixed" by loading the ui file into designer, making a null change
 and re-saving the ui file.
 
 \b
-
+ 
 """)
 #
 # -------------------------------------------------------------------------
 #
-@click.option('--verbose', '-v',
+@click.option('--quiet', '-q',
               is_flag=True,
-              help="""Output is verbose when specified.""")
+              help="""Suppress output message when specified.""")
 #
 # -----------------------------------------------------------------------------
 #
@@ -445,21 +457,21 @@ and re-saving the ui file.
 #
 # -----------------------------------------------------------------------------
 #
-def cli(verbose, filenames):
+def cli(quiet, filenames):
     """ Update one or more ui files created using EPICS Qt 3.x.x to a form
         suitable for EPICS Qt 4.x.x
     """
-    global _verbose
-    _verbose = verbose
+    global _quiet
+    _quiet = quiet
 
-    if _verbose:
+    if not _quiet:
         print(f"filenames: {filenames}")
         print()
 
     for filename in filenames:
         try:
             if not filename.endswith(".ui"):
-                print(f"warning: {filename} might not be a ui file")
+                print(f"{_yellow}warning: {filename} might not be a ui file{_reset}")
             process_file(filename)
         except Exception as error:
             errput("%s: %s" % (type(error).__name__, error))
