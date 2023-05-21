@@ -177,7 +177,7 @@ framework.
 ### QT_PLUGIN_PATH (Required)
 
 This must include _<where-your-epicsqt-is-located>_/qeframework/lib/<epics_host_arch>,
-so that qegui (and designer) may load the QEPlugin library and create QEFramework widgets.
+so that qegui (and designer) can load the QEPlugin library and create QEFramework widgets.
 
 Note: the plugin library is located at:   _<where-your-epicsqt-is-located>_/qeframework/lib/<epics_host_arch>/designer
 
@@ -206,6 +206,24 @@ where the QEFramework.dll is located.
 
 This defines alternative/additional paths used when searching for a ui file.
 This augments qegui's -u command line option.
+
+### QE_DEFAULT_PROVIDER (Optional)
+
+This defines default provider/protocol used when an expicit protocol is __not__
+specified as part of the PV name.
+This should be defined as one of "ca" or "pva" (case in-sensitive).
+
+The default default when QE_DEFAULT_PROVIDER is undefined or ill-defined is "ca".
+
+| PV Name | QE_DEFAULT_PROVIDER | Protocol used  |
+|:--------|:--------------------|:---------------|
+| ca://SOME:PV  | Any           | Channel Access |
+| pva://SOME:PV | Any           | PV Access      |
+| SOME:PV       |               | Channel Access |
+| SOME:PV       | ca or CA      | Channel Access |
+| SOME:PV       | pva or PVA    | PV Access      |
+| SOME:PV       | error         | Channel Access |
+
 
 ### QE_STYLE_COLOR_NAMES and QE_COLOR_NAMES
 
@@ -357,5 +375,5 @@ the caQtDm widgets use their native context menu or the EPICS Qt standard
 context menu. Set this variable to "1", "TRUE" or "YES" to select this feature.
 
 
-<font size="-1">Last updated: Fri Nov 20 15:42:45 AEDT 2020</font>
+<font size="-1">Last updated: Sun May 21 13:39:50 2023</font>
 <br>
