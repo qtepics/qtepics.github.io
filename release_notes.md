@@ -2,8 +2,126 @@
 
 # <span style='color:#006666'>Release Index</span>
 
+[r3.9.2](#r3.9.2)<br>
 [r3.9.1](#r3.9.1)<br>
 [Earlier Releases](#Earlier_Releases)
+
+# <a name="r3.9.2"></a><span style='color:#006666'>r3.9.2</span>
+
+Expected release date: 16th August 2023.
+
+## <span style='color:#666666'>general</span>
+
+The most significant change for this release is the way in which external
+process are launched using QEPushButton, QEMenuButton etc., specifically the
+arguments are kept separated and not concatinated, with the command, into
+a single command string.
+We got away with it in Qt5 however Qt6 is more strict/correct.
+
+## <span style='color:#666666'>qeframework</span>
+
+#### Archive data retrieval
+
+The framework now allows .SEVR and .STAT (severity and status) PV values to be
+retrieved from the archiver (and plotted on the Strip Chart).
+
+#### QEWaveformHistogram
+
+The size of number of elements sanity check value has been increased to 100000.
+
+#### QEImage
+
+Modified to add an axis draw capability for the profiles.
+This feature is selectable in designer using the __enableProfileAxes__ property
+and in the run-time image dialog.
+
+_Note:_ This applies to all three axes: horizontal, vertical and arbitary line.
+
+#### applicationLauncher
+
+The applicationLauncher class has been updated to handle arguments as separate
+objects (in a QStringList) as opposed to being all bundling into the command
+string.
+This is essentially the oreviously commented out alternate (and cleaner) way
+to run the program.
+Also a bit of code layout tweaking.
+
+#### QEMenuButton
+
+This widget has been updateed to use a QStringList for program arguments
+(a la QEPushButton).
+
+The designer set up dialog associated with the QEMenuButton now allows
+the argument to be edited as a string list - this editor is similar in
+look and feel as the built-in string list property editor.
+The dialog now has a better (as in similar to designer) reset icon for the
+quazi properties.
+
+_Note:_ The QEMenuButton widget remains backwards compatible with ui files
+created by earlier versions which stored the program arguments as space
+separeted text in a single string.
+
+#### Default Protocol
+
+Allow the default provider/protocol to be specified as adaptation parameter.
+E.g. to use PV Access in stead of Channel Access by default, define the
+environment variable QE_DEFAULT_PROVIDER as "pva".
+On Linux:
+
+    export QE_DEFAULT_PROVIDER=pva
+
+#### QEPeriodic
+
+Updated to spell Sulphur element name correctly (as in Australia/UK).
+This should have no impact unless 3rd party code relies on the name out
+of QEPeriodic::elementInfo (as one of our plugins does).
+
+#### QEPvProperties
+
+Show the enumeration index value as prefix to each enumeration value,
+together with some minor layout tweaks.
+
+For normative NTScalar and NTArray types, extract value type and use this to
+qualifiy the PV id which used in QEPvProperties.
+
+Update record field list to add the new alarm messahe (NAMSG) field introduced
+in base-7.0.7, and updated the text associated with the DOL fields.
+
+#### QEStripChart
+
+When loading/restoring a configuration, do not attempt to insert beyond the end
+of the predefined PV name list and thus avoid a seg. fault.
+This only impacts Qt6, Qt5 is a little more forgiving of this error.
+
+For the QEStripChart tool bar, removed Lock and PV status place holders tabs
+which were a hang over from the Delphi original and not required.
+
+
+#### QEComboBox, QERadioGroup
+
+Both widgets now have an 'Apply current selection' option available in their
+context menu.
+This is particularly usefull if current value is undefined as in INVALID/UDF
+(typically on IOC start) and allows the value to be set without selecting a
+different value first.
+
+
+#### QSimpleShape
+
+This widget has been modified to include a noshape and a tick shape.
+This change is also reflected in the QESimpleShape widget.
+
+#### QEPlot
+
+The widget now checks for NaN and Inf values and does not attempt to plot them.
+
+Also added logScale plotting mode (y-axis) to the widget.
+This can be selected by using the __logScale__ property.
+
+## <span style='color:#666666'>qegui</span>
+
+The only change is is a modifcation to the help text to include info about
+the new provider environment variable.
 
 # <a name="r3.9.1"></a><span style='color:#006666'>r3.9.1</span>
 
@@ -188,5 +306,5 @@ the 3.5 series release notes.
 Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
-<font size="-1">Last updated: Sat Mar  4 14:43:41 AEDT 2023</font>
+<font size="-1">Last updated: Sat Aug  5 15:25:20 2023</font>
 <br>
