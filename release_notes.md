@@ -8,7 +8,7 @@
 
 # <a name="r3.9.2"></a><span style='color:#006666'>r3.9.2</span>
 
-Expected release date: 16th August 2023.
+Release date: 17th August 2023.
 
 ## <span style='color:#666666'>general</span>
 
@@ -16,7 +16,24 @@ The most significant change for this release is the way in which external
 process are launched using QEPushButton, QEMenuButton etc., specifically the
 arguments are kept separated and not concatinated, with the command, into
 a single command string.
+
 We got away with it in Qt5 however Qt6 is more strict/correct.
+
+__Note:__  Previously a ui file with a 'single' argument of the form,
+for example:
+
+    -r  "Stored Beam"
+
+would have been okay with Qt5.
+However with Qt6 this will not work.
+These must be specified as two arguments, the second without quotes, as follows:
+
+    -r
+    Stored Beam
+
+The applicationLauncher make no attempt to 2nd-guess the user's intention.
+Arguments are passed as specified in the QEPushButton (and others) widget's
+arguments string list.
 
 ## <span style='color:#666666'>qeframework</span>
 
@@ -306,5 +323,5 @@ the 3.5 series release notes.
 Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
-<font size="-1">Last updated: Sat Aug  5 15:25:20 2023</font>
+<font size="-1">Last updated: Thu Aug 17 15:46:58 AEST 2023</font>
 <br>
