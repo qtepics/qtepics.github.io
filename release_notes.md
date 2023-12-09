@@ -2,9 +2,113 @@
 
 # <span style='color:#006666'>Release Index</span>
 
+[r3.9.3](#r3.9.3)<br>
 [r3.9.2](#r3.9.2)<br>
 [r3.9.1](#r3.9.1)<br>
 [Earlier Releases](#Earlier_Releases)
+
+# <a name="r3.9.3"></a><span style='color:#006666'>r3.9.3</span>
+
+Exprected release date: 15th December 2023.
+
+## <span style='color:#666666'>general</span>
+
+A couple Qt6 compatability updates (fonts and signal names) - details below,
+together with the details about other changes.
+
+__Note:__
+EPICS Qt is regularly build using Qt5.12.8 and Qt6.4 on a variety of Linux platforms.
+Qt5.6 and earlier no longer supported.
+Other versions have not been tried.
+
+## <span style='color:#666666'>qeframework</span>
+
+#### QERadioGroup
+
+Ensure button status reflects current status on startup (applies when button
+style is push).
+
+#### QERadioGroup, QEAnalogSlider, QENumericEdit
+
+The code has been modified in order to be consistant re how we inhibit
+emiting updates.
+No functional change per se.
+
+#### QESimpleShape
+
+Added a useStyleAlarmColors property, which defaults to false.
+When set, background alarm colours used are the same as a QELabel.
+Also updated so that the edge grays out on edge PV disconnect.
+
+#### QEScaling
+
+Hide QEImage internal widgets from being scaled;
+the QEImage widget does not scale very well.
+The code also updated to use qobject_cast where possible.
+
+#### QEImage
+
+Added new feature for 3rd party plugins and display managers:
+a/ provide progromatic capbility to reset brightness and contrast; and
+b/ provide capability register function to provide a customised paint capability.
+
+The QEImage tool tip now reflects the PVs connected and/or alarm states.
+This is Only relevent if/when the variableAsToolTip property is enabled.
+
+#### QEScalarHistogram
+
+Updated so that disconnected and/or invalid values are clearly displayed,
+as opposed to bing hidden as a result of a "zero" value.
+
+#### QEBaseClient
+
+Re-locate ChannelModes from QEPvaClient; add null type client.
+[Preping for a QCaObject re-organisation, no functional change per se]
+
+#### QEPvNameUri
+
+Added a protocolImage QString getter method.
+
+#### QEThreadSafeQueue
+
+Add a thread safe queue template (based on code from PVA client).
+This is not used yet.
+
+#### QE2DDataVisualisation
+
+Updated to add a used log scale property, default to false.
+
+The QESpectrogram widget has been updated to add a log scale capability
+together with log scale context menu item.
+The other 2D data widgets currently ignore this property.
+
+#### QCaAlarmInfoColorNamesManager
+
+This has been updated to allow use of regular expressions for defining
+out of service (OOS) PV names.
+
+#### QEPvProperties
+
+Dropped the VERS field from the record field list for the concat record.
+The concat record now implements this as an attribute.
+
+#### ui files
+
+Remove explicit Sans Serif and/or size 10 font selection for the font property,
+and now just use the default font and size.
+This this improves the apprearance in Qt6 which has a diffent default font.
+
+#### QEScratchPad
+
+Added the record type RTYP attribute (pseudo field) to the scratch pad widget.
+
+#### QESelector, QEStripChartToolBar
+
+Make Qt6 compatible with respect to signal names.
+
+## <span style='color:#666666'>qegui</span>
+
+No change.
 
 # <a name="r3.9.2"></a><span style='color:#006666'>r3.9.2</span>
 
@@ -323,5 +427,5 @@ the 3.5 series release notes.
 Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
-<font size="-1">Last updated: Thu Aug 17 15:46:58 AEST 2023</font>
+<font size="-1">Last updated: Sat Dec  9 13:48:09 2023</font>
 <br>
