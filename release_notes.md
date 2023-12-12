@@ -9,7 +9,7 @@
 
 # <a name="r3.9.3"></a><span style='color:#006666'>r3.9.3</span>
 
-Exprected release date: 15th December 2023.
+Release date: 14th December 2023.
 
 ## <span style='color:#666666'>general</span>
 
@@ -22,6 +22,11 @@ Qt5.6 and earlier no longer supported.
 Other versions have not been tried.
 
 ## <span style='color:#666666'>qeframework</span>
+
+#### QECalcout
+
+Keep intermediate calc and ocal std::string variables in scope as to
+avoid QString to char* corruption.
 
 #### QERadioGroup
 
@@ -427,5 +432,5 @@ the 3.5 series release notes.
 Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
-<font size="-1">Last updated: Sat Dec  9 13:48:09 2023</font>
+<font size="-1">Last updated: Tue Dec 12 18:59:11 AEDT 2023</font>
 <br>
