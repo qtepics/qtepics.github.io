@@ -197,8 +197,14 @@ def run():
         os._exit(1)
 
     if number >= 1 and args[0] in ("-h", "--help"):
-        print(f"usage dbd2rfl DBD_FILES...")
-        print(f"      dbd2rfl -h,--help")
+        print(f"""\
+The dbd2rfl script generates a record field list based on the given
+dbd files. The record field list is directed to standard out. It is
+in a format suitable for the QEPvProperties widget.
+
+usage: dbd2rfl DBD_FILES...
+       dbd2rfl -h,--help
+""")
         return
 
     rfl = {}

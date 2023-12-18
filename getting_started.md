@@ -41,39 +41,36 @@ Information regarding downloading and building EPICS may be found at
 Alternatively speak to your local EPICS expert.
 
 EPICS Qt has successfully been built and tested using, but not limited to,
-EPICS base  versions 3.14.12.5, 3.15.6, 7.0.3, and 7.0.6.1
+EPICS base versions 3.14.12.5, 3.15.6, 7.0.3 and 7.0.7.1
 For PV Access functionality, EPICS 7 is required.
 
 ## <span style='color:#006666'>Qt</span>
 
 Qt is available from the [https://www.qt.io/](https://www.qt.io/) web page.
-Versions 4.6, 4.8.4, 5.6, 5.7, 5.9, 5.10, and 5.12 have been successfully
-used at the Australian Synchrotron.
+Versions 4.6, 4.8.4, 5.6, 5.7, 5.9, 5.10, 5.12.8, 6.4 have previuosly been
+successfully used at the Australian Synchrotron.
+Currently EPICS Qt is regularly buit against versions Qt 5.12.8 and Qt 6.4 only.
+
 Qt Version 4 is nolonger now actively supported.
-For new users I would recommend Qt 5.12.
-For users whi need access to the Archive Appliance, Qt5 is required.
+Also Qt 5.6 or earlier is no longer builds, and the compatibility status for
+Qt version before Qt 5.12.8 and after Qt 6.4 is unknown.
+
+For new users I would recommend Qt 6.4.
+For users who need access to the Archive Appliance, Qt5+ is required.
 
 After installation and adding the appropriate directory/folder to your PATH
 variable you should be able to do something similar to the following on Linux:
 
-    $ export PATH=${PATH}:/opt/Qt5.12.8/5.12.8/gcc_64/bin
+    $ export PATH=${PATH}:/opt/Qt6/6.4.0/gcc_64/bin
     $ qmake -v
     QMake version 3.1
-    Using Qt version 5.12.8 in /opt/Qt5.12.8/5.12.8/gcc_64/lib
-    $ uic -v
-    uic 5.12.8
-    $ moc -v
-    moc 5.12.8
+    Using Qt version 6.4.0 in /opt/Qt6/6.4.0/gcc_64/lib
 
 and like this on Windows:
 
     C:\>qmake -v
     QMake version 3.0
     Using Qt version 5.6.1 in C:/qt5/5.6/mingw49_32/lib
-    C:\>uic -v
-    uic 5.6.1
-    C:\>moc -v
-    moc 5.6.1
 
 
 ## <span style='color:#006666'>QWT</span>
@@ -82,6 +79,7 @@ The selected version of QWT must be compatible with your version of Qt.
 For Qt 5.6 or later we use QWT version 6.1.3.
 For Qt 5.13 we found 6.1.3 uses a number of deprecated function and QWT 6.1.4 is
 recommended.
+For Qt 6.4 I use QWT 6.3.0
 
 For Linux users, a suitable version of QWT may be available via your
 distribution's package manager (e.g. dnf/yum, apt).
@@ -105,17 +103,18 @@ defined, you should be able to do similar to the following:
 
     $ export PATH=${PATH}:/epics/acai/bin/linux-x86_64
     $ acai_monitor -v
-    ACAI 1.7.3 using EPICS 7.0.6.1, CA Protocol version 4.13
+    ACAI 1.7.5 using EPICS 7.0.6.1, CA Protocol version 4.13
 
 or:
 
     C:\> acai_monitor -v
-    ACAI 1.7.3 using EPICS 3.14.12.4, CA Protocol version 4.13
+    ACAI 1.7.5 using EPICS 3.14.12.4, CA Protocol version 4.13
 
 acai_monitor is a test/demo program that uses the ACAI and EPICS libraries,
 however the program itself is not used by EPICS Qt.
 
-I suggest the latest version of ACAI, however you must use ACAI version 1.5.8 or later.
+I suggest the latest version of ACAI (currently version 1.7.5), however you
+must use ACAI version 1.6.4 or later.
 
 ## <span style='color:#006666'>Google Protocol Buffers</span>
 
@@ -143,6 +142,10 @@ And to install the ffmpeg packages themselves please run:
 
     sudo yum install -y  ffmpeg-devel  ffmpeg-libs
 
+For CentsOS Stream 8, do this .....
+
+For Alma 9, the FFMpeg does not build. Unset the QE_FFMPEG environment variable.
+
 
 ## <span style='color:#006666'>EPICS Qt</span>
 
@@ -152,16 +155,16 @@ The EPICS Qt site provides a number of repositories.
 In order to build the EPICS Qt libraries and the QEGui display manager, you
 will need to download the following:
 
-* [framework and support libraries](https://github.com/qtepics/qeframework)
+[framework and support libraries](https://github.com/qtepics/qeframework)
 
-    git clone https://github.com/qtepics/qeframework.git
+     git clone https://github.com/qtepics/qeframework.git
 
-* [QEGui display manager](https://github.com/qtepics/qegui)
+[QEGui display manager](https://github.com/qtepics/qegui)
 
-    git clone https://github.com/qtepics/qegui.git
+      git clone https://github.com/qtepics/qegui.git
 
 
-### Modify RELEASE files
+### Modify the RELEASE files
 
 The commands shown here illustrate downloading and building EPICS Qt in the
 directory <span style='color:#00c000'>/home/user/qtepics</span>.
@@ -281,12 +284,12 @@ display manger.
 
 I use this after each git push update to ensure the head version of the code can
 still be successfully built;
-I currently do this using Qt5.12.8 on CentOS 7.
+I currently do this using Qt5.12.8 on CentOS 7 and Qt6.4 on Alma 9.
 
 Run __qe_git_test_build -h__ for help information.
 
 While it was not intended as a general purpose download and build script, it
-could be the basis of such a script that could suit your facility.
+could be the basis of such a script that may suit your facility.
 
 
 # <a name="qtcreator"></a><span style='color:#006666'>qtcreator Build</span>
@@ -346,5 +349,5 @@ in qtcreator :
 
 <span style='color:#00c000'>/home/user/qtepics</span>/qegui/qeguiApp/project/QEGuiApp.pro
 
-<font size="-1">Last updated: Wed Dec  7 13:53:47 2022</font>
+<font size="-1">Last updated: Mon Dec 18 16:49:02 2023</font>
 <br>
