@@ -1,10 +1,12 @@
 # Setup of virtual env, its activation and instllation
 #
 
-mkdir -p                 /asp/apps/adl2qe/venv
-python3  -m  virtualenv  /asp/apps/adl2qe/venv
+work=/asp/apps/adl2qe/venv
 
-.  /asp/apps/sam/venv/bin/activate
+mkdir -p           ${work:?}
+python3  -m  venv  ${work:?}
+
+.  ${work:?}/bin/activate
 
 pip install  --editable .
 

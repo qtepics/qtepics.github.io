@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 #
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2qe.py $
-# $Revision: #9 $
-# $DateTime: 2021/12/10 15:30:38 $
+# $Revision: #11 $
+# $DateTime: 2024/02/16 14:42:28 $
 # Last checked in by: $Author: starritt $
 #
 
@@ -14,6 +14,8 @@ import click
 
 from . import __version__
 from . import AlarmMode
+from . import FrameworkVersionValues
+from . import FrameworkVersion
 from . import adl2dict
 from . import adl2uigen
 
@@ -25,10 +27,10 @@ _alarm_mode_map = {'WIA': AlarmMode.when_in_alarm,
 
 _alarm_mode_choices = tuple(_alarm_mode_map.keys())
 
+
+
 # -----------------------------------------------------------------------------
 #
-
-
 def print_version(ctx, param, value):
     """ Click parser helper function """
     if not value or ctx.resilient_parsing:
@@ -79,6 +81,9 @@ or will not present engineering units dependent on the widget class default.
 \b\bGeneral
 \b
 Requires python 3.6 or later.
+The qe_3_to_4_update tool can be used to convert a .ui file from version 3 to version 4
+as opposed to re-running adl2qe again with --qeversion v4. This is especially helpfull
+if any post-conversion modification have been made.
 \b\n\b
 """)
 #
@@ -155,6 +160,15 @@ MM - use medm clrmod setting
 #
 # -----------------------------------------------------------------------------
 #
+@click.option('--qeversion', '-q',
+              type=click.Choice(FrameworkVersionValues),
+              help="""\
+Controls if converting for EPICS Qt 3.x.x (v3) or for EPICS Qt 4.x.x (v4).
+There is no default.
+""")
+#
+# -----------------------------------------------------------------------------
+#
 @click.option('--version', '-V',
               is_flag=True,
               callback=print_version,
@@ -169,13 +183,29 @@ MM - use medm clrmod setting
 #
 # -----------------------------------------------------------------------------
 #
-def main(debug, scale, font_size, add_colon, macro_name, default_colours, alarm_mode, filenames):
+def main(debug, scale, font_size, add_colon, macro_name, default_colours,
+         alarm_mode, qeversion, filenames):
     """ adl2qe converts one or more medm .adl files into EPICS Qt .ui files.
     """
+    if qeversion is None:
+        print(f"Error: Invalid value for '--qeversion' / '-q': 'None' is not one of 'v3', 'v4'.", file = sys.stderr)
+        os._exit(2)
+
     if not add_colon:
         macro_name = None
 
     alarm_state_option = _alarm_mode_map[alarm_mode]
+
+    if qeversion == 'v3':
+        qev = FrameworkVersion.v3
+    elif qeversion == 'v4':
+        qev = FrameworkVersion.v4
+    else:
+        print(f"Error parsing arguments", file = sys.stderr)
+        os._exit(8)
+
+
+    print (f"alarm_mode {alarm_mode}    qeversion {qev}")
 
     count = 0
     success = 0
@@ -205,7 +235,7 @@ def main(debug, scale, font_size, add_colon, macro_name, default_colours, alarm_
         try:
             adl2uigen.dump_to_file(ui_file, adl_dic, scale, font_size,
                                    default_colours, alarm_state_option,
-                                   macro_name)
+                                   macro_name, qev)
             print("generated: %s" % ui_file)
         except BaseException:
             print("failed to write to %s" % ui_file)

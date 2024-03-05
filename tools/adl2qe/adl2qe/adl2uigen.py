@@ -1,6 +1,6 @@
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2uigen.py $
-# $Revision: #13 $
-# $DateTime: 2021/12/10 15:36:35 $
+# $Revision: #15 $
+# $DateTime: 2024/03/01 15:50:00 $
 # Last checked in by: $Author: starritt $
 #
 
@@ -13,6 +13,7 @@ import os.path
 import xml.sax.saxutils
 
 from . import AlarmMode
+from . import FrameworkVersion
 from . import adl2colour
 
 # ------------------------------------------------------------------------------
@@ -26,7 +27,7 @@ def object_name_reset():
 
 
 def gen_object_name(classname):
-    assert type(classname) == str, "classname argument is not a string"
+    assert isinstance(classname, str), "classname argument is not a string"
 
     if classname in class_object_counters:
         j = class_object_counters[classname] + 1
@@ -234,8 +235,14 @@ class QWidget (object):
                 self.write_stdset_string("variable", pv_name)
 
     def write_alarm_and_style(self, kind, prefix=None):
+
         if prefix is None:
-            prefix = self.classname
+            if self.qe_version == FrameworkVersion.v3:
+                prefix = self.classname
+            elif self.qe_version == FrameworkVersion.v4:
+                prefix = "QE"
+            else:
+                raise ValueError(f"QELabel: unexpected version {self.qe_version}")
 
         daso_inuse = True  # hypothesize displayAlarmStateOption in use
 
@@ -251,17 +258,16 @@ class QWidget (object):
             pass
 
         elif QWidget.alarm_state_option == AlarmMode.medm_mode:
-            clrmod = self.adl.get("clrmod", "static")        
+            clrmod = self.adl.get("clrmod", "static")
             lookup = {"static": "Never",
                       "alarm": "Always",
                       "discrete": "Never"}
             option = lookup[clrmod]
             self.write_enum("displayAlarmStateOption", "%s::%s" % (prefix, option))
             daso_inuse = (lookup == "Always")
-            
+
         else:
             print("Warning: un-handled alarm state option: %s" % QWidget.alarm_state_option)
-
 
         # Style
         #
@@ -283,7 +289,7 @@ class QWidget (object):
                 self.write_stdset_string("defaultStyle", defaultStyle)
 
     def write_alignment(self, name, value):
-        assert type(value) == str, "write_alignment: value is not a string"
+        assert isinstance(value, str), "write_alignment: value is not a string"
 
         if value == "horiz. left":
             text = "Qt::AlignLeft"
@@ -380,12 +386,11 @@ class QSimpleShape (QWidget):
             if edge_style == "dash":
                 self.write_enum("edgeStyle", "Qt::DotLine")
 
+
 # ------------------------------------------------------------------------------
 # We use a QFrame (as opposed to a QWidget and this allows the user to define
 # a boarder manually if they wish.
 #
-
-
 class QFrame (QWidget):
 
     def write_properties(self):
@@ -412,18 +417,27 @@ class QELabel (QWidget):
 
     def write_properties(self):
 
+        if self.qe_version == FrameworkVersion.v3:
+            enum_prefix = "QELabel"
+        elif self.qe_version == FrameworkVersion.v4:
+            enum_prefix = "QE"
+        else:
+            raise ValueError(f"QELabel: unexpected version {self.qe_version}")
+
         self.write_pv_name("monitor")
-        self.write_alarm_and_style("monitor")
+        self.write_alarm_and_style("monitor", prefix=enum_prefix)
 
         align = self.adl.get("align", "horiz. left")
         self.write_alignment("alignment", align)
 
+
         format = self.adl.get("format", "decimal")
-        lookup = {"decimal": "QELabel::Fixed",
-                  "exponential": "QELabel::Scientific",
-                  "engr. notation": "QELabel::Scientific",
-                  "compact": "QELabel::Automatic"}
-        self.write_enum("notation", lookup.get(format, "QELabel::Fixed"))
+        lookup = {"decimal": f"{enum_prefix}::Fixed",
+                  "exponential": f"{enum_prefix}::Scientific",
+                  "engr. notation": f"{enum_prefix}::Scientific",
+                  "compact": f"{enum_prefix}::Automatic"}
+        nval = lookup.get(format, f"{enum_prefix}::Fixed")
+        self.write_enum("notation", nval)
 
 
 # ------------------------------------------------------------------------------
@@ -462,18 +476,38 @@ class QEBitStatus (QWidget):
         number_of_bits = sbit - ebit + 1
         shift = ebit
 
-        if direction == "right":
-            orientation = "QBitStatus::LSB_On_Right"
-        elif direction == "down":
-            orientation = "QBitStatus::LSB_On_Bottom"
-        elif direction == "left":
-            orientation = "QBitStatus::LSB_On_Left"
-        elif direction == "up":
-            orientation = "QBitStatus::LSB_On_Top"
-
         self.write_number("shift", shift)
         self.write_number("numberOfBits", number_of_bits)
-        self.write_enum("Orientation", orientation)
+
+        if self.qe_version == FrameworkVersion.v3:
+            if direction == "right":
+                orientation = "QBitStatus::LSB_On_Right"
+            elif direction == "down":
+                orientation = "QBitStatus::LSB_On_Bottom"
+            elif direction == "left":
+                orientation = "QBitStatus::LSB_On_Left"
+            elif direction == "up":
+                orientation = "QBitStatus::LSB_On_Top"
+            self.write_enum("Orientation", orientation)
+
+        elif self.qe_version == FrameworkVersion.v4:
+            if direction == "right":
+                orientation = "Qt::Horizontal"
+                invertedAppearance = False
+            elif direction == "down":
+                orientation = "Qt::Vertical"
+                invertedAppearance = False
+            elif direction == "left":
+                orientation = "Qt::Horizontal"
+                invertedAppearance = True
+            elif direction == "up":
+                orientation = "Qt::Vertical"
+                invertedAppearance = True
+            self.write_enum("orientation", orientation)
+            self.write_bool("invertedAppearance", invertedAppearance)
+
+        else:
+            raise ValueError(f"QEBitStatus: unexpected version {self.qe_version}")
 
 
 # ------------------------------------------------------------------------------
@@ -485,7 +519,13 @@ class QEPlot(QWidget):
         self.write_enum("frameShadow", "QFrame::Sunken")
         self.write_stdset_string("defaultStyle",
                                  "QWidget { background-color: #e0e0e0; color: #000000; }")
-        self.write_enum("displayAlarmStateOption", "QEFrame::Never")
+
+        if self.qe_version == FrameworkVersion.v3:
+            self.write_enum("displayAlarmStateOption", "QEFrame::Never")
+        elif self.qe_version == FrameworkVersion.v4:
+            self.write_enum("displayAlarmStateOption", "QE::Never")
+        else:
+            raise ValueError(f"QEPlot: unexpected version {self.qe_version}")
 
         plotcom = self.adl.get("plotcom", None)
         if plotcom is not None:
@@ -611,17 +651,26 @@ class QEPlotter(QWidget):
 class QELineEdit(QWidget):
 
     def write_properties(self):
+        if self.qe_version == FrameworkVersion.v3:
+            enum_prefix1 = "QEGenericEdit"
+            enum_prefix2 = "QELineEdit"
+        elif self.qe_version == FrameworkVersion.v4:
+            enum_prefix1 = "QE"
+            enum_prefix2 = "QE"
+        else:
+            raise ValueError(f"QELineEdit: unexpected version {self.qe_version}")
+
         self.write_pv_name("control")
-        self.write_alarm_and_style("control", prefix="QEGenericEdit")
+        self.write_alarm_and_style("control", prefix=enum_prefix1)
 
         format = self.adl.get("format", "decimal")
-        lookup = {"decimal": "QELineEdit::Fixed",
-                  "exponential": "QELineEdit::Scientific",
-                  "engr. notation": "QELineEdit::Scientific",
-                  "compact": "QELineEdit::Automatic"}
-        self.write_enum("notation", lookup.get(format, "QELineEdit::Fixed"))
+        lookup = {"decimal": f"{enum_prefix2}::Fixed",
+                  "exponential": f"{enum_prefix2}::Scientific",
+                  "engr. notation": f"{enum_prefix2}::Scientific",
+                  "compact": f"{enum_prefix2}::Automatic"}
+        self.write_enum("notation", lookup.get(format, f"{enum_prefix2}::Fixed"))
         self.write_bool("allowDrop", True)
-        self.write_enum("dropOption", "QEGenericEdit::DropToTextAndWrite")
+        self.write_enum("dropOption", f"{enum_prefix1}::DropToTextAndWrite")
 
 
 # ------------------------------------------------------------------------------
@@ -629,11 +678,19 @@ class QELineEdit(QWidget):
 class QENumericEdit(QWidget):
 
     def write_properties(self):
+        if self.qe_version == FrameworkVersion.v3:
+            enum_prefix = "QEAbstractWidget"
+        elif self.qe_version == FrameworkVersion.v4:
+            enum_prefix = "QE"
+        else:
+            raise ValueError(f"QENumericEdit: unexpected version {self.qe_version}")
+
         self.write_pv_name("control")
-        self.write_alarm_and_style("control", prefix="QEAbstractWidget")
+        self.write_alarm_and_style("control", prefix=enum_prefix)
         self.write_bool("autoScale", True)
+
         # Hopefully the database designed as defined control min, max and precision
-        # Define, hopefully, workaable fallbacks
+        # Define, hopefully, workable fallbacks
         #
         self.write_number("leadingZeros", 6)
         self.write_number("precision", 6)
@@ -661,6 +718,13 @@ class QEAnalogSlider(QWidget):
 class QEPushButton(QWidget):
 
     def write_properties(self):
+        if self.qe_version == FrameworkVersion.v3:
+            enum_prefix = "QEPushButton"
+        elif self.qe_version == FrameworkVersion.v4:
+            enum_prefix = "QE"
+        else:
+            raise ValueError(f"QELabel: unexpected version {self.qe_version}")
+
         self.write_pv_name("control")
         self.write_alarm_and_style("control")
 
@@ -688,13 +752,13 @@ class QEPushButton(QWidget):
         # Examine pres/release messages.
         # Are they both integer or floating.
         #
-        format = "QEPushButton::Default"
+        format = f"{enum_prefix}::Default"
 
         if press_text is not None or release_text is not None:
             # At leat one defined.
             # Check integer first
             #
-            if format == "QEPushButton::Default":
+            if format == f"{enum_prefix}::Default":
                 try:
                     if press_text is not None:
                         int(press_text)
@@ -702,12 +766,12 @@ class QEPushButton(QWidget):
                         int(release_text)
 
                     # No exception
-                    format = "QEPushButton::Integer"
+                    format = f"{enum_prefix}::Integer"
                 except BaseException:
                     # Not int - so try float.
                     pass
 
-            if format == "QEPushButton::Default":
+            if format == f"{enum_prefix}::Default":
                 try:
                     if press_text is not None:
                         float(press_text)
@@ -715,7 +779,7 @@ class QEPushButton(QWidget):
                         float(release_text)
 
                     # No exception
-                    format = "QEPushButton::Floating"
+                    format = f"{enum_prefix}::Floating"
                 except BaseException:
                     # Not float - so stick with default.
                     pass
@@ -737,8 +801,17 @@ class QEComboBox(QWidget):
 class QERadioGroup(QWidget):
 
     def write_properties(self):
+        if self.qe_version == FrameworkVersion.v3:
+            enum_prefix = "QERadioGroup"
+            ep2 = "QEAbstractWidget"
+        elif self.qe_version == FrameworkVersion.v4:
+            enum_prefix = "QE"
+            ep2 = "QE"
+        else:
+            raise ValueError(f"QERadioGroup: unexpected version {self.qe_version}")
+
         self.write_pv_name("control")
-        self.write_alarm_and_style("control", prefix="QEAbstractWidget")
+        self.write_alarm_and_style("control", prefix=ep2)
 
         stacking = self.adl.get("stacking", "row")
         lookup = {"row": 1,
@@ -750,7 +823,7 @@ class QERadioGroup(QWidget):
         self.write_number("columns", lookup[stacking])
         self.write_number("spacing", 0)
         self.write_enum("buttonStyle", "QRadioGroup::Push")
-        self.write_enum("buttonOrder", "QRadioGroup::colMajor")
+        self.write_enum("buttonOrder", f"{enum_prefix}::colMajor")
 
 
 # ------------------------------------------------------------------------------
@@ -1183,6 +1256,9 @@ class UiFile (QWidget):
                 # specials already handled
                 continue
 
+            if not isinstance(value, dict):
+                print(f"value {value}")
+                value = {}
             class_type = value.get("class_type", None)
             item_class = _widget_map.get(class_type, None)
             if item_class is None:
@@ -1200,7 +1276,8 @@ class UiFile (QWidget):
 # ------------------------------------------------------------------------------
 #
 def dump_to_file(filename, adl_dic, scale, font_size,
-                 default_colours, alarm_state_option, macro_name):
+                 default_colours, alarm_state_option, macro_name,
+                 qe_version):
     """
     filename : target ui file name
     adl_dic : dictionary from the adl file
@@ -1208,6 +1285,8 @@ def dump_to_file(filename, adl_dic, scale, font_size,
     font_size : the required font size
     default_colours : when True use the QE framework default colours
                       exceptions are ...
+    macro_name :
+    qe_version : framework version.
     """
     try:
         out_file = open(filename, 'w')
@@ -1223,6 +1302,7 @@ def dump_to_file(filename, adl_dic, scale, font_size,
     QWidget.default_colours = default_colours
     QWidget.alarm_state_option = alarm_state_option
     QWidget.macro_name = macro_name
+    QWidget.qe_version = qe_version
 
     ui_file = UiFile(adl_dic, out_file, 0)
     ui_file.write_widget()
@@ -1230,6 +1310,7 @@ def dump_to_file(filename, adl_dic, scale, font_size,
 
 
 # ------------------------------------------------------------------------------
+# autopep8: off
 #
 _widget_map = {
     "composite":       select_frame_form,
@@ -1253,5 +1334,7 @@ _widget_map = {
     "related display": QEMenuButton,
     "shell command":   QEMenuButton
 }
+
+# autopep8: on
 
 # end

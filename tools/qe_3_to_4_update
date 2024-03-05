@@ -2,8 +2,8 @@
 #
 
 """ $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/qe_3_to_4_update $
-    $Revision: #2 $
-    $DateTime: 2023/04/01 13:56:35 $
+    $Revision: #6 $
+    $DateTime: 2024/02/26 11:56:06 $
     Last checked in by: $Author: starritt $
 """
 
@@ -17,7 +17,7 @@ import shutil
 import xml.etree.ElementTree
 
 # globals
-_version = "1.2.2"
+_version = "1.2.3"
 _verbose = False
 _quiet = True
 
@@ -83,6 +83,7 @@ widgets = {
     "QEWidgetProperties": None,
     "QNumericEdit": None,
     "QRadioGroup": None,
+    "QERadioGroup": None,
     "userLevelTypes": None
 }
 
@@ -208,8 +209,8 @@ enumerations = {
     "SourceText": None,
     "SourceFile": None,
 
-    "RowMajor": None,
-    "ColMajor": None
+    "rowMajor": None,
+    "colMajor": None
 }
 
 
@@ -227,6 +228,26 @@ qeanalog_indicator_map = {
     "Bottom_To_Top": ("Qt::Vertical", False),
     "Right_To_Left": ("Qt::Horizontal", True),
     "Top_To_Bottom": ("Qt::Vertical", True)
+}
+
+
+# Specials for text/file for config data
+#
+text_file_map = {
+    ("QEPeriodic", "userInfoSourceText"): "SourceText",
+    ("QEPeriodic", "userInfoSourceFile"): "SourceFile",
+
+    ("QESelector", "stringListSource"): "SourceText",
+    ("QESelector", "textFileSource"): "SourceFile",
+
+    ("QEConfiguredLayout", "Text"): "SourceText",
+    ("QEConfiguredLayout", "File"): "SourceFile",
+
+    ("QERecipe", "Text"): "SourceText",
+    ("QERecipe", "File"): "SourceFile",
+
+    ("QEScript", "Text"): "SourceText",
+    ("QEScript", "File"): "SourceFile"
 }
 
 
@@ -301,6 +322,13 @@ def process_node(grand_parent_node, parent_node):
                         node,
                         enum_value,
                         qeanalog_indicator_map)
+                    result = True
+
+                elif (class_name, enum_value) in text_file_map:
+                    new_text = "QE::" + text_file_map[(class_name, enum_value)]
+                    if not _quiet:
+                        print(f"{_green}{node.tag} tag: {node.text} => {new_text}{_reset}")
+                    node.text = new_text
                     result = True
 
                 elif class_name in widgets and enum_value in enumerations:
@@ -431,6 +459,8 @@ introduces some minor cosmetic changes.
 This can be "fixed" by loading the ui file into designer, making a null change
 and re-saving the ui file.
 
+Note: the adl2qe tool now has a --qeversion option to cater for versions 3 and 4.
+
 \b
  
 """)
@@ -482,6 +512,12 @@ def cli(quiet, filenames):
 # Command line entry point for setup
 #
 def call_cli():
+    minv = (3, 9, 1)
+    v = sys.version_info[0:3]
+    if v < minv:
+        errput("Python version %s is less than mimimum required version %s." % (str(v), str(minv)))
+        os._exit(16)
+
     os.environ["LANG"] = "en_US.utf8"
     os.environ["LC_ALL"] = "en_US.utf8"
     cli()
