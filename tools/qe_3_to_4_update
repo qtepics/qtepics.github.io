@@ -2,8 +2,8 @@
 #
 
 """ $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/qe_3_to_4_update $
-    $Revision: #6 $
-    $DateTime: 2024/02/26 11:56:06 $
+    $Revision: #7 $
+    $DateTime: 2024/04/15 10:56:04 $
     Last checked in by: $Author: starritt $
 """
 
@@ -17,7 +17,7 @@ import shutil
 import xml.etree.ElementTree
 
 # globals
-_version = "1.2.3"
+_version = "1.2.4"
 _verbose = False
 _quiet = True
 
@@ -210,7 +210,9 @@ enumerations = {
     "SourceFile": None,
 
     "rowMajor": None,
-    "colMajor": None
+    "colMajor": None,
+    "RowMajor": None,
+    "ColMajor": None
 }
 
 
@@ -230,6 +232,10 @@ qeanalog_indicator_map = {
     "Top_To_Bottom": ("Qt::Vertical", True)
 }
 
+enum_value_map = {
+    "RowMajor": "rowMajor",
+    "ColMajor": "colMajor"
+}
 
 # Specials for text/file for config data
 #
@@ -332,6 +338,12 @@ def process_node(grand_parent_node, parent_node):
                     result = True
 
                 elif class_name in widgets and enum_value in enumerations:
+                    if enum_value in enum_value_map:
+                        if not _quiet:
+                            new_value = enum_value_map[enum_value]
+                            print(f"{_green}{enum_value} changed to {new_value}{_reset}")
+                        enum_value = new_value
+
                     new_text = "QE::" + enum_value
                     if not _quiet:
                         print(f"{_green}{node.tag} tag: {node.text} => {new_text}{_reset}")
