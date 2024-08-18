@@ -32,7 +32,7 @@ usage: ${iam} [--all | -a] [--ffmpeg] [--aa]
        ${iam} [--help | -h]
 
 Options
---all|-a     when specified, builds all items; when not just builds qefreamework
+--all|-a     when specified, builds all items; when not just builds qeframework
              and qegui.
 
 --ffmpeg     defines the environment variable QE_FFMPEG to be YES in order to
@@ -41,6 +41,8 @@ Options
 --aa         defines the environment variable QE_ARCHAPPL_SUPPORT to be YES in 
              order to include archiver appliance fuctionality into the test build.
              Requires Qt5.
+
+--vcl        build qevcl, i.e the example plugins module.
 
 --help|-h    show this help information and exit.
 
@@ -79,6 +81,7 @@ checkev QWT_INCLUDE_PATH
 # set defaults
 #
 do_all=0
+do_vcl=0
 ffmpeg=0
 aa_support=0
 
@@ -90,6 +93,11 @@ while [ $# -gt 0 ] ; do
 
       --all|-a)
          do_all=1
+         shift 1
+         ;;
+
+      --vcl)
+         do_vcl=1
          shift 1
          ;;
 
@@ -159,6 +167,11 @@ qeExamplePlugin_etc=5
 if [ ${do_all} -eq 1 ] ; then
    qelist="qeframework qegui qeMonitor qeReadArchive qeByteArrayTest qeWidgetDisplay qeExamplePlugin"
    number=7
+
+elif [ ${do_vcl} -eq 1 ] ; then
+   qelist="qeframework qegui qeExamplePlugin"
+   number=3
+
 else
    qelist="qeframework qegui"
    number=2
