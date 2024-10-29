@@ -1,6 +1,6 @@
 # $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2uigen.py $
-# $Revision: #15 $
-# $DateTime: 2024/03/01 15:50:00 $
+# $Revision: #16 $
+# $DateTime: 2024/10/09 12:17:34 $
 # Last checked in by: $Author: starritt $
 #
 
@@ -104,7 +104,7 @@ class QWidget (object):
 
     @property
     def indent(self):
-        result = "  " * self._level
+        result = " " * self._level
         return result
 
     def write_line(self, line):
@@ -132,18 +132,18 @@ class QWidget (object):
         h = QWidget.scale(geo["height"])
 
         self.write_line('<property name="geometry">')
-        self.write_line('  <rect>')
-        self.write_line('    <x>{x}</x>'.format(x=x))
-        self.write_line('    <y>{y}</y>'.format(y=y))
-        self.write_line('    <width>{w}</width>'.format(w=w))
-        self.write_line('    <height>{h}</height>'.format(h=h))
-        self.write_line('  </rect>')
+        self.write_line(' <rect>')
+        self.write_line('  <x>{x}</x>'.format(x=x))
+        self.write_line('  <y>{y}</y>'.format(y=y))
+        self.write_line('  <width>{w}</width>'.format(w=w))
+        self.write_line('  <height>{h}</height>'.format(h=h))
+        self.write_line(' </rect>')
         self.write_line('</property>')
 
         self.write_line('<property name="font">')
-        self.write_line('  <font>')
-        self.write_line('    <pointsize>{ps}</pointsize>'.format(ps=QWidget.font_size))
-        self.write_line('  </font>')
+        self.write_line(' <font>')
+        self.write_line('  <pointsize>{ps}</pointsize>'.format(ps=QWidget.font_size))
+        self.write_line(' </font>')
         self.write_line('</property>')
 
         # Write widget specific properties
@@ -165,37 +165,37 @@ class QWidget (object):
     #
     def write_string(self, name, text):
         self.write_line('<property name="' + name + '">')
-        self.write_line('  <string>' + escape(text) + '</string>')
+        self.write_line(' <string>' + escape(text) + '</string>')
         self.write_line('</property>')
 
     def write_stdset_string(self, name, text):
         self.write_line('<property name="' + name + '" stdset="0">')
-        self.write_line('  <string>' + escape(text) + '</string>')
+        self.write_line(' <string>' + escape(text) + '</string>')
         self.write_line('</property>')
 
     def write_string_list(self, name, text_list):
         self.write_line('<property name="' + name + '">')
-        self.write_line('  <stringlist>')
+        self.write_line(' <stringlist>')
         for text in text_list:
             self.write_line('    <string>' + escape(text) + '</string>')
-        self.write_line('  </stringlist>')
+        self.write_line(' </stringlist>')
         self.write_line('</property>')
 
     def write_enum(self, name, text):
-        self.write_line('<property name="' + name + '" stdset="0">')
-        self.write_line('  <enum>' + escape(text) + '</enum>')
+        self.write_line('<property name="' + name + '">')
+        self.write_line(' <enum>' + escape(text) + '</enum>')
         self.write_line('</property>')
 
     def write_number(self, name, value):
         text = str(value)
         self.write_line('<property name="' + name + '">')
-        self.write_line('  <number>' + escape(text) + '</number>')
+        self.write_line(' <number>' + escape(text) + '</number>')
         self.write_line('</property>')
 
     def write_double(self, name, value):
         text = str(value)
         self.write_line('<property name="' + name + '">')
-        self.write_line('  <double>' + escape(text) + '</double>')
+        self.write_line(' <double>' + escape(text) + '</double>')
         self.write_line('</property>')
 
     def write_bool(self, name, value):
@@ -204,19 +204,19 @@ class QWidget (object):
         else:
             text = "false"
         self.write_line('<property name="' + name + '">')
-        self.write_line('  <bool>' + escape(text) + '</bool>')
+        self.write_line(' <bool>' + escape(text) + '</bool>')
         self.write_line('</property>\n')
 
     def write_colour(self, name, r, g, b, a=None):
-        self.write_line('<property name="' + name + '">')
+        self.write_line('<property name="' + name + '" stdset="0">')
         if a is None:
-            self.write_line('  <color>')
+            self.write_line(' <color>')
         else:
-            self.write_line('  <color alpha="{a}">'.format(a=int(a)))
-        self.write_line('    <red>{r}</red>'.       format(r=int(r)))
-        self.write_line('    <green>{g}</green>'.   format(g=int(g)))
-        self.write_line('    <blue>{b}</blue>'.     format(b=int(b)))
-        self.write_line('  </color>')
+            self.write_line(' <color alpha="{a}">'.format(a=int(a)))
+        self.write_line('  <red>{r}</red>'.       format(r=int(r)))
+        self.write_line('  <green>{g}</green>'.   format(g=int(g)))
+        self.write_line('  <blue>{b}</blue>'.     format(b=int(b)))
+        self.write_line(' </color>')
         self.write_line('</property>')
 
     def write_pv_name(self, kind):
@@ -301,7 +301,7 @@ class QWidget (object):
             return
 
         self.write_line('<property name="' + name + '">')
-        self.write_line('  <set>' + escape(text) + '</set>')
+        self.write_line(' <set>' + escape(text) + '</set>')
         self.write_line('</property>')
 
 
@@ -310,13 +310,6 @@ class QWidget (object):
 class QESubstitutedLabel (QWidget):
 
     def write_properties(self):
-        text = self.adl.get("textix", "")
-        self.write_stdset_string("labelText", text)
-
-        align = self.adl.get("align", None)
-        if align is not None:
-            self.write_alignment("alignment", align)
-
         attributes = self.adl.get("basic attribute", None)
         if attributes is not None:
             fcn = attributes.get("clr", None)
@@ -332,9 +325,16 @@ class QESubstitutedLabel (QWidget):
         if QWidget.default_colours:
             # Not strictly default, but sensible.
             #
-            self.write_stdset_string("styleSheet", "")
+            self.write_string("styleSheet", "")
         else:
-            self.write_stdset_string("styleSheet", styleSheet)
+            self.write_string("styleSheet", styleSheet)
+
+        text = self.adl.get("textix", "")
+        self.write_stdset_string("labelText", text)
+
+        align = self.adl.get("align", None)
+        if align is not None:
+            self.write_alignment("alignment", align)
 
 
 # ------------------------------------------------------------------------------
@@ -1156,51 +1156,50 @@ class UiFile (QWidget):
         header = """\
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-  <class>Form</class>
-  <widget class="QWidget" name="Form">
-    <property name="geometry">
-      <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>{width}</width>
-        <height>{height}</height>
-      </rect>
-    </property>
-    <property name="windowTitle">
-      <string>{title}</string>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-      <property name="leftMargin">
-        <number>0</number>
-      </property>
-      <property name="topMargin">
-        <number>0</number>
-      </property>
-      <property name="rightMargin">
-        <number>0</number>
-      </property>
-      <property name="bottomMargin">
-        <number>0</number>
-      </property>
-      <item>
-        <widget class="QFrame" name="mainFormFrame">
-          <property name="styleSheet">
-            <string notr="true">{style}</string>
-          </property>
-          <property name="frameShape">
-            <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="frameShadow">
-            <enum>QFrame::Plain</enum>
-          </property>
-
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>{width}</width>
+    <height>{height}</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>{title}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QFrame" name="mainFormFrame">
+     <property name="styleSheet">
+      <string notr="true">{style}</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
 """
 
         footer = """
-        </widget>
-      </item>
-    </layout>
-  </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
 </ui>
 """
 
