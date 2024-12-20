@@ -16,7 +16,7 @@ may "belong" to more than one category):
 the Qt development tool suite and download the source code from GitHub and build
 the EPICS Qt framework and QEGui display manager.
 
-*  Code rich plugin and/or application developer - this user know how to develope
+*  Code rich plugin and/or application developer - this user know how to develop
 his/her own plugins and/or own Qt display manager.
 
 *  Code free form designer - this user if familiar with designer (Qt's form design
@@ -41,19 +41,21 @@ Information regarding downloading and building EPICS may be found at
 Alternatively speak to your local EPICS expert.
 
 EPICS Qt has successfully been built and tested using, but not limited to,
-EPICS base versions 3.14.12.5, 3.15.6, 7.0.3 and 7.0.7.1
+EPICS base versions 3.14.12.5, 3.15.6, 7.0.3, 7.0.7.1 and 7.0.8.1
 For PV Access functionality, EPICS 7 is required.
 
 ## <span style='color:#006666'>Qt</span>
 
 Qt is available from the [https://www.qt.io/](https://www.qt.io/) web page.
-Versions 4.6, 4.8.4, 5.6, 5.7, 5.9, 5.10, 5.12.8, 6.4 have previuosly been
+Versions 4.6, 4.8.4, 5.6, 5.7, 5.9, 5.10, 5.12.8, 6.4 have previously been
 successfully used at the Australian Synchrotron.
-Currently EPICS Qt is regularly buit against versions Qt 5.12.8 and Qt 6.4 only.
+Currently EPICS Qt is regularly built against versions Qt 5.12.8 and Qt 6.4.
 
 Qt Version 4 is nolonger now actively supported.
 Also Qt 5.6 or earlier is no longer builds, and the compatibility status for
 Qt version before Qt 5.12.8 and after Qt 6.4 is unknown.
+Some modification to support later version have been made, but not formmaly
+supported yet.
 
 For new users I would recommend Qt 6.4.
 For users who need access to the Archive Appliance, Qt5+ is required.
@@ -69,14 +71,13 @@ variable you should be able to do something similar to the following on Linux:
 and like this on Windows:
 
     C:\>qmake -v
-    QMake version 3.0
-    Using Qt version 5.6.1 in C:/qt5/5.6/mingw49_32/lib
+    QMake version 3.1
+    Using Qt version 6.4.2 in C:/Qt6/6.4.2/mingw_64/lib
 
 
 ## <span style='color:#006666'>QWT</span>
 
 The selected version of QWT must be compatible with your version of Qt.
-For Qt 5.6 or later we use QWT version 6.1.3.
 For Qt 5.13 we found 6.1.3 uses a number of deprecated function and QWT 6.1.4 is
 recommended.
 For Qt 6.4 I use QWT 6.3.0
@@ -103,7 +104,7 @@ defined, you should be able to do similar to the following:
 
     $ export PATH=${PATH}:/epics/acai/bin/linux-x86_64
     $ acai_monitor -v
-    ACAI 1.7.5 using EPICS 7.0.6.1, CA Protocol version 4.13
+    ACAI 1.7.5 using EPICS 7.0.8.1, CA Protocol version 4.13
 
 or:
 
@@ -120,10 +121,10 @@ must use ACAI version 1.6.4 or later.
 
 This is only required if building the Archive Appliance interface.
 Please see the [Archive Appliance](archiver_appliance.html) page for details.
-For Linux users using the yum package manager, this can be achieved by
-(drop the sudo if running as root):
+For Linux (Redhat flavors) users using the dnf package manager, this can be
+achieved by(drop the sudo if running as root):
 
-    sudo yum install -y protobuf
+    sudo dnf install -y protobuf
 
 For Windows users, there is some info in [Archive Appliance](archiver_appliance.html).
 
@@ -144,7 +145,8 @@ And to install the ffmpeg packages themselves please run:
 
 For CentsOS Stream 8, do this .....
 
-For Alma 9, the FFMpeg does not build. Unset the QE_FFMPEG environment variable.
+For Alma 9, the FFMpeg does not build yet.  
+Unset the QE_FFMPEG environment variable.
 
 
 ## <span style='color:#006666'>EPICS Qt</span>
@@ -207,6 +209,9 @@ Define QWT_INCLUDE_PATH (e.g. export QWT_INCLUDE_PATH=/usr/include/qwt)
 
 Define QWT_ROOT to the qwt location (e.g. C:/qwt-6.1.3/ on Windows or<br>
 export QWT_ROOT='/usr/local/qwt-6.1.3' on Linux if not in default location)
+
+_Optional:_ Define QE_PVACCESS_SUPPORT as 'YES' or 'NO' to override the default
+  selection (which is include if EPICS base version >= 7).
 
 _Optional:_ Define QE_FFMPEG if mpeg streaming is required (on Windows, this must
   point to the FFMPEG directory; on Linux just being defined is sufficient).
@@ -349,5 +354,5 @@ in qtcreator :
 
 <span style='color:#00c000'>/home/user/qtepics</span>/qegui/qeguiApp/project/QEGuiApp.pro
 
-<font size="-1">Last updated: Mon Dec 18 16:49:02 2023</font>
+<font size="-1">Last updated: Fri Dec 20 14:33:28 AEDT 2024</font>
 <br>

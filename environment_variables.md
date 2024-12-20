@@ -71,8 +71,10 @@ Applicable to Qt5 only, and defines include files needed for QtPrintSupport.
 
 For headless builds, this is automatically defined by the qeframeworkSup's Makefile
 and is set to YES when EPICS base 7 or later in use and is otherwise set to to NO.
-If this is not the desired behavior (e.g. using EPICS 3 plus EPICS 4), then the
-Makefile should be modified.
+Since release 4.1.1, the qeframewok Makefile has been modified to honor any existing
+environment variable value that is either YES' or 'NO'.
+If neither of these value are specified then the default behaviour as describe above
+is adopted.
 
 When using qtcreator to make/build the EPICS Qt framework this environment variable
 must be set manually.
@@ -375,5 +377,5 @@ the caQtDm widgets use their native context menu or the EPICS Qt standard
 context menu. Set this variable to "1", "TRUE" or "YES" to select this feature.
 
 
-<font size="-1">Last updated: Sat Aug  5 15:25:20 2023</font>
+<font size="-1">Last updated: Fri Dec 20 12:33:24 2024</font>
 <br>

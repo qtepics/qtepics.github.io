@@ -2,8 +2,75 @@
 
 # <span style='color:#006666'>Release Index</span>
 
+[r4.1.2](#r4.1.2)<br>
 [r4.1.1](#r4.1.1)<br>
 [Earlier Releases](#Earlier_Releases)
+
+
+# <a name="r4.1.2"></a><span style='color:#006666'>r4.1.2</span>
+
+Release date: 20th December 2024.
+
+## <span style='color:#666666'>general</span>
+
+The main change in this release is the removal of most depricated usage compiler
+warnings.
+Special thanks to Sean Dawson re updates later than Qt6.4.
+
+I currently do regular nightly builds using Qt6.4 on AlmaLinux9, CentOS Stream 8
+and Windows 10, and using Qt5.12.8 on CentOS 7.
+I also do irregular builds using Qt6.4 on Debian 12.
+
+
+## <span style='color:#666666'>qeframework</span>
+
+#### QEPlotter
+
+The menuSelected slot method is now public (to allow programtic control of the widget).
+
+#### QEAlarmColourSelection
+
+This is a new widget to allow dynamic selection of the alarm colours.
+This superceeds any QE_STYLE_COLOR_NAMES and QE_COLOR_NAMES environment
+variable settings.
+
+#### QEAbstract2DData
+
+This widget now uses the vector value functions as opposed to the [] operator
+to access cached data.
+This is a significant optimisation.
+
+#### QECaClient
+
+The CA client now used the vector variants, as opposed to QVariantLists.
+This is also provides significant optimisation.
+
+#### QEHistogram
+
+This widget has been updated to handle setting min/max values better
+(and consistant with other widgets).
+This now allows setting a min value >= the default max value.
+This change also bebefits the QEScalarHistogram and QEWaveformHistogram widgets.
+
+#### QEArchiveStatus
+
+The QEArchiveStatus widget now shows total number of PVs.
+
+####  QEStripChart
+
+This has updated to handle to betercheck for NaNs and and infinities.
+
+#### Adaptation parameters
+
+Allow hex (and other radix) integers when accessing integer adaptation parameters.
+
+Added a  getFilename function to adaptation paramaters.
+This interprets a leading "~/" text as in the user's home directory.
+
+## <span style='color:#666666'>qegui</span>
+
+The Alarm Colour Selection widget has been incorporated into the qegui display
+manager in the Tools menu.
 
 # <a name="r4.1.1"></a><span style='color:#006666'>r4.1.1</span>
 
@@ -164,5 +231,5 @@ the 3.5 series release notes.
 Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
-<font size="-1">Last updated: Sat Aug 17 13:43:11 AEDT 2023</font>
+<font size="-1">Last updated: Fri Dec 20 12:30:12 AEDT 2024</font>
 <br>
