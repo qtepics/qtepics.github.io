@@ -14,8 +14,8 @@ initially developed at the Australian Synchrotron.
 The EPICS Qt (QE) Framework can be used in three ways:
 
 * Code Free GUI systems using Qt's Designer application with the QE Framework
-plugin (and other 3rd party plugins) to design GUIs, and the QEGui application
-to present GUIs to users.
+plugin (and other 3rd party plugins) to design GUIs, and the QEGui display
+manager application to present GUIs to users.
 
 * Code Rich GUI development using Qt's Integrated Development Environment with
 the QE Framework, and any other third-party, widgets and data objects to design
@@ -43,7 +43,8 @@ number of widgets now have their own widgent specifc documents.
 technical overview of the QE framework.
 
 * [QE_ReferenceManual.pdf](https://qtepics.github.io/documentation/QE_ReferenceManual.pdf) -
-reference manual for programmers using QE widgets and classes.
+reference manual for programmers using QE widgets and classes
+(somewhat out of date at the momnet).
 
 
 ## <a name="License"></a><span style='color:#006666'>License</span>
@@ -132,62 +133,9 @@ This is somewhat old now, any contructive feed back is welcome.
 
 In brief:
 
-#### Qt6 migration [version 3.9.1]
+#### Qt6.4+
 
-While version 3.9.1 will not support Qt6 as such, all the updates required
-for Qt6 which are compatible with Qt5.12.8 will be used in this release.
-For example, this includes the use of:
-  - QString: asprintf() in lieu of QString::snprintf(),
-  - layouts: setContentsMargins() in lieu of setMargin(),
-  - QFontMetrics: horizontalAdvance() in lieu of width(),
-  - QWheelEvent: angleDelta().y() in lieu of delta(), and
-  - QRegularExpression in lieu of QRegExp.
-
-It will also purge any remaining Qt4 clutter.
-Users constrained to Qt4, alas, are on your own from 3.9.1 onwards.
-
-#### Qt6 [version 4.1.1]
-
-The framework will be updated to fully support Qt6 (specifically Qt6.4).
-Depending on the number of conditional complier directives that would be
-required, this version might also support Qt5.12 - this is still to be
-deceided.
-
-#### Refactor Enumerations [version 4.1.1]
-
-Version 4 will also refactor the common QE widget property enumeration values
-into a single defintion module/class.
-This will reduce the amount of repeated boiler code in the widget header
-files, and hence reduce the chance of mistakes and generally make maintenance
-and understandibilty easier.
-
-The other main advanatge is that it will enable these properties to be moved
-up or down the widget hierarchy without impacting the ui files.
-However, there there be need to modify existing ui files to change the
-enumeration property values from, for example:
-
-      <property name="displayAlarmStateOption" stdset="0">
-         <enum>QELabel::WhenInAlarm</enum>
-      </property>
-
-would need to become:
-
-      <property name="displayAlarmStateOption" stdset="0">
-         <enum>QE::WhenInAlarm</enum>
-      </property>
-
-This would only apply when an enumeration value other than the default value
-has been selected.
-The drop down menu presented in designer for selecting an enumeration
-value will appear the same.
-A python script to update ui files is under developemnt to support this
-transition.
-
-For any third party code using the EPICS Qt framework which sets a widget
-enumeration property value will have to be modified.
-While no script is envisioned to support this transtion, my experiance with
-the proto type is that this task it is not too onerrous - the complier is a
-great help.
+Update the EPICS Qt framework to build against later version of Qt.
 
 #### PV Access
 
@@ -234,5 +182,5 @@ Scherrer Institute.
 [http://epics.web.psi.ch/software/caqtdm/](http://epics.web.psi.ch/software/caqtdm/).
 
 
-<font size="-1">Last updated: Wed Dec 7 13:32:13 2022</font>
+<font size="-1">Last updated: Sat Dec 21 14:24:10 2024</font>
 <br>
