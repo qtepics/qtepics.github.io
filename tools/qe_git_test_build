@@ -195,7 +195,7 @@ for item in ${qelist} ; do
 
    etc="$( eval echo \${${item}_etc} )"
    echo "Cloning the ${item} repository takes about ${etc} seconds ..."
-   git clone https://github.com/qtepics/${item}.git || terminate "failed clone github.com/qtepics/${item}.git"
+   git clone --depth=1  https://github.com/qtepics/${item}.git || terminate "failed clone github.com/qtepics/${item}.git"
    echo ""
 
 done
