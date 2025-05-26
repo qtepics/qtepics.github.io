@@ -1,7 +1,6 @@
-# $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/setup.py $
-# $Revision: #3 $
-# $DateTime: 2019/12/05 17:47:40 $
-# Last checked in by: $Author: starritt $
+# File: tools/adl2qe/setup.py
+# DateTime: Mon May 26 17:20:40 2025
+# Last checked in by: starritt
 #
 # setup.py for adl2qe
 #

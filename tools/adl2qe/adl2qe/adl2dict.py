@@ -1,7 +1,6 @@
-# $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2dict.py $
-# $Revision: #2 $
-# $DateTime: 2021/11/14 10:36:34 $
-# Last checked in by: $Author: starritt $
+# File: tools/adl2qe/adl2qe/adl2dict.py
+# DateTime: Mon May 26 17:20:40 2025
+# Last checked in by: starritt
 #
 
 """ This module converts an MEDM adl file to a dictionary.

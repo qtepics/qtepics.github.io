@@ -1,7 +1,6 @@
-# $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2uigen.py $
-# $Revision: #16 $
-# $DateTime: 2024/10/09 12:17:34 $
-# Last checked in by: $Author: starritt $
+# File: tools/adl2qe/adl2qe/adl2uigen.py
+# DateTime: Mon May 26 17:20:40 2025
+# Last checked in by: starritt
 #
 
 """

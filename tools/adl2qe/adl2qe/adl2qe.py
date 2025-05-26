@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 #
-# $File: //ASP/tec/gui/qtepics.github.io/trunk/tools/adl2qe/adl2qe/adl2qe.py $
-# $Revision: #11 $
-# $DateTime: 2024/02/16 14:42:28 $
-# Last checked in by: $Author: starritt $
+# File: tools/adl2qe/adl2qe/adl2qe.py
+# DateTime: Mon May 26 17:20:40 2025
+# Last checked in by: starritt
 #
 
 import os
