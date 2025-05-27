@@ -14,8 +14,8 @@ initially developed at the Australian Synchrotron.
 The EPICS Qt (QE) Framework can be used in three ways:
 
 * Code Free GUI systems using Qt's Designer application with the QE Framework
-plugin (and other 3rd party plugins) to design GUIs, and the QEGui display
-manager application to present GUIs to users.
+plugin (and other 3rd party plugins) to design GUIs, and the QEGui application
+to present GUIs to users.
 
 * Code Rich GUI development using Qt's Integrated Development Environment with
 the QE Framework, and any other third-party, widgets and data objects to design
@@ -43,8 +43,7 @@ number of widgets now have their own widgent specifc documents.
 technical overview of the QE framework.
 
 * [QE_ReferenceManual.pdf](https://qtepics.github.io/documentation/QE_ReferenceManual.pdf) -
-reference manual for programmers using QE widgets and classes
-(somewhat out of date at the momnet).
+reference manual for programmers using QE widgets and classes.
 
 
 ## <a name="License"></a><span style='color:#006666'>License</span>
@@ -133,14 +132,15 @@ This is somewhat old now, any contructive feed back is welcome.
 
 In brief:
 
-#### Qt6.4+
-
-Update the EPICS Qt framework to build against later version of Qt.
-
 #### PV Access
 
 Update PV Access functionality to support all image formats.
-Currently we only support mono.
+Currently we only support mono - still not a priority.
+
+#### FFMPEG
+
+The ffmpeg libraries provided with AlmaLinux 9 (and other distro) have changed their API.  
+The framework needs to be updated to accomodate this.
 
 
 ## <a name="Collaboration"></a><span style='color:#006666'>Feed Back and Collaboration</span>
@@ -182,5 +182,5 @@ Scherrer Institute.
 [http://epics.web.psi.ch/software/caqtdm/](http://epics.web.psi.ch/software/caqtdm/).
 
 
-<font size="-1">Last updated: Sat Dec 21 14:24:10 2024</font>
+<font size="-1">Last updated: Tue May 27 14:08:54 2025</font>
 <br>

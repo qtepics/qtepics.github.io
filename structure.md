@@ -11,20 +11,22 @@ opportunity for a few organisational changes.
 These are outlined below.
 There were no major functionality changes per se as part of the initial transfer.
 However since the transfer a lot has happend (e.g. library split into load library
-and plugin library, archive appliance integration, PV Access integration, abd
-framework version 4).
+and plugin library, archive appliance integration, PV Access integration).
 
-The major change as part of the transfer is that EPICS Qt was been split into a
-number of components, each managed in its own GitHub repository.
+The major transfer change is that EPICS Qt was been split into a number of
+components, each managed in its own GitHub repository.
 
 The three primary repositories are:
 - [QE Framework](https://github.com/qtepics/qeframework) repository which provides
 the framework functional and plugin libraries,
 - [QEGui Display Manager](https://github.com/qtepics/qegui) repository which
 provides the qegui display manager; and
-- the [qtepics.github.io](qtepics.github.io) repository which holds useful
+- The  [qtepics.github.io](qtepics.github.io) repository which holds useful
 documentation above and beyond the detailed widget documenation currently part
 of the [QE Framework](https://github.com/qtepics/qeframework) repository.
+
+Also significant is the the [qeBinaries](https://github.com/qtepics/qeBinaries)
+repository which contain rpm files (for Linux) and msi files (for Windows).
 
 The other repositories less significant/optional, and basically provide examples
 of using or extending the framework.
@@ -49,15 +51,15 @@ invokes qmake and then make on the generated Makefile.
 In the case of qeframework, the include files are placed in top/include and the
 shared library/dll file is placed in top/lib/epics_host_arch.
 The qeframework plugin library is located in top/lib/epics_host_arch/designer.
-In the case of qegui, the executable is located in top/bin/epics_host_arch.
+In the case of qegui, this is located in top/bin/epics_host_arch.
 
 The use of the environment variable QE_TARGET_DIR may still be used to override
 this.
 
 Each code repository has a r3.4.2 tag which corresponds to the last
 SourceForge 3.4.2 release.
-The latest release is 4.1.2, and each repository has a corresponding r4.1.2 tag.
+The latest release is 3.7.1, and each repository has a corresponding r3.7.1 tag.
 
 
-<font size="-1">Last updated: Sat Dec 21 14:12:53 2024</font>
+<font size="-1">Last updated: <Mon Aug 26 12:34:18 AEST 2019/font>
 <br>

@@ -2,10 +2,131 @@
 
 # <span style='color:#006666'>Release Index</span>
 
+[r4.1.3](#r4.1.3)<br>
 [r4.1.2](#r4.1.2)<br>
 [r4.1.1](#r4.1.1)<br>
 [Earlier Releases](#Earlier_Releases)
 
+# <a name="r4.1.2"></a><span style='color:#006666'>r4.1.2</span>
+
+Release date: 27th May 2025.
+
+## <span style='color:#666666'>general</span>
+
+For our local source code control, we habve migrated from from perforce to git.
+Many files have been updated to remove perforce style key words - no functional
+change per se.
+
+EPICS Qt now has a read-only options.
+This can be used to provide a gui interface (perhaps for training or testing) 
+without the possibility of inadvertantly writing to a critical PV.
+
+
+## <span style='color:#666666'>qeframework</span>
+
+#### QECaClient/QEPvaClient
+
+These have been updated to handle QEVectorVariants when writing CA array data, and 
+also handle QStringList when writing PVA data.
+
+Updated to avoid segment faults on shutdown, also bring CA and PVA client managers 
+into alignment (credit Yang Zhenghan).
+
+
+#### QESpinBox
+
+Added  __autoScale__ property to allow auto scaling to be disabled.
+Based on idea from Christian Notthoff, ANU.
+
+#### QEAnalogIndicator/QEAnalogProhressBar
+
+Added  __animationTime__ property to provide a progress bar/meter animation capability.
+The new poroprty defaults to 0.0 which implies instantaneous, i.e. no animation.
+Based on idea from Christian Notthoff, ANU.
+
+#### QCaObject
+
+The getStringValue() method now takes a QE::ArrayActions parameter to control
+how strings were accessed - it default to QE::Index.  
+The previous implicit default oe QE::Ascii did not work if the PV was itself an
+array of strings.
+
+Added a getIsMetaDataUpdate() method to indicate if an update update is the 
+first/meta data update.
+
+Updated applicable widgets to use this common method to determine if an update
+is the first update rather than each managing their own isFirtUpdate flag.
+
+#### QEComment
+
+This is a new widget that allowd a comment to be embedded within a ui form using 
+the __comment__ property.
+
+#### QEExitButton
+
+This new widget, inspired by edm, allows the form or the whole application to
+be closed by clicking on a button.
+The __exitProgram__ property controls which type of exist is performed.
+
+#### QELink
+
+As well as various equality tests, this widget now has a LookUp option is the __condition__
+property.
+When selected, the widget will use the input value to select from one of the values 
+specified in the __lookupValues__ property.
+
+
+#### QEPvLoadSave
+
+Updated to hande knock-on effects of from using vector variants in the CA client. 
+It now saves uchar arrays as numbers, as oppoed to characters.
+
+Improved the summary format and include qe, ne and n/a qualifiers (as opposed to just 3 numbers)
+
+Compare arrays (live and saved) correctly and consistantly.
+Changed the array format, e.g. from "&lt;&lt; 36 element array &gt;&gt;" to "&lt;&lt; array[36] &gt;&gt;".
+
+Overall better error reporting.
+
+#### QEPvLoadSave and QEPvProperties 
+
+Updated context menus to cater for array PVs.
+
+#### QESelector
+
+Updated to alway honour the __source__ proerty when set to SourceFile.
+
+#### QEGenericEdit/QELineEdit
+
+Restore writeNow call for DropToTextAndWrite option,
+
+#### QESimpleShape
+
+Allow independent main and edge control regarding use of style colours.
+Ths is done using new __edgeUseStyleAlarmColours__ property.
+
+#### QENumericEdit
+
+Now displays the write forbidden cursor (e.g. when in read-olny mode).
+
+#### QEWidget
+
+Update applicable methods to take a __const__ QCaAlarmInfo parameter.
+
+
+#### QEFormStateChange
+
+Brought the widget's paint method and designer icon .png file into alignment.
+
+
+## <span style='color:#666666'>qegui</span>
+
+The only signifcant change is the introduction of a read-only option.
+Use either the command line option **--read_only**  or set the environment
+varaibel QE_READ_ONLY="1"
+
+Also updated the EPICS_Qt_Installer.wxs versions.
+Finally removed some perforce keywords if a few files.
 
 # <a name="r4.1.2"></a><span style='color:#006666'>r4.1.2</span>
 
@@ -231,5 +352,5 @@ the 3.5 series release notes.
 Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
-<font size="-1">Last updated: Fri Dec 20 12:30:12 AEDT 2024</font>
+<font size="-1">Last updated: Tue May 27 14:02:51 2025</font>
 <br>
