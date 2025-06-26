@@ -24,6 +24,8 @@
 
 # Build directories
 O.*/
+*.egg-info/
+/tools/*/build/
 
 # Common files created by other tools
 /QtC-*
