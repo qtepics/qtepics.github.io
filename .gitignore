@@ -35,6 +35,7 @@ O.*/
 .*.swp
 .DS_Store
 *~
+*.kate-swp
 .iocsh_history
 
 # end

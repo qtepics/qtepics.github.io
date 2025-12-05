@@ -2,16 +2,153 @@
 
 # <span style='color:#006666'>Release Index</span>
 
+[r4.1.4](#r4.1.4)<br>
 [r4.1.3](#r4.1.3)<br>
 [r4.1.2](#r4.1.2)<br>
 [r4.1.1](#r4.1.1)<br>
 [Earlier Releases](#Earlier_Releases)
 
-# <a name="r4.1.2"></a><span style='color:#006666'>r4.1.2</span>
+
+# <a name="r4.1.4"></a><span style='color:#006666'>r4.1.4</span>
+
+Release date: 5th Dec 2025
+
+## <span style='color:#006666'>general</span>
+
+Nothing _ground-braking_ this release, just general improvements including a couple
+of improvments provided by Christian Nothoff.
+
+For third party widget developers: note the have been some minor APU changes. 
+
+## <span style='color:#006666'>qeframework</span>
+
+#### QEImage/mpeg
+
+This now support avformat/avcodec version 59 (as used by Alma 9);<br>
+The mpeg module still compiles against avformat/avcodec version 58 (as used by CentOS stream 8);<br>
+and has dropped support for avformat/avcodec version 57 (as used by CentOS 7).
+
+#### QEImage
+
+Fixed the from mpeg slot specification missed during transition to version 4.
+
+#### QCaObject
+
+Updated so that during object destruction we disconnect signals/slots connections
+before calling client->closeChannel ().
+This avoids occasional corrupted double-linked list errors.
+
+#### QEFLoating/QEInteger/QEString
+
+We now handle QStringList variant types (from STRING array PVs),
+This was especially applicable when the selected array-mode is Ascii, and
+avoids malloc unchain warnings and segmentation faults.
+
+#### Control Widgets (excluding buttons):
+
+Added a number of _setPvValue_ slot functions which take a bool, int,
+double or QString value.
+These allow non framework widgets to effectively write values to the
+asociated PV using the signal slot mechanism.
+Credit: Christian Nothoff
+
+#### QEButtons
+
+Co-locate the clickCheckedText and clickText properties.
+This only affects the property order of appearance in designer.
+
+#### QEStringFormatting
+
+When time formating is selected, use the raw string if PV value is non-numeric.
+
+#### QEPlot
+
+Ensure the _yMin_ property values always less than the _yMax_ property value
+(cribbed from strip chart).
+Use _yMin_ in log mode, even when _autoscale_ is set.
+
+#### QEPvLoadSave
+
+Implemented the sort functionality to sort items by PV name.
+
+#### QEStripChart
+
+Added a write all traces to file capability (there is a new button on the tool bar).
+All values are reampled to the same 1 second time interval prior to writing to a
+file, using text or csv format.
+
+Refreshed the tool bar button icons.
+
+#### QEDescriptionLabel
+
+Added an _enableDots_ property; this right pads the text with repeating " .  .  . ".
+
+#### QESpinBox
+
+Added an _autoStepSize_ property; allow auto step size selection, and make this
+widget somewhat similar to the QENumericEdit.
+Credit: Christian Nothoff
+
+#### QEAnalogSlider/QAnalogSlider
+
+Updated widget to auto scale the minor, major intervals and the precison.
+
+#### QEFileBrowser
+
+This widget now honours font setting, and had an optional boarder, and
+controllable margins.
+
+#### QEArchiveStatus
+
+Added a little colour - just for fun.
+
+#### QEManagePixmaps
+
+The managePixmaps class has been renameed to QEManagePixmaps (filenames unchanged).
+The number of allowd pixmaps has increased form 8 to 16.
+
+QELabel, QEFrame and QEGenericButton have been updated to use new QEManagePixmaps and
+now have additional pixmap properties.
+
+__Note:__ This change may impact 3rd party widgets.
+
+#### QEScaling
+
+The QEScaling class now also scales push button icon sizes.
+
+#### QEEnums
+
+Thus class now provides an enum value to string and reverse function string to
+enum value functions together with a count/number enum values function.
+
+#### VariableNameManager/VariableManager
+
+The classes now use more approrpiate data structures.
+No functonal change per se.
+
+#### QEExpressionEvaluation
+
+API change to include specifying the number of allowed input letters.
+QEPlotter and QEStripChartItem have been updated to use the new QEExpressionEvaluation API.
+
+__Note:__ This only impacts 3rd party widgets using QEExpressionEvaluation.
+
+
+## <span style='color:#006666'>qegui</span>
+
+Updated saveRestoreManager to use the enum to string and string to enum functions
+out of QEEnum.
+
+Renamed the licence file COPYING to LICENSE for overall consistancy.
+
+In run_qegui.bat and .run_qt_designer.batbat files: setting up environment variables
+do not require quotes.
+
+# <a name="r4.1.3"></a><span style='color:#006666'>r4.1.3</span>
 
 Release date: 27th May 2025.
 
-## <span style='color:#666666'>general</span>
+## <span style='color:#006666'>general</span>
 
 For our local source code control, we habve migrated from from perforce to git.
 Many files have been updated to remove perforce style key words - no functional
@@ -22,7 +159,7 @@ This can be used to provide a gui interface (perhaps for training or testing)
 without the possibility of inadvertantly writing to a critical PV.
 
 
-## <span style='color:#666666'>qeframework</span>
+## <span style='color:#006666'>qeframework</span>
 
 #### QECaClient/QEPvaClient
 
@@ -119,7 +256,7 @@ Update applicable methods to take a __const__ QCaAlarmInfo parameter.
 Brought the widget's paint method and designer icon .png file into alignment.
 
 
-## <span style='color:#666666'>qegui</span>
+## <span style='color:#006666'>qegui</span>
 
 The only signifcant change is the introduction of a read-only option.
 Use either the command line option **--read_only**  or set the environment
@@ -132,7 +269,7 @@ Finally removed some perforce keywords if a few files.
 
 Release date: 20th December 2024.
 
-## <span style='color:#666666'>general</span>
+## <span style='color:#006666'>general</span>
 
 The main change in this release is the removal of most depricated usage compiler
 warnings.
@@ -143,7 +280,7 @@ and Windows 10, and using Qt5.12.8 on CentOS 7.
 I also do irregular builds using Qt6.4 on Debian 12.
 
 
-## <span style='color:#666666'>qeframework</span>
+## <span style='color:#006666'>qeframework</span>
 
 #### QEPlotter
 
@@ -188,7 +325,7 @@ Allow hex (and other radix) integers when accessing integer adaptation parameter
 Added a  getFilename function to adaptation paramaters.
 This interprets a leading "~/" text as in the user's home directory.
 
-## <span style='color:#666666'>qegui</span>
+## <span style='color:#006666'>qegui</span>
 
 The Alarm Colour Selection widget has been incorporated into the qegui display
 manager in the Tools menu.
@@ -199,7 +336,7 @@ Release date: 24th August 2024.
 
 This is the first release of EPICS Qt version 4 and the first release of the 4.1 series.
 
-## <span style='color:#666666'>whats new in version 4</span>
+## <span style='color:#006666'>whats new in version 4</span>
 
 The main change for this major release is how bespoke property enumeration types
 are defined in each of the QE widgets.
@@ -250,13 +387,13 @@ If you have written your own widget plugin module, some code changes may be
 be required - the complier will help you find these.
 Please refer to the upgrading to version 4 guide.
 
-## <span style='color:#666666'>general</span>
+## <span style='color:#006666'>general</span>
 
 During the migration to version 4 and ironing out any issues before releasing
 to the wider community a number of other on-going updates to the framework and 
 the display manager - these are detailed below.
 
-## <span style='color:#666666'>qeframework</span>
+## <span style='color:#006666'>qeframework</span>
 
 #### QEStripChart
 
@@ -315,7 +452,7 @@ windowCustomisation : check is same customisation is being applied - if so retur
 Ensure the result of a  str.toStdString().c_str() operation stays in scope.
 
 
-## <span style='color:#666666'>qegui</span>
+## <span style='color:#006666'>qegui</span>
 
 ####  Help | About dialog
 
@@ -352,5 +489,5 @@ the 3.5 series release notes.
 Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
-<font size="-1">Last updated: Tue May 27 14:02:51 2025</font>
+<font size="-1">Last updated: Fri Dec  5 16:53:01 2025</font>
 <br>
