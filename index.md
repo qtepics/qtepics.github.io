@@ -50,8 +50,7 @@ reference manual for programmers using QE widgets and classes.
 
 The EPICS QT Framework is free software: you can redistribute it and/or modify it
 under the terms of the GNU Lesser General Public License as published by the Free
-Software Foundation, either version 3 of the License, or (at your option) any
-later version.
+Software Foundation, version 3 only.
 
 The EPICS QT Framework is distributed in the hope that it will be useful, but
 __WITHOUT ANY WARRANTY__; without even the implied warranty of __MERCHANTABILITY
@@ -130,17 +129,7 @@ This is somewhat old now, any contructive feed back is welcome.
 
 ## <a name="Collaboration"></a><span style='color:#006666'>Future Plans</span>
 
-In brief:
-
-#### PV Access
-
-Update PV Access functionality to support all image formats.
-Currently we only support mono - still not a priority.
-
-#### FFMPEG
-
-The ffmpeg libraries provided with AlmaLinux 9 (and other distro) have changed their API.  
-The framework needs to be updated to accomodate this.
+Nothing specific ath the momment.
 
 
 ## <a name="Collaboration"></a><span style='color:#006666'>Feed Back and Collaboration</span>
@@ -182,5 +171,5 @@ Scherrer Institute.
 [http://epics.web.psi.ch/software/caqtdm/](http://epics.web.psi.ch/software/caqtdm/).
 
 
-<font size="-1">Last updated: Tue May 27 14:08:54 2025</font>
+<font size="-1">Last updated: Mon Feb 16 15:51:15 2026</font>
 <br>

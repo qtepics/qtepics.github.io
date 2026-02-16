@@ -2,12 +2,133 @@
 
 # <span style='color:#006666'>Release Index</span>
 
+[r4.1.5](#r4.1.5)<br>
 [r4.1.4](#r4.1.4)<br>
 [r4.1.3](#r4.1.3)<br>
 [r4.1.2](#r4.1.2)<br>
 [r4.1.1](#r4.1.1)<br>
 [Earlier Releases](#Earlier_Releases)
 
+# <a name="r4.1.5"></a><span style='color:#006666'>r4.1.5</span>
+
+Expected release date: 20th Feb 2026
+
+## <span style='color:#006666'>general</span>
+
+The most significant change in this release is that the framework/QEImage now can
+handle other that uint8 mono images via PV Access, this completing long term goel
+for PV access.
+This was acheived by cribbing the NTNDArrayConverter code out of Area Detector.
+Compressed images can de inflated provided ADSUPPORT is defined in the configure/RELEASE
+file and that ADSupport is configure to build the required functions.
+
+The code files now use the much less verbose SPDX tags, e.g.:
+
+    SPDX-FileCopyrightText: 2017-2025 Australian Synchrotron
+    SPDX-License-Identifier: LGPL-3.0-only
+
+and updated with a current e-mail address.
+
+There is a new (headless) build control environment variable:
+
+     QE_NUMBER_OF_CORES
+
+which controls the number cores allocated to build the qeFramework.
+When __not__ specified, this defaults to 4.
+
+## <span style='color:#006666'>qeframework</span>
+
+#### QEPvaClient
+
+The PVA client now detects and forwards a meta data update indication.
+
+#### QECaClient
+
+The QECaClient leverage off ACAI 1.8.1 to get property/meta data updates.
+
+#### QENTNDArrayConverter
+
+Added QENTNDArrayConverter, copied and pruned from Area Detector adCore R3-14.  
+
+#### QENTNDArrayData
+
+Reworked to use new QENTNDArrayConverter, now handles colour images.
+Also, when available, QENTNDArrayData decompresses the image (as opposed to leaving it to QEImage).
+
+#### QEImage
+
+Update the setPvaImage slot function to handle updated QENTNDArrayData variant,
+and now no attempt to decompress the image.
+
+The widget now handles descrete "old-stye" array data received via PVA correctly.
+
+Updated the _brightnessContrastAutoImageRequest_ and
+_imageDisplayPropertiesChanged_ slot methods to be public.
+
+Also added a background to the time timestamp.
+
+#### QEChannel
+
+New - currently a typedef of qcaobject::QCaObject.
+This reason for this is that QCaObject is inconsistant being the only object with
+its own name space, and __QEChannel__ reflects that we support both the CA and PVA protcols.  
+
+Eventually the roles of QEChannel and QCaObject will be reversed and QCaObject will become
+deprecated.
+
+Also inroducing signal structures to contail all the connection and data update info
+(as opposed to separete signal parameters).  
+This reduces the size of the boiler plate code, and make signal modification much easier.
+
+Some widgets have been updaterd to use QEChannel and the new signal structures.
+This is ongoing and will probably not be complete until the next release.
+
+__Note__: These changes affects 3rd party plugin/display managers developers only.
+For now, no changes are required.
+
+#### QEPlatform
+
+Introduce and use some QDateTime wrapper methods to avoid deprecation warnings.
+
+__Note:__ The framework still build against Qt 5.12.8 and upto Qt 6.8.1
+
+
+#### VariableManager
+
+Use deleteLater() to remove QCaObjects/QEChannel object to avoid potential seg faults.
+
+
+#### QNumericEdit
+
+Added a new valueEdited signal only emitted when the value is modified by user input.
+This is similar to how many native Qt widget work.
+
+#### QENumericEdit
+
+Modify internal Apply button style sheet when the widget is disabled.
+
+Uses the new valueEdited signal and drops the isMetaDataUpdate check.
+This keeps usage of CA and PVA consistant.
+
+#### QEStripChart
+
+Added checkbox show/hide (similar to QEPlotter), and re-purposed double click
+for regular/bold, as opposed to opening the PV dialog box - that is what the
+button does.
+
+#### QEPlotter
+
+Re-purposed double click for regular/bold selection - keep consistant
+with QEStripChart.
+
+#### QEAbstractDynamicWidget
+
+Report warning if/when loading/saving a configuration file fails.
+This impacts QEStripChart, QEScratchPad and QEPlotter widgets.
+
+## <span style='color:#006666'>qegui</span>
+
+No functional change.
 
 # <a name="r4.1.4"></a><span style='color:#006666'>r4.1.4</span>
 
@@ -18,13 +139,13 @@ Release date: 5th Dec 2025
 Nothing _ground-braking_ this release, just general improvements including a couple
 of improvments provided by Christian Nothoff.
 
-For third party widget developers: note the have been some minor APU changes. 
+For third party widget developers: note the have been some minor API changes. 
 
 ## <span style='color:#006666'>qeframework</span>
 
 #### QEImage/mpeg
 
-This now support avformat/avcodec version 59 (as used by Alma 9);<br>
+This now supports avformat/avcodec version 59 (as used by Alma 9);<br>
 The mpeg module still compiles against avformat/avcodec version 58 (as used by CentOS stream 8);<br>
 and has dropped support for avformat/avcodec version 57 (as used by CentOS 7).
 
@@ -489,5 +610,5 @@ the 3.5 series release notes.
 Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
-<font size="-1">Last updated: Fri Dec  5 16:53:01 2025</font>
+<font size="-1">Last updated: Mon Feb 16 15:55:46 2026</font>
 <br>

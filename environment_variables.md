@@ -138,6 +138,11 @@ its location can be defined using this variable.
 An alternative to defining an environment variable is to define this value in
 qeframework's configure/CONFIG_SITE file.
 
+### QE_NUMBER_OF_CORES (Optional)
+
+Defines the number of cores supplies to the make -j parameter in the qeframeworkSup
+make file. When not specified, the default is 4.
+
 ### QE_TARGET_DIR (Optional/Deprecated)
 
 When not defined, the executables, the libraries and the include files are
@@ -377,5 +382,5 @@ the caQtDm widgets use their native context menu or the EPICS Qt standard
 context menu. Set this variable to "1", "TRUE" or "YES" to select this feature.
 
 
-<font size="-1">Last updated: Fri Dec 20 12:33:24 2024</font>
+<font size="-1">Last updated: Mon Feb 16 14:27:32 202624</font>
 <br>
