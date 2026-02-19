@@ -11,7 +11,7 @@
 
 # <a name="r4.1.5"></a><span style='color:#006666'>r4.1.5</span>
 
-Expected release date: 20th Feb 2026
+Release date: 19th Feb 2026
 
 ## <span style='color:#006666'>general</span>
 
@@ -97,7 +97,6 @@ __Note:__ The framework still build against Qt 5.12.8 and upto Qt 6.8.1
 
 Use deleteLater() to remove QCaObjects/QEChannel object to avoid potential seg faults.
 
-
 #### QNumericEdit
 
 Added a new valueEdited signal only emitted when the value is modified by user input.
@@ -120,6 +119,15 @@ button does.
 
 Re-purposed double click for regular/bold selection - keep consistant
 with QEStripChart.
+
+#### QEWidget
+
+Update to use QEChannel, plus some long line layout tweaks.
+
+#### QEBitStatus
+
+Update to use QEChannel, and new new signal structures.
+
 
 #### QEAbstractDynamicWidget
 
@@ -610,5 +618,5 @@ the 3.5 series release notes.
 Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
-<font size="-1">Last updated: Mon Feb 16 15:55:46 2026</font>
+<font size="-1">Last updated: Thu Feb 19 16:01:12 2026</font>
 <br>
