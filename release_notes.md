@@ -15,12 +15,12 @@ Release date: 19th Feb 2026
 
 ## <span style='color:#006666'>general</span>
 
-The most significant change in this release is that the framework/QEImage now can
-handle other that uint8 mono images via PV Access, this completing long term goel
+The most significant change in this release is that the framework/QEImage can now
+handle other that uint8 mono images via PV Access, this completing long term goal
 for PV access.
 This was acheived by cribbing the NTNDArrayConverter code out of Area Detector.
-Compressed images can de inflated provided ADSUPPORT is defined in the configure/RELEASE
-file and that ADSupport is configure to build the required functions.
+Compressed images can be inflated provided ADSUPPORT is defined in the configure/RELEASE
+file and that ADSupport is configured to build the required functions.
 
 The code files now use the much less verbose SPDX tags, e.g.:
 
@@ -618,5 +618,5 @@ the 3.5 series release notes.
 Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
-<font size="-1">Last updated: Thu Feb 19 16:01:12 2026</font>
+<font size="-1">Last updated: Fri Feb 20 10:30:12 2026</font>
 <br>
