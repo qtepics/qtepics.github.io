@@ -155,14 +155,14 @@ sleep 5
 
 # Guestmate download times.
 #
-acai_etc=5
-qeframework_etc=30
-qegui_etc=5
-qeMonitor_etc=5
-qeReadArchive_etc=5
-qeByteArrayTest_etc=5
-qeWidgetDisplay_etc=5
-qeExamplePlugin_etc=5
+acai_etc=1
+qeframework_etc=2
+qegui_etc=1
+qeMonitor_etc=1
+qeReadArchive_etc=1
+qeByteArrayTest_etc=1
+qeWidgetDisplay_etc=1
+qeExamplePlugin_etc=1
 
 if [ ${do_all} -eq 1 ] ; then
    qelist="qeframework qegui qeMonitor qeReadArchive qeByteArrayTest qeWidgetDisplay qeExamplePlugin"
