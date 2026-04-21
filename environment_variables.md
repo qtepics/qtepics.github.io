@@ -1,4 +1,4 @@
-# ![](epicsqt_logo.png?raw=true) <span style='color:#006666'>EPICS Qt Environment Variables</span>
+ # ![](epicsqt_logo.png?raw=true) <span style='color:#006666'>EPICS Qt Environment Variables</span>
 
 [Introduction](#Introduction)<br>
 [Build Time Environment Variables](#Build)<br>
@@ -91,13 +91,21 @@ or earlier, the build will fail:
 
 See the [Getting Started page](getting_started.html) for more details.
 
-### <a name="ADSUPPORT"></a>ADSUPPORT (Optional)
+### <a name="QE_AD_SUPPORT"></a>QE_AD_ADSUPPORT (Optional)
 
-This defines the location of the Area Detector ADSupport module top directory.
-If not required, ADSUPPORT must be unset as it serves both as a flag and location.
+This variable controls whether the framework will bebult to support image decompression.
+To include image decompression define QE_AD_ADSUPPORT as YES.
+
+For headless builds, this can be defined in the qeframework's configure/CONFIG_SITE.local
+file, however when using qtcreator it must be defined explicitly as an environment variable.
+
+In conjustion with QE_AD_SUPPORT is ADSUPPORT which defines the location of the Area
+Detector ADSupport module top directory.
+
+__Note__: ADSUPPORT is no longer a flag, it provides location only.
 
 For headless builds, this can be defined in the qeframework's configure/RELEASE
-file, however when using qtcreator it must be defined explicitly.
+file, however when using qtcreator it must be defined as an environment variable.
 
 The ADSupport module is used to decompress images compressed using the Area
 Detector Codec plugin and delivered via a PV Access NTNDArray PV.
@@ -105,8 +113,9 @@ The decompression modes supported by the EPICS Qt framework are jpeg, lz4, blosc
 and bslz4. If used, __your__ AD support module must be built to support all of
 these.
 
-ADSUPPORT need only be defined if QE_PVACCESS_SUPPORT is set to YES, however it
-will build/link against the ADSupport module even when QE_PVACCESS_SUPPORT is NO.
+__Note__: QE_AD_SUPPORT need only be defined if QE_PVACCESS_SUPPORT is set to YES,
+however it will build/link against the ADSupport module even when QE_PVACCESS_SUPPORT
+is NO.
 
 
 ### <a name="QE_ARCHAPPL_SUPPORT"></a>QE_ARCHAPPL_SUPPORT (Optional)
@@ -310,7 +319,7 @@ Example:
 This defines the maximum number of real time or live data points the Strip Chart will store per channel.
 Once this number is exceeded, older real time points are dropped.
 When not specified, the maximum number of stored points defaults to 400,000.
-The smallest value than can be defines is 10,000.
+The smallest value than can be defined is 10,000.
 The upper limit is the maximum integer value (2,147,483,647).
 
 ### QE_GLOBAL_STYLE_SHEET (Optional)  
@@ -382,5 +391,5 @@ the caQtDm widgets use their native context menu or the EPICS Qt standard
 context menu. Set this variable to "1", "TRUE" or "YES" to select this feature.
 
 
-<font size="-1">Last updated: Mon Feb 16 14:27:32 202624</font>
+<font size="-1">Last updated: Tue Apr 21 09:55:38 2026</font>
 <br>

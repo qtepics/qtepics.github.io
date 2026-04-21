@@ -2,6 +2,7 @@
 
 # <span style='color:#006666'>Release Index</span>
 
+[r4.1.6](#r4.1.6)<br>
 [r4.1.5](#r4.1.5)<br>
 [r4.1.4](#r4.1.4)<br>
 [r4.1.3](#r4.1.3)<br>
@@ -9,18 +10,182 @@
 [r4.1.1](#r4.1.1)<br>
 [Earlier Releases](#Earlier_Releases)
 
-# <a name="r4.1.5"></a><span style='color:#006666'>r4.1.5</span>
 
-Release date: 19th Feb 2026
+# <a name="r4.1.6"></a><span style='color:#006666'>r4.1.6</span>
+
+Exprected release date: 25th April 2026
 
 ## <span style='color:#006666'>general</span>
 
-The most significant change in this release is that the framework/QEImage can now
-handle other that uint8 mono images via PV Access, this completing long term goal
+The most significant change from a user's point of view is that standard context
+menu now can identify when the associated data type is a NTTable, NTNDArray or
+some other opaque PV Access data type and include a suitable context entry,
+i.e. one of:
+
+ - "Show in NTTable",
+ - "Show as Image", or
+ - "Show as Opaque".
+
+A new QEOpaque widget has been created to display unknown PV Access data types;
+it show the data in a textual form illusrated by this example:
+
+<pre>
+epics:p2p/Stats:1.0 
+    epics:nt/NTScalar:1.0 ccacheSize
+        ulong value 0
+        alarm_t alarm
+            int severity 0
+            int status 0
+            string message 
+        time_t timeStamp
+            long secondsPastEpoch 0
+            int nanoseconds 0
+            int userTag 0
+...
+    epics:nt/NTScalar:1.0 banHostPVSize
+        ulong value 0
+        alarm_t alarm
+            int severity 0
+            int status 0
+            string message 
+        time_t timeStamp
+            long secondsPastEpoch 0
+            int nanoseconds 0
+            int userTag 0
+</pre>
+
+Some for of exapnd/edid functionality could be added at a later date.
+
+The most significant code changes are:
+
+ - the framework uses QEChannel (which is an alias for qcaobject::QCaObject),
+ - the framework now use signals/slots that use a single struct argument.
+
+These changes do not impact exsiting ui files, using designer or qegui.
+For 3rd party widget delvelopers, the old style signals still exist, altough
+QEChannel will report a run time depracation warning if these are used.
+
+Other changes are identified below.
+
+
+## <span style='color:#006666'>qeframework</span>
+
+#### QEOpaqueData 
+
+New widget - see above.
+
+#### QBitStatus/QEBitStatus
+
+Updated to add two new string properties: setText and unsetText.
+The text is displayed in the centre of each "bit".
+Both default to an empty string.
+
+#### QCaAlarmInfo
+
+Added a debug << operator - for developer use.
+
+#### QCaObject/QEChannel
+
+Generate warning and debug message if/when deprecated signals are used.
+
+Also use deleteLater for the CA/PVA client object rather than explicitly
+disconnecting any signal/slot connections in the QCaObject destructor.
+
+#### QEString
+
+Do additonal checks when array action is Ascii.
+When array action is Ascii, we are never interested in a single element of the array.
+This fixed an issue with QELineEdit/QEFileBrowser when trying to write to a char
+array record.
+
+#### QEScript
+
+Updated to use new process call API when using Qt6.
+
+#### QELineEdit
+
+Add apply button option (similar to QENumericEdit).
+
+__Note__: QELineEdit no longer inherits from QEGenericEdit, and is now obsolete form
+a QE framework point of view, howver left in place incase it is being used by and 3rd
+party widgets.
+
+#### QEAbstractDynamicWidget/QEWidget
+
+Relocated the useOwnPersistantName bool flag from QEAbstractDynamicWidget to QEWidget.
+QEWidget: add getDetailedConfiguration and setDetailedConfiguration methods.
+This allows 3rd party used to save and load detailed widget configuration data.
+
+#### QEStripChart
+
+Allow a time offset to be specified when plotting data on the StripChart 
+(some refinement still required).
+Exchanged context menu order for "General..." and "Reset" - more convenient (for me ;-)
+
+Also swaped the calculated high/low limits when using a negative scaling (m) value.
+
+#### QEPvaData
+
+For epics:nt/NTTable types, now extracts the descriptor field if it exists.
+
+#### QENTTable
+
+Added a showPVname property which eables/disables dipalying the PV name
+at the top of the widget; the property defaults o false.
+
+On PV connection, the widget clears out any data from the previous connection.  
+
+#### QETable
+
+Updated to request variant data (as oppoed to floating array data).
+This allowes string arrays to be displayed in a QETable widget.
+
+__Note__: strings a left aligned.
+
+
+#### QECaClient
+
+QECaClient objects now include the lower level CA client object into QECaClient itself.
+Slightly quicker, and may help to reduce memory fragmentation and cache mssing.
+
+Also now spell variant correctly - all are private artefacts, so no user impact.
+
+#### QEHistogram
+
+Updated to honor the autoBarGapWidths property when the orientation is vertical.
+Also updated auto bar to gap ratio be 3 to 1.
+
+## <span style='color:#006666'>qegui</span>
+
+Updated to support action requests for context menu entries "Show in NTTable", 
+"Show as Image" and "Show as Opaque".
+
+## <span style='color:#006666'>environment variables</span>
+
+#### QE_AD_SUPPORT
+
+This is a new optional environment variable to control whether image decompression
+for NTNDArray PVs is included into the QE framework.
+
+To include image decompression define this to be 'YES'.
+
+This splits the role of the ADSUPPORT variable which previously both speficied 
+the location of the Area Detector's ADSupport's top directory _and_ whether to
+include image decompression functionality.
+
+
+# <a name="r4.1.5"></a><span style='color:#006666'>r4.1.5</span>
+
+Release date: 20th Feb 2026
+
+## <span style='color:#006666'>general</span>
+
+The most significant change in this release is that the framework/QEImage now can
+handle other that uint8 mono images via PV Access, this completing long term goel
 for PV access.
 This was acheived by cribbing the NTNDArrayConverter code out of Area Detector.
-Compressed images can be inflated provided ADSUPPORT is defined in the configure/RELEASE
-file and that ADSupport is configured to build the required functions.
+Compressed images can de inflated provided ADSUPPORT is defined in the configure/RELEASE
+file and that ADSupport is configure to build the required functions.
 
 The code files now use the much less verbose SPDX tags, e.g.:
 
@@ -97,6 +262,7 @@ __Note:__ The framework still build against Qt 5.12.8 and upto Qt 6.8.1
 
 Use deleteLater() to remove QCaObjects/QEChannel object to avoid potential seg faults.
 
+
 #### QNumericEdit
 
 Added a new valueEdited signal only emitted when the value is modified by user input.
@@ -119,15 +285,6 @@ button does.
 
 Re-purposed double click for regular/bold selection - keep consistant
 with QEStripChart.
-
-#### QEWidget
-
-Update to use QEChannel, plus some long line layout tweaks.
-
-#### QEBitStatus
-
-Update to use QEChannel, and new new signal structures.
-
 
 #### QEAbstractDynamicWidget
 
@@ -618,5 +775,5 @@ the 3.5 series release notes.
 Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
-<font size="-1">Last updated: Fri Feb 20 10:30:12 2026</font>
+<font size="-1">Last updated: Tue Apr 21 09:55:11 2026</font>
 <br>
