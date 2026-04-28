@@ -38,4 +38,8 @@ O.*/
 *.kate-swp
 .iocsh_history
 
+# Temp files
+#
+/z*
+
 # end

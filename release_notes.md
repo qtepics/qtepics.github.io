@@ -13,13 +13,13 @@
 
 # <a name="r4.1.6"></a><span style='color:#006666'>r4.1.6</span>
 
-Exprected release date: 25th April 2026
+Release date: 29th April 2026
 
 ## <span style='color:#006666'>general</span>
 
-The most significant change from a user's point of view is that standard context
+The most significant change from the user's point of view is that standard context
 menu now can identify when the associated data type is a NTTable, NTNDArray or
-some other opaque PV Access data type and include a suitable context entry,
+some other opaque PV Access data type and include a suitable context menu entry,
 i.e. one of:
 
  - "Show in NTTable",
@@ -27,7 +27,7 @@ i.e. one of:
  - "Show as Opaque".
 
 A new QEOpaque widget has been created to display unknown PV Access data types;
-it show the data in a textual form illusrated by this example:
+it show the data in a textual form illustrated by this example:
 
 <pre>
 epics:p2p/Stats:1.0 
@@ -54,16 +54,18 @@ epics:p2p/Stats:1.0
             int userTag 0
 </pre>
 
-Some for of exapnd/edid functionality could be added at a later date.
+Some form of expand/elide functionality could be added at a later date.
 
 The most significant code changes are:
 
  - the framework uses QEChannel (which is an alias for qcaobject::QCaObject),
- - the framework now use signals/slots that use a single struct argument.
+ - the framework now use signals/slots that use a single struct argument as opposed to multipe arguments.
 
-These changes do not impact exsiting ui files, using designer or qegui.
-For 3rd party widget delvelopers, the old style signals still exist, altough
-QEChannel will report a run time depracation warning if these are used.
+These changes simply the code abit, and also will allow any future changes to be implement  
+by just changing a singe struct defition.
+The changes do not impact existing ui files, or using designer or qegui.
+For 3rd party widget delvelopers, the old style signals still exist, although
+QEChannel will report a run time depracation warning if the old style signals are used.
 
 Other changes are identified below.
 
@@ -82,14 +84,15 @@ Both default to an empty string.
 
 #### QCaAlarmInfo
 
-Added a debug << operator - for developer use.
+Added a debug << operator the the alarm info class - essentialy for developer use.
 
 #### QCaObject/QEChannel
 
-Generate warning and debug message if/when deprecated signals are used.
+The QCaObject/QEchannel class now generates a warning or debug message if/when 
+deprecated signals are used.
 
-Also use deleteLater for the CA/PVA client object rather than explicitly
-disconnecting any signal/slot connections in the QCaObject destructor.
+It also uses deleteLater for the CA/PVA client object rather than explicitly
+disconnecting any signal/slot connections when the QCaObject is destroyed.
 
 #### QEString
 
@@ -104,51 +107,53 @@ Updated to use new process call API when using Qt6.
 
 #### QELineEdit
 
-Add apply button option (similar to QENumericEdit).
+Added an optional apply button (similar to QENumericEdit).
 
-__Note__: QELineEdit no longer inherits from QEGenericEdit, and is now obsolete form
-a QE framework point of view, howver left in place incase it is being used by and 3rd
-party widgets.
+__Note__: QELineEdit no longer inherits from QEGenericEdit, which is now obsolete
+form a QE framework point of view, howvever QEGenericEdit is left in the franmework
+incase it is being used by and 3rd party widgets.
 
 #### QEAbstractDynamicWidget/QEWidget
 
 Relocated the useOwnPersistantName bool flag from QEAbstractDynamicWidget to QEWidget.
+
 QEWidget: add getDetailedConfiguration and setDetailedConfiguration methods.
-This allows 3rd party used to save and load detailed widget configuration data.
+This allows 3rd party applications to save and load detailed widget configuration data.
 
 #### QEStripChart
 
 Allow a time offset to be specified when plotting data on the StripChart 
 (some refinement still required).
-Exchanged context menu order for "General..." and "Reset" - more convenient (for me ;-)
+Exchanged the context menu order for "General..." and "Reset" - more convenient (for me ;-).
 
 Also swaped the calculated high/low limits when using a negative scaling (m) value.
 
 #### QEPvaData
 
-For epics:nt/NTTable types, now extracts the descriptor field if it exists.
+For epics:nt/NTTable types, the framework now extracts the descriptor field if it exists.
 
 #### QENTTable
 
-Added a showPVname property which eables/disables dipalying the PV name
-at the top of the widget; the property defaults o false.
+Added a showPVname property which eables/disables displaying the PV name
+at the top of the widget; the property defaults to false.
 
-On PV connection, the widget clears out any data from the previous connection.  
+On PV connection, the widget clears out any data from the previous connection.
 
 #### QETable
 
-Updated to request variant data (as oppoed to floating array data).
+Updated to request variant data (as opposed to floating array data).
 This allowes string arrays to be displayed in a QETable widget.
 
-__Note__: strings a left aligned.
+__Note__: strings are left aligned.
 
 
 #### QECaClient
 
-QECaClient objects now include the lower level CA client object into QECaClient itself.
+QECaClient objects now include the lower level CA client object in QECaClient itself.
 Slightly quicker, and may help to reduce memory fragmentation and cache mssing.
 
-Also now spell variant correctly - all are private artefacts, so no user impact.
+Also now spell variant correctly - all the spelling fixes are private artefacts,
+so no user impact.
 
 #### QEHistogram
 
@@ -157,19 +162,19 @@ Also updated auto bar to gap ratio be 3 to 1.
 
 ## <span style='color:#006666'>qegui</span>
 
-Updated to support action requests for context menu entries "Show in NTTable", 
+Updated to support action requests for context menu entries "Show in NTTable",
 "Show as Image" and "Show as Opaque".
 
 ## <span style='color:#006666'>environment variables</span>
 
 #### QE_AD_SUPPORT
 
-This is a new optional environment variable to control whether image decompression
-for NTNDArray PVs is included into the QE framework.
+This is a new optional build time environment variable to control whether image
+decompression for NTNDArray PVs is included into the QE framework
 
 To include image decompression define this to be 'YES'.
 
-This splits the role of the ADSUPPORT variable which previously both speficied 
+This splits the role of the ADSUPPORT variable which previously both speficied
 the location of the Area Detector's ADSupport's top directory _and_ whether to
 include image decompression functionality.
 
@@ -775,5 +780,5 @@ the 3.5 series release notes.
 Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
-<font size="-1">Last updated: Tue Apr 21 09:55:11 2026</font>
+<font size="-1">Last updated: Tue Apr 28 14:00:29 2026</font>
 <br>
