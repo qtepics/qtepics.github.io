@@ -1,28 +1,14 @@
 /*
- *  This file is part of the EPICS QT Framework, initially developed at
-the Australian Synchrotron.
+ *  This file is part of the EPICS QT Framework, initially developed at the
+ *  Australian Synchrotron.
  *
- *  The EPICS QT Framework is free software: you can redistribute it and/or
-modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
+ *  SPDX-FileCopyrightText: 2011-2026 Australian Synchrotron
+ *  SPDX-License-Identifier: LGPL-3.0-only
  *
- *  The EPICS QT Framework is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  Author:     Andrew Rhyder
+ *  Maintainer: Andrew Starritt
+ *  Contact:    andrews@ansto.gov.au
  *
- *  You should have received a copy of the GNU General Public License
- *  along with the EPICS QT Framework.  If not, see
-<http://www.gnu.org/licenses/>.
- *
- *  Copyright (c) 2011
- *
- *  Author:
- *    Andrew Rhyder
- *  Contact details:
- *    andrew.rhyder@synchrotron.org.au
  */
 
 /*
@@ -33,43 +19,47 @@ modify
 /*!
   \mainpage QE framework - EPICS aware Qt Widgets and data access classes
 
- - QE is a layered software framework for accessing EPICS data using Channel Access on a range of platforms.\n\n
+ - The EPICS Qt Framework (QE) is a layered software framework for accessing EPICS data using Channel Access
+   and/or PV Access on a range of platforms.\n\n
 
- - The QE framework provides object oriented C++ access to control systems using EPICS (Experimental Physics and
+ - The EPICS Qt Framework framework provides object oriented C++ access to control systems using EPICS (Experimental Physics and
 Industrial Control System). It is based on Qt, a widely used cross-platform application development framework.\n\n
 
  - GUI or console based applications can be written that use QE at several levels. QE includes Qt plugin libraries,
 EPICS aware widgets, data formatting classes, and classes for accessing raw EPICS data in a Qt friendly way.\n\n
 
- - QE also includes an application - QEgui - for displaying forms produced by the Qt development tool ‘Designer’. Using this
-application a complete EPICS GUI system can be generated without writing any code. A GUI system produced in this way can
-interact with existing EPICS display tools such as EDM.\n\n
+ - The EPICS Qt Framework also includes an application - QEgui - for displaying forms produced by the Qt development
+   tool ‘Designer’. Using this application a complete EPICS GUI system can be generated without writing any code.
+   A GUI system produced in this way can interact with existing EPICS display tools such as EDM.\n\n
 
- - QE handles much of the complexities of Channel Access including initiating and managing a channel. Applications using QE
-can interact with Channel Access using Qt based classes and data types. Channel Access updates are delivered using Qt’s signals and slots mechanism.
+ - The EPICS Qt Framework handles much of the complexities of Channel Access and PV Access including initiating and managing a channel.
+Applications using QE can interact with Channel Access and PV Access using Qt based classes and data types.
+Channel Access and PV Access updates are delivered using Qt’s signals and slots mechanism.
 
   \image html ASguiExample5.png
 
   \if homepage
   \section homepage Project page
   The official project page is hosted at 
-	<a href="http://epicsqt.sourceforge.net/">sourceforge</a>
+	<a href="http://epicsqt.github/">github</a>
   \endif
 
   \section documentation Documentation
 
-  Support documents can be found in the <a href="https://sourceforge.net/projects/epicsqt/files/documentation/">documentation</a> section of the epicsqt sourceforge project.
-  The framework download (available on the epicsqt sourceforge <a href="https://sourceforge.net/projects/epicsqt/">homepage</a>) also includes this documentation as well as full Doxygen generated documentation of all the epicsqt classes and widgets.
+  Support documents can be found in the<a href="https://qtepics.github.io/">documentation</a> section of the epicsqt on GitHub.
+  The framework download (available from<a href="https://github.com/qtepics/">homepage</a>) also includes this documentation
+  as well as full Doxygen generated documentation of all the epicsqt classes and widgets.
 
   \section license License
 
-  epicsqt is distributed under the terms of the \ref epicsqtlicense.
+  The EPICS Qt Framework is distributed under the terms of the \ref epicsqtlicense 3.0 only.
  
   \section platforms Platforms
 
-  epicsqt might be usable in all environments where you find
+  EPICS Qt Framework might be usable in all environments where you find
   <a href="http://www.trolltech.com/products/qt">Qt</a>.
-  It is compatible with Qt >= 4.4.
+  It is compatible with Qt >= 5.12.8.
+  At the Australian Syncchrotron, we use Qt 6.8.1.
 
   \section screenshotsonmainpage Screenshots
   - \ref ASguiscreenshots\n
@@ -80,23 +70,17 @@ can interact with Channel Access using Qt based classes and data types. Channel 
   \latexonly Screenshots are only available in the HTML docs.\endlatexonly
 
   \section downloads Downloads
-  Stable releases and development snapshots are available at the epicsqt <a href="http://sourceforge.net/projects/epicsqt">project page</a>.
+  Stable releases and development snapshots are available at the epicsqt <a href="https://github.com/qtepics/">project page</a>.
 
-  For getting a development snapshot from the SVN repository:
-  \code svn svn co https://epicsqt.svn.sourceforge.net/svnroot/epicsqt epicsqt
-  \endcode
-
-  Alternativly, get a packaged file (epicsqt.tar.gz) from the <a href="http://epicsqt.svn.sourceforge.net/viewvc/epicsqt/?view=tar">epicsqt repository site</a>.
 
   \section installonmainpage Installation
  
-  Read <a href="http://sourceforge.net/projects/epicsqt/files/documentation/QE_GettingStarted.pdf/download"> QE_GettingStarted.pdf</a> in the documentation for setting up an enviroment for building or using the epicsqt framework.\n
+  Read <a href="https://qtepics.github.io/getting_started.html"> QE_GettingStarted.pdf</a> in the documentation for
+  setting up an enviroment for building or using the epicsqt framework.\n
   To build the framework, open epicsqt.pro in QtCreator, ensure shaddow build is turned off, and hit build.\n
-  The resultant library libQEPlugin.so will need to be installed or referenced up according to how it is to be used - see QE_GettingStarted.pdf for details.\n
+  The resultant library libQEPlugin.so will need to be installed or referenced up according to how it is to be
+  used - see QE_GettingStarted.pdf for details.\n
   Any Qt specific queries? start at <a href="http://qt-project.org">the Qt Project</a>
-
-  \section support Support
-  Visit the sourceforge epicsqt <a href="http://sourceforge.net/projects/epicsqt/support"> support page</a> for assistance.
 
   \section relatedprojects Related Projects
 
@@ -106,14 +90,13 @@ can interact with Channel Access using Qt based classes and data types. Channel 
   \par Authors: 
     Andrew Rhyder, Anthony Owen, Glenn Jackson
   \par Project admin:
-    Andrew Rhyder \<andrew.rhyder@synchrotron.org.au\>
+    Andrew Starritt \<andrews@ansto.gov.au\>
 */
 
 /*!
   \page epicsqtlicense GNU Lesser General Public License
 The EPICS QT Framework is free software: you can redistribute it and/or modify it under the terms of
-the GNU Lesser General Public License as published by the Free Software Foundation, either version 3
-of the License, or (at your option) any later version.\n
+the GNU Lesser General Public License as published by the Free Software Foundation, version 3.\n
 The EPICS QT Framework is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
 without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n
 See the GNU General Public License for more details.

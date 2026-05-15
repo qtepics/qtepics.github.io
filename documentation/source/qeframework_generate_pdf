@@ -1,0 +1,97 @@
+#!/bin/bash
+#
+# File: documentation/source/qeframework_generate_pdf
+# DateTime: Fri May 15 15:44:12 2026
+# Last checked in by: starritt
+#
+
+iam=$( basename $0 )
+
+# Add a little colour
+#
+red=$(    echo -e "\033[31;1m"  )
+green=$(  echo -e "\033[32;1m"  )
+yellow=$( echo -e "\033[33;1m"  )
+blue=$(   echo -e "\033[36;1m"  )
+reset=$(  echo -e "\033[00m"    )
+
+function terminate() {
+   local arg
+   for arg in "$@" ; do
+      echo 1>&2 "${arg}"
+   done
+   exit 1
+}
+
+function usage () {
+   terminate "${1}" \
+             "usage: ${iam}"  \
+             "       ${iam} [--help | -h]"
+}
+
+
+function help () {
+   cat << HELPINFO
+${iam} runs doygen to generate the QE_ReferenceManual.pdf document.
+
+usage: ${iam}
+       ${iam} [--help | -h]
+
+${iam} takes about 60 seconds to run.
+
+HELPINFO
+}
+
+if [ "${1}" == "--help" ] || [ "${1}" == "-h" ] ; then
+   help
+   exit 0
+fi
+
+temp_dir="/tmp/qeframework_documentation"
+
+mkdir -p ${temp_dir:?}   || terminate "${iam}: cannot mkdir ${temp_dir:?}"
+
+rm -rf  ${temp_dir:?}/html   ${temp_dir:?}/latex
+
+echo "running doxygen qeframework.cfg"
+doxygen  qeframework.cfg  >/dev/null 2>&1  || terminate "${iam}: doxygen not available or failed."
+echo "doxygen complete"
+echo ""
+
+sleep 2
+
+pushd  ${temp_dir:?}/latex >/dev/null || terminate "${iam}: pushd  ${temp_dir:?}/latex failed"
+
+# The latex command requires number of 'enters'
+#
+cat <<HERE >many_returns
+
+
+
+
+
+
+
+
+
+
+
+HERE
+
+# We are using the auto-generated mMakefile
+#
+echo "running make"
+make < many_returns  >/dev/null  || terminate "${iam}: make failed."
+
+echo "refman.pdf generated"
+echo ""
+
+popd >/dev/null
+
+echo "copying refman.pdf  to ../QE_ReferenceManual.pdf"
+cp  ${temp_dir:?}/latex/refman.pdf  ../QE_ReferenceManual.pdf   || terminate "${iam}: cp failed"
+echo ""
+
+echo "done"
+
+# end
