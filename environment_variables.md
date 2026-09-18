@@ -14,17 +14,17 @@ general and those that explicitly impact the QEGui display manager program.
 
 ## <a name="Build"></a><span style='color:#006666'>EPICS Qt Framework</span>
 
-### EPICS_BASE (Required)
+### <span style='color:#205080'>EPICS_BASE</span> (Required)
 
 This defines the location of EPICS base.
 For headless builds, this is defined in the configure/RELEASE file, however
 when using _qtcreator_ it must be explicitly defined.
 
-### EPICS_HOST_ARCH (Required)
+### <span style='color:#205080'>EPICS_HOST_ARCH</span> (Required)
 
 This defines the host architecture, .e.g. linux-x86_64, windows-x64, win32-x86-mingw.
 
-### QE_FRAMEWORK (Required)
+### <span style='color:#205080'>QE_FRAMEWORK</span> (Required)
 
 This defines the location of the qeframework _installation_ directory,
 i.e. the qeframework's <i>top</i> directory.
@@ -37,14 +37,14 @@ qeplugin.pro and QEGuiApp.pro projects, but need not be defined for the framewor
 itself.
 See note on QE_TARGET_DIR below.
 
-### ACAI (Required for EPICS Qt 3.7 or later)
+### <span style='color:#205080'>ACAI</span> (Required for EPICS Qt 3.7 or later)
 
 This defines the location of the acai _top_ directory.
 
 For headless builds, this is defined in the qeframework's configure/RELEASE file,
 however when using _qtcreator_ it must be defined explicitly.
 
-### QWT_INCLUDE_PATH (Required)
+### <span style='color:#205080'>QWT_INCLUDE_PATH</span> (Required)
 
 This defines the location of the QWT header files. Typically this is:
 
@@ -52,22 +52,22 @@ This defines the location of the QWT header files. Typically this is:
 
 on Linux.
 
-### QWT_ROOT (Optional)
+### <span style='color:#205080'>QWT_ROOT</span> (Optional)
 
 If this variable is not defined, the default location of QWT library is used.
 If defined then this is used to locate the QWT library.
 
-### QE_FFMPEG (Optional)
+### <span style='color:#205080'>QE_FFMPEG</span> (Optional)
 
 If you want MPEG support, install FFmpeg and define this environment variable.
 This can be defined as anything (we suggest YES) on Linux,
 but must point to the FFmpeg directory on Windows.
 
-### QTINC (Optional)
+### <span style='color:#205080'>QTINC</span> (Optional)
 
 Applicable to Qt5 only, and defines include files needed for QtPrintSupport.
 
-### <a name="QE_PVACCESS_SUPPORT"></a>QE_PVACCESS_SUPPORT (Optional, EPICS Qt 3.7 or later)
+### <a name="QE_PVACCESS_SUPPORT"></a><span style='color:#205080'>QE_PVACCESS_SUPPORT</span> (Optional, EPICS Qt 3.7 or later)
 
 For headless builds, this is automatically defined by the qeframeworkSup's Makefile
 and is set to YES when EPICS base 7 or later in use and is otherwise set to to NO.
@@ -90,8 +90,9 @@ or earlier, the build will fail:
 
 
 See the [Getting Started page](getting_started.html) for more details.
+<br>
 
-### <a name="QE_AD_SUPPORT"></a>QE_AD_ADSUPPORT (Optional)
+### <a name="QE_AD_SUPPORT"></a><span style='color:#205080'>QE_AD_ADSUPPORT</span> (Optional)
 
 This variable controls whether the framework will bebult to support image decompression.
 To include image decompression define QE_AD_ADSUPPORT as YES.
@@ -118,7 +119,7 @@ however it will build/link against the ADSupport module even when QE_PVACCESS_SU
 is NO.
 
 
-### <a name="QE_ARCHAPPL_SUPPORT"></a>QE_ARCHAPPL_SUPPORT (Optional)
+### <a name="QE_ARCHAPPL_SUPPORT"></a><span style='color:#205080'>QE_ARCHAPPL_SUPPORT</span> (Optional)
 
 When not defined or not set to YES, the QE Framework will only be built to support
 the EPICS Channel Archiver.
@@ -127,7 +128,7 @@ the EPICS Archiver Appliance.
 
 See the [Archiver Appliance page](archiver_appliance.html) for more details.
 
-### PROTOBUF_INCLUDE_PATH (Optional)
+### <span style='color:#205080'>PROTOBUF_INCLUDE_PATH</span> (Optional)
 
 If you want to build the QE Framework with Archiver Appliance support (QE_ARCHAPPL_SUPPORT=YES),
 Google Protocol Buffers have to be installed on the system.
@@ -137,7 +138,7 @@ its location can be defined using this variable.
 An alternative to defining an environment variable is to define this value in
 qeframework's configure/CONFIG_SITE file.
 
-### PROTOBUF_LIB_DIR (Optional)
+### <span style='color:#205080'>PROTOBUF_LIB_DIR</span> (Optional)
 
 If you want to build the QE Framework with Archiver Appliance support (QE_ARCHAPPL_SUPPORT=YES),
 Google Protocol Buffers have to be installed on the system.
@@ -147,12 +148,12 @@ its location can be defined using this variable.
 An alternative to defining an environment variable is to define this value in
 qeframework's configure/CONFIG_SITE file.
 
-### QE_NUMBER_OF_CORES (Optional)
+### <span style='color:#205080'>QE_NUMBER_OF_CORES</span> (Optional)
 
 Defines the number of cores supplies to the make -j parameter in the qeframeworkSup
 make file. When not specified, the default is 4.
 
-### QE_TARGET_DIR (Optional/Deprecated)
+### <span style='color:#205080'>QE_TARGET_DIR</span> (Optional/Deprecated)
 
 When not defined, the executables, the libraries and the include files are
 installed in to _<top>_/bin, _<top>_/lib and _<top>_/include directories as one would
@@ -167,21 +168,21 @@ This is a legacy option and we suggest it is not used.
 
 ## <a name="Build"></a><span style='color:#006666'>QEGui Display Manager</span>
 
-### QE_CAQTDM (Optional)
+### <span style='color:#205080'>QE_CAQTDM</span> (Optional)
 
 If integration with PSI's caQtDM is required, this variable specifies the
 location of the caQtDM_Project directory.
 
-### QE_CAQTDM_MAJOR_VERSION (Required if QE_CAQTDM is defined)
+### <span style='color:#205080'>QE_CAQTDM_MAJOR_VERSION</span> (Required if QE_CAQTDM is defined)
 
 This specifies the major version of the caQtDM being used.
 Currently, as of November 2019, only version 4 is supported.
 We have dropped support for version 3.
 
-### QE_CAQTDM_LIB (Optional)
+### <span style='color:#205080'>QE_CAQTDM_LIB</span> (Optional)
 
 This provides the location of caQtDM_Lib if not within location specified by QE_CAQTDM.
-
+<br>
 
 # <a name="Runtime"></a><span style='color:#006666'>Run Time Environment Variables</span>
 
@@ -190,7 +191,7 @@ framework.
 
 ## <a name="Build"></a><span style='color:#006666'>EPICS Qt Framework</span>
 
-### QT_PLUGIN_PATH (Required)
+### <span style='color:#205080'>QT_PLUGIN_PATH</span> (Required)
 
 This must include _<where-your-epicsqt-is-located>_/qeframework/lib/<epics_host_arch>,
 so that qegui (and designer) can load the QEPlugin library and create QEFramework widgets.
@@ -204,7 +205,7 @@ It is a "feature" of the Qt system.
 Using an environment variable is the easiest way to do this; there are other ways,
 please refer to the Qt documentation.
 
-### PATH and LD_LIBRARY_PATH (Required)
+### <span style='color:#205080'>PATH and LD_LIBRARY_PATH</span> (Required)
 
 This is OS dependent.
 The qegui executable and the EPICS and QEFramework libraries must be must be
@@ -218,12 +219,12 @@ where the ca.dll and Com.dll files are built; and
 {where-your-epicsqt-is-located}\qeframework\lib\%EPICS_HOST_ARCH% which is
 where the QEFramework.dll is located.
 
-### QE_UI_PATH (Optional)
+### <span style='color:#205080'>QE_UI_PATH</span> (Optional)
 
 This defines alternative/additional paths used when searching for a ui file.
 This augments qegui's -u command line option.
 
-### QE_DEFAULT_PROVIDER (Optional)
+### <span style='color:#205080'>QE_DEFAULT_PROVIDER</span> (Optional)
 
 This defines default provider/protocol used when an expicit protocol is __not__
 specified as part of the PV name.
@@ -239,9 +240,9 @@ The default default when QE_DEFAULT_PROVIDER is undefined or ill-defined is "ca"
 | SOME:PV       | ca or CA      | Channel Access |
 | SOME:PV       | pva or PVA    | PV Access      |
 | SOME:PV       | error         | Channel Access |
+<br>
 
-
-### QE_STYLE_COLOR_NAMES and QE_COLOR_NAMES
+### <span style='color:#205080'>QE_STYLE_COLOR_NAMES and QE_COLOR_NAMES</span>
 
 These environment variables allow the default alarm colours to be overridden -
 this may be particularly useful for colour blind users.
@@ -270,7 +271,7 @@ colour to orange, define
 Note: if dark background style colours are selected, then the font colour will
 be set to white.
 
-### QE_ARCHIVE_TYPE (Optional)
+### <span style='color:#205080'>QE_ARCHIVE_TYPE</span> (Optional)
 
 This specifies the type of archiver from which the epicsQt framework will attempt
 to retrieve archived PV values.
@@ -283,7 +284,7 @@ In order to connect to EPICS Archiver Appliance, the framework needs to be built
 with Archiver Appliance support.
 See [QE_ARCHAPPL_SUPPORT](#QE_ARCHAPPL_SUPPORT)
 
-### QE_ARCHIVE_LIST (Optional)
+### <span style='color:#205080'>QE_ARCHIVE_LIST</span> (Optional)
 
 This specifies a space separated list of Channel Access archive servers.
 In turn each server is specified by a slash ('/') separated host name, port number
@@ -298,13 +299,13 @@ Example:
 
     "cr01arc04:80/mgmt/bpl/ sr02ir01arc01/mgmt/bpl/"
 
-### QE_ARCHIVE_PATTERN (Optional)
+### <span style='color:#205080'>QE_ARCHIVE_PATTERN</span> (Optional)
 
 A pattern match applied when extracting PV list from the Channel Access archives.
 This can be used to restrict, and hence speed up, the amount of PV meta
 ArchiveDataServer retrieved from the archiver.
 
-### QE_STRIPCHART_PREDEFINED_PVS (Optional)
+### <span style='color:#205080'>QE_STRIPCHART_PREDEFINED_PVS</span> (Optional)
 
 This defines up to ten space separated PV names that are added to the Strip Chart context menu.
 If you don't know which PVs to define here, speak to your operators.
@@ -314,7 +315,7 @@ Example:
     "SR11BCM01:CURRENT_MONITOR  SR11BCM01:LIFETIME_MONITOR"
 
 
-### QE_STRIPCHART_MAX_REAL_TIME_POINTS (Optional)
+### <span style='color:#205080'>QE_STRIPCHART_MAX_REAL_TIME_POINTS</span> (Optional)
 
 This defines the maximum number of real time or live data points the Strip Chart will store per channel.
 Once this number is exceeded, older real time points are dropped.
@@ -322,7 +323,7 @@ When not specified, the maximum number of stored points defaults to 400,000.
 The smallest value than can be defined is 10,000.
 The upper limit is the maximum integer value (2,147,483,647).
 
-### QE_GLOBAL_STYLE_SHEET (Optional)  
+### <span style='color:#205080'>QE_GLOBAL_STYLE_SHEET</span> (Optional)
 
 This defines a global style that is applied to any application (including designer)
 that has loaded at least one epicsQt widget.
@@ -331,7 +332,7 @@ The style is applied provided at least one QE widget is included on the form dis
 Running _qegui -h_ provides a nice example of defining a style suitable for
 Qt5 to _"fix"_ the way QGroupBox widgets are presented.
 
-### QE_RECORD_FIELD_LIST (Optional)  
+### <span style='color:#205080'>QE_RECORD_FIELD_LIST</span> (Optional)
 
 This specifies a file that defines or replaces the set of field names associated
 with each record type.
@@ -341,6 +342,21 @@ concat record type and the iTech libera and liberaSignal record types.
 
 Refer to the QEPvProperties widget in the QE_QEGuiAndUserInterfaceDesign documentation for details.
 
+
+### <span style='color:#205080'>QE_TIME_VARIATION_LIMIT</span> (Optional)
+
+This specifies the time variation, i.e. the time difference between the time stamp within
+a PV update and the client's current time, allowed before an update is flag as having
+an inconsistant time.
+PV with an inconsistant time, which are otherwise not in any alarm state, are shown with
+a purple background.
+PVs in an alarm state are still shown with a yellow, red or white back-gound.
+
+The purple color can be modified by using the QE_STYLE_COLOR_NAMES and QE_COLOR_NAMES
+environment variables and/or dynamically using the Tools | Alarm Colour Selection...  
+menu entry in qegui.
+
+The time variation limit is specified in seconds, the default value is 5.0 seconds.
 
 ## <span style='color:#006666'>General</span>
 
@@ -384,12 +400,12 @@ If both an environment variable and command line option are specified, the comma
 line option takes precedence.
 Run qegui -h to get a complete list of long options.
 
-### QEGUI_CAQTDM_CONTEXT_MENU
+### <span style='color:#205080'>QEGUI_CAQTDM_CONTEXT_MENU</span>
 
 When caQtDm is integrated into QEGui, this environment variable controls whether
 the caQtDm widgets use their native context menu or the EPICS Qt standard
 context menu. Set this variable to "1", "TRUE" or "YES" to select this feature.
 
 
-<font size="-1">Last updated: Tue Apr 21 09:55:38 2026</font>
+<font size="-1">Last updated: Tue Sep 15 15:53:34 2026</font>
 <br>
