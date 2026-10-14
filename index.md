@@ -129,7 +129,7 @@ This is somewhat old now, any contructive feed back is welcome.
 
 ## <a name="Collaboration"></a><span style='color:#006666'>Future Plans</span>
 
-Nothing specific ath the momment.
+Allow the uses of PVXS for PV Access - comming in release 4.2.1.
 
 
 ## <a name="Collaboration"></a><span style='color:#006666'>Feed Back and Collaboration</span>
@@ -171,5 +171,5 @@ Scherrer Institute.
 [http://epics.web.psi.ch/software/caqtdm/](http://epics.web.psi.ch/software/caqtdm/).
 
 
-<font size="-1">Last updated: Mon Feb 16 15:51:15 2026</font>
+<font size="-1">Last updated: Wed Oct 14 14:32:39 2026</font>
 <br>
