@@ -253,15 +253,16 @@ QESimpleShape, QEHistogram etc.
 
 The format of each is a set of colon separated colour names, e.g
 
-    "green:yellow:red:white:blue"
+    "green:yellow:red:white:blue:purple"
 
-or
-    "#00ff00::#ffff00:#ff0000:#ffffff:#0080ff"
+or:
+
+    "#00ff00::#ffff00:#ff0000:#ffffff:#0080ff:#ff00ff"
 
 or a combination of names and hex values.
 
 The colours specify the colour used for no alarm, minor alarm, major alarm,
-invalid and out of service respectively.
+invalid, out of service, and bad time stamp respectively.
 
 If a colour missing, then the default is used, e.g. to only define the invalid
 colour to orange, define
@@ -407,5 +408,5 @@ the caQtDm widgets use their native context menu or the EPICS Qt standard
 context menu. Set this variable to "1", "TRUE" or "YES" to select this feature.
 
 
-<font size="-1">Last updated: Tue Sep 15 15:53:34 2026</font>
+<font size="-1">Last updated: Wed Oct 14 14:12:10 2026</font>
 <br>

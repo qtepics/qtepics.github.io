@@ -2,6 +2,7 @@
 
 # <span style='color:#006666'>Release Index</span>
 
+[r4.1.7](#r4.1.7)<br>
 [r4.1.6](#r4.1.6)<br>
 [r4.1.5](#r4.1.5)<br>
 [r4.1.4](#r4.1.4)<br>
@@ -10,6 +11,133 @@
 [r4.1.1](#r4.1.1)<br>
 [Earlier Releases](#Earlier_Releases)
 
+
+# <a name="r4.1.7"></a><span style='color:#006666'>r4.1.7</span>
+
+Release date: 8th October 2026
+
+## <span style='color:#006666'>general</span>
+
+### <span style='color:#006666'>Environment variable and Literal Value Access</span>
+
+The most significant change for this release is the introduction of two
+new protocols to supplement the Channel Access and PV Access protocols.
+These are the environment variable and literal value protocols.
+
+For both of the new protocols, if the text can be converted to an integer,
+then the "PV" is considered integer, and can be used where ever an integer
+PV would be appropiate, e.g. QEImage's dimensionsVariable property.
+
+If the text cannot be converted to an integer but can be converted to a double,
+then the "PV" is is consided floating pint number and can be used where ever an
+floating PV would be appropiate.
+
+If the text cannot be converted into either an integer or a float then it is
+considered to be a string "PV".
+For strings, leading and trailing white space is removed.
+
+The protocol prefix used to access an environment variable is __env://__
+
+The protocol prefix used to access a literal value is __lit://__
+
+Examples:
+
+ - env://USER          &nbsp;&nbsp; - to access the current user's user name (linux).
+ - lit://42            &nbsp;&nbsp; - the meaning of life, the universe etc.
+ - lit://2.99792458e+8 &nbsp;&nbsp; - the speed of light
+
+Array values are also possible are also possible, and use the following syntax:
+
+    [ element, element, ...  element ]
+
+Examples:
+
+ - lit://[2,3,5,7,11,13,15,19]  &nbsp;&nbsp; - small prime numbers.
+ - lit://[Red, Green,  Blue]    &nbsp;&nbsp; - primary colours.
+
+For arrays, if all elements are integer then it is treated as an array of
+integers, else if all elements are float then it is treated as an array
+of floating point numbers otherwise is considered an array of strings.
+
+### <span style='color:#006666'>PV Timestamp Variation</span>
+
+The other significant change is the detection of PV updates with a unexprected time stamp.
+
+If the absolulte value of the differance between the PV update's time stamp and time now
+(of the client) exceeds 5 seconds, then the update is flagged to have an inconsistant time
+stamp. 
+
+When this occurs, provided that the PV is not otherwise not already in an alarm state,
+the widget is presented with different "alarm" colour.
+
+The 5 second value is the default may be adjusted using the QE_TIME_VARIATION_LIMIT enviroment variables.
+
+The new bad time "alarm" colour is purple and by be adjusted using the
+QE_STYLE_COLOR_NAMES and QE_COLOR_NAMES environment variables, or dynamically
+using the QEAlarmColourSelection widget.
+
+
+## <span style='color:#006666'>qeframework</span>
+
+Other QE framwork updates are as followes. 
+
+#### QEChannel/QCaObject
+
+The roles pf these have now been swapped.
+QEChannel provides the actual PV channel interface.
+qcaobject::QCaObject is now an alias.
+
+Only impacts 3rd party widget/display manger developers.
+
+
+#### QAnalogSlider
+
+Added a valueEdited by user, as opposed to programatically signal.
+This bring it more in line with other Qt input widgets.
+
+#### QEAnalogSlider
+
+When continuous apply is selected, the updates are now rate limited.
+
+#### QEPvLoadSave
+
+If an item is selected, it can be shuffed up and or down using the shift+up/down
+keys, similar to the scratch pad.
+
+Also the maximum pause delay has been increased to 300s/5min, and now shows the delay progress.
+
+#### QEImage
+
+The options dialog now allows dynamic overlay colour selection.
+Also now allow third-party access to some of the internals - no impact on QEImage itself.
+
+#### QEPvProperties
+
+This widget now shows the archive status of the PV.
+
+#### QEAlarmColourSelection
+
+Now includes the "bad" time stamp selection buttons.
+
+#### minimumText and maximumText properties
+
+For a number of widgets, the minimum and maximum properties use designer's double edit
+which only allows upto 6 decimal digits - no good, for example, setting a lower pressure
+limit of 1.0e-11.
+
+Each of these is now followed by a plain string text property that allows a more flexible
+way of entering minimum and maximum values.
+
+The updated widgets are: QE2DDataVisualisation, QEAnalogIndicator, QEAnalogSlider, 
+QEHistogram and QENumericEdit
+
+#### QEGeneralEdit
+
+Improved to better reflect value's range and precision.
+
+#### QEStripChart
+
+Now nolonger select non-displayed data points under the mouse pointer.
 
 # <a name="r4.1.6"></a><span style='color:#006666'>r4.1.6</span>
 
@@ -780,5 +908,5 @@ the 3.5 series release notes.
 Please see the [release notes 3.4 page](release_notes_3.4.html) for the
 the 3.4 series release notes.
 
-<font size="-1">Last updated: Tue Apr 28 14:00:29 2026</font>
+<font size="-1">Last updated: Wed Oct 14 13:20:15 2026</font>
 <br>
