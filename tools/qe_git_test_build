@@ -1,5 +1,10 @@
 #!/bin/bash
 #
+# Repo: tec_gui/qtepics.github.io
+# File: tools/qe_git_test_build
+# DateTime: Thu Nov 12 10:13:23 2026
+# Last checked in by: starritt
+#
 # Description
 # Performs a test build of the HEAD files extracted from GitHub
 #
@@ -51,6 +56,8 @@ Environment Variables
 EPICS_BASE       - must be defined.
 EPICS_HOST_ARCH  - must be defined.
 QWT_INCLUDE_PATH - must be defined.
+QE_PVXS_SUPPORT  - optional. If set to 'YES' ${iam} will also
+                   download and build pvxs.
 
 HELPINFO
 }
@@ -139,6 +146,7 @@ fi
 # These are determined from config RELEASE files.
 #
 unset ACAI
+unset PVXS
 unset ADSUPPORT
 unset QE_FRAMEWORK
 
@@ -187,9 +195,16 @@ cd  ${workdir:?}
 
 # Only required for 3.7 or later
 #
-echo "Cloning the acai repository takes about 5 seconds ..."
-git clone https://github.com/andrewstarritt/acai.git || terminate "failed clone github.com/qtepics/${item}.git"
+echo "Cloning the acai repository takes about 2 seconds ..."
+git clone --depth=1  https://github.com/andrewstarritt/acai.git || terminate "failed clone github.com/qtepics/${item}.git"
 echo ""
+
+if [ "${QE_PVXS_SUPPORT}" == "YES" ] ; then
+   echo "Cloning the pvxs repository takes about 2 seconds ..."
+   git clone --depth=1  https://github.com/epics-base/pvxs.git || terminate "failed clone github.com/qtepics/${item}.git"
+   echo ""
+fi
+
 
 for item in ${qelist} ; do
 
@@ -201,8 +216,11 @@ for item in ${qelist} ; do
 done
 
 acai=${workdir:?}/acai
+pvxs=${workdir:?}/pvxs
 qeframework=${workdir:?}/qeframework
-for item in acai ${qelist} ; do
+for item in acai pvxs ${qelist} ; do
+
+    [ "${QE_PVXS_SUPPORT}" == "YES" ] || continue
 
     relfile=${workdir:?}/${item:?}/configure/RELEASE
 
@@ -210,8 +228,10 @@ for item in acai ${qelist} ; do
     cp  ${relfile:?}  ${workdir:?}/rel_temp
 
     cat  ${workdir:?}/rel_temp                                         \
+       | sed -e "s'#EPICS_BASE'EPICS_BASE'g"                           \
        | sed -e "s'EPICS_BASE *=.*'EPICS_BASE=${EPICS_BASE:?}'g"       \
        | sed -e "s'ACAI *=.*'ACAI=${acai:?}'g"                         \
+       | sed -e "s'PVXS *=.*'PVXS=${pvxs:?}'g"                         \
        | sed -e "s'QE_FRAMEWORK *=.*'QE_FRAMEWORK=${qeframework:?}'g"  > ${relfile:?}
 
     rm -f  ${workdir:?}/rel_temp
@@ -223,6 +243,7 @@ sleep 2
 echo "The build steps take about 110 seconds ..."
 
 acai_etc=15
+pvxs_etc=40
 qeframework_etc=90
 qegui_etc=15
 qeMonitor_etc=10
@@ -233,7 +254,10 @@ qeExamplePlugin_etc=10
 
 count=0
 okay=0
-for item in acai ${qelist:?} ; do
+for item in acai pvxs ${qelist:?} ; do
+
+    [ "${QE_PVXS_SUPPORT}" == "YES" ] || continue
+
     count=$( expr ${count:?} + 1 )
 
     etc="$( eval echo \${${item}_etc} )"
@@ -241,7 +265,7 @@ for item in acai ${qelist:?} ; do
 
     item_dir=${workdir:?}/${item:?}
     cd ${item_dir:?}
-    make  2>&1 | tee  ./build.log
+    make -j ${QE_NUMBER_OF_CORES:-4} 2>&1 | tee  ./build.log
     status=$?
     if [ ${status} -eq 0 ] ; then
         echo "${item:?} build okay"

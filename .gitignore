@@ -38,6 +38,8 @@ O.*/
 *.kate-swp
 .iocsh_history
 
+/documentation/source/qeframework
+
 # Temp files
 #
 /z*
