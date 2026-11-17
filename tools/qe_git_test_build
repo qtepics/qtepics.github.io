@@ -2,7 +2,7 @@
 #
 # Repo: tec_gui/qtepics.github.io
 # File: tools/qe_git_test_build
-# DateTime: Thu Nov 12 10:13:23 2026
+# DateTime: Tue Nov 17 11:56:06 2026
 # Last checked in by: starritt
 #
 # Description
@@ -53,11 +53,12 @@ Options
 
 
 Environment Variables
-EPICS_BASE       - must be defined.
-EPICS_HOST_ARCH  - must be defined.
-QWT_INCLUDE_PATH - must be defined.
-QE_PVXS_SUPPORT  - optional. If set to 'YES' ${iam} will also
-                   download and build pvxs.
+EPICS_BASE          - must be defined.
+EPICS_HOST_ARCH     - must be defined.
+QWT_INCLUDE_PATH    - must be defined.
+QE_PVACCESS_SUPPORT - optional. Set YES or NO to override default.
+QE_PVXS_SUPPORT     - optional. If set to 'YES' ${iam} will also
+                      download and build pvxs.
 
 HELPINFO
 }
@@ -150,10 +151,6 @@ unset PVXS
 unset ADSUPPORT
 unset QE_FRAMEWORK
 
-# This is determined by version of epics base >= 7 YES, < 7 NO
-#
-unset QE_PVACCESS_SUPPORT
-
 echo ""
 echo "QE environment variables:"
 env | grep '^QE'
@@ -196,13 +193,16 @@ cd  ${workdir:?}
 # Only required for 3.7 or later
 #
 echo "Cloning the acai repository takes about 2 seconds ..."
-git clone --depth=1  https://github.com/andrewstarritt/acai.git || terminate "failed clone github.com/qtepics/${item}.git"
+git clone --depth=1  https://github.com/andrewstarritt/acai.git || terminate "failed clone github.com/andrewstarritt/acai.git"
 echo ""
+
+support_list="acai"
 
 if [ "${QE_PVXS_SUPPORT}" == "YES" ] ; then
    echo "Cloning the pvxs repository takes about 2 seconds ..."
-   git clone --depth=1  https://github.com/epics-base/pvxs.git || terminate "failed clone github.com/qtepics/${item}.git"
+   git clone --depth=1  https://github.com/epics-base/pvxs.git || terminate "failed clone github.com/epics-base/pvxs.git"
    echo ""
+   support_list="${support_list} pvxs"
 fi
 
 
@@ -218,9 +218,8 @@ done
 acai=${workdir:?}/acai
 pvxs=${workdir:?}/pvxs
 qeframework=${workdir:?}/qeframework
-for item in acai pvxs ${qelist} ; do
 
-    [ "${QE_PVXS_SUPPORT}" == "YES" ] || continue
+for item in ${support_list} ${qelist:?} ; do
 
     relfile=${workdir:?}/${item:?}/configure/RELEASE
 
@@ -254,9 +253,16 @@ qeExamplePlugin_etc=10
 
 count=0
 okay=0
-for item in acai pvxs ${qelist:?} ; do
+for item in  ${support_list} ${qelist:?} ; do
 
-    [ "${QE_PVXS_SUPPORT}" == "YES" ] || continue
+    if [ ${item} ==  "pvxs" ] ; then
+        if [ "${QE_PVXS_SUPPORT}" != "YES" ] ; then
+            echo "pvxs will not be built"
+            echo ""
+            sleep 2
+            continue
+        fi
+    fi
 
     count=$( expr ${count:?} + 1 )
 
