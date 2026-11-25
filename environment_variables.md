@@ -44,6 +44,15 @@ This defines the location of the acai _top_ directory.
 For headless builds, this is defined in the qeframework's configure/RELEASE file,
 however when using _qtcreator_ it must be defined explicitly.
 
+### <span style='color:#205080'>PVXS</span> (Required for EPICS Qt 4,2 or later)
+
+This defines the location of the pvxs _top_ directory.
+
+For headless builds, this is defined in the qeframework's configure/RELEASE file,
+however when using _qtcreator_ it must be defined explicitly.
+
+__Note:__ only appicable when including PVXS.
+
 ### <span style='color:#205080'>QWT_INCLUDE_PATH</span> (Required)
 
 This defines the location of the QWT header files. Typically this is:
@@ -71,6 +80,7 @@ Applicable to Qt5 only, and defines include files needed for QtPrintSupport.
 
 For headless builds, this is automatically defined by the qeframeworkSup's Makefile
 and is set to YES when EPICS base 7 or later in use and is otherwise set to to NO.
+
 Since release 4.1.1, the qeframewok Makefile has been modified to honor any existing
 environment variable value that is either YES' or 'NO'.
 If neither of these value are specified then the default behaviour as describe above
@@ -92,9 +102,18 @@ or earlier, the build will fail:
 See the [Getting Started page](getting_started.html) for more details.
 <br>
 
+### <a name="QE_PVXS_SUPPORT="></a><span style='color:#205080'>QE_PVXS_SUPPORT</span> (Optional, EPICS Qt 4.2 or later)
+
+This environent variable controls whether the framework will built to using
+the PVXS libraries for the the PV Accesss client.
+
+__Note:__ QE_PVACCESS_SUPPORT _must_ also be set to 'YES' for this environent
+variable to take affect.
+
+
 ### <a name="QE_AD_SUPPORT"></a><span style='color:#205080'>QE_AD_ADSUPPORT</span> (Optional)
 
-This variable controls whether the framework will bebult to support image decompression.
+This variable controls whether the framework will built to support image decompression.
 To include image decompression define QE_AD_ADSUPPORT as YES.
 
 For headless builds, this can be defined in the qeframework's configure/CONFIG_SITE.local
@@ -408,5 +427,5 @@ the caQtDm widgets use their native context menu or the EPICS Qt standard
 context menu. Set this variable to "1", "TRUE" or "YES" to select this feature.
 
 
-<font size="-1">Last updated: Wed Oct 14 14:12:10 2026</font>
+<font size="-1">Last updated: Tue Nov 17 16:41:24 2026</font>
 <br>
